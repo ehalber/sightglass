@@ -1,0 +1,56 @@
+
+// -- Universal mixins
+
+.hide 	   { display: none; }
+.center    { text-align: center; }
+.uppercase { text-transform: uppercase; }
+
+
+.border-radius(@topleft: 4px, @topright: 4px, @bottomright: 4px, @bottomleft: 4px) {
+	-webkit-border-radius: @topright @topleft @bottomright @bottomleft;
+	border-radius: @topright @topleft @bottomright @bottomleft;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+// Sightglass specific  mixins
+
+.intro-titles {
+	font-size: 24px;
+	.tondo-reg;
+	letter-spacing: 1px;
+	margin-bottom: 20px;
+}
+
+
+
+
+
+// Typewriter
+.typewriter {
+	font-family: Typewriter !important;
+}
+
+.typewriter-medium {
+	font-family: Typewriter-Medium;
+}
+
+.typewriter-bold {
+	font-family: Typewriter-Bold;
+}
+
+// Tondo
+.tondo-reg {
+	font-family: Tondo-Regular !important;
+}
+
+.tondo-bold {
+	font-family: Tondo-Bold !important;
+}
+
+.tondo-light {
+	font-family: Tondo-Light;
+}
+
+.tondo-signage {
+	font-family: Tondo-Signage !important;
+}

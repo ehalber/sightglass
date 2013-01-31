@@ -1,0 +1,90 @@
+@import 'mixins.css.less';
+@import 'variables.css.less';
+//
+
+body {
+	background: @bgcolor;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	color: @brown;
+	.tondo-reg;
+}
+
+.front h1 {
+	display: none;
+}
+
+// Logo
+.logo-img {
+	background: url(../images/logo.png);
+	margin: 0 auto !important;
+	width: 130px;
+	height: 130px;
+	float: none !important;
+	img {
+		background: url(../images/blank.png);
+		width: 130px;
+		height: 130px;
+		display: block;
+	}
+}
+
+// Footer
+.section-footer {
+	height: 200px;
+	padding-top: 23px;
+	padding-bottom: 60px;
+	background: @footercolor;
+	.typewriter;
+	h2.pane-title {
+		.tondo-bold;
+		font-size: 19px;
+	}
+	.intro {
+		font-size: 15px;
+		background: url(../images/cselect_bean_white.png) no-repeat;
+		padding-left: 85px;
+		width: 300px;
+		.tondo-reg;
+	}
+	.contact {
+		.sharing {
+			li {
+				float: left;
+				margin-right: 8px;
+				list-style: none;
+			}
+			a {
+				background-image: url(../images/ui_elements.png);
+				display: block;
+				width: 31px;
+				height: 31px;
+			}
+			.facebook {
+				background-position: 0 -30px;
+			}
+			.twitter {
+				background-position: -31px -30px;
+			}
+			.instagram {
+				background-position: -62px -30px;
+			}
+			.email {
+				background-position: -93px -30px;
+			}
+
+		}
+	}
+}
+
+// Bottom of page
+.page-coda {
+	padding-top: 20px;
+	background: url(../images/dots_horz.png) repeat-x;
+	.typewriter;
+	font-size: 11px;
+	.coda {
+		position: relative;
+		right: -15px;
+	}
+}

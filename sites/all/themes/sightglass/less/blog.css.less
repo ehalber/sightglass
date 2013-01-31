@@ -1,0 +1,74 @@
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+// This stylesheet contains the styles for the blog
+// and all related blog view included archive, category
+// and permalink displays
+
+.view-blog,
+.view-featured-partner {
+	.views-row {
+		padding: 0 0 5px 0;
+		background: url(../images/dots_horz.png) repeat-x 0 100%;
+		margin-bottom: 20px;
+		&:last-child {
+			background: none;
+		}
+	}
+	.views-field-created {
+		.typewriter;
+	}
+	.views-field-title {
+		.tondo-bold;
+		font-size: 30px;
+		a:link, a:visited {
+			color: @brown;
+			text-decoration: none;
+		}
+	}
+	.views-field-body {
+		.typewriter;
+		a:link, a:visited {
+			color: @brown;
+			text-decoration: none;
+			border-bottom: 1px solid @brown;
+		}
+	}
+	.views-field-field-image {
+		.center;
+		margin-bottom: 25px;
+		img {
+			border: 2px solid #fff;
+		}
+		
+	}
+	.views-field-field-categories {
+		margin-bottom: 10px;
+		.typewriter;
+		a:link, a:visited {
+			color: @brown;
+			text-decoration: none;
+		}
+		span {
+			margin: 0 5px;
+		}
+	}
+}
+
+// Related Content
+.view-blog-references {
+	.center;
+
+	.field-name-title a {
+		font-size: 18px;
+	}
+	.field-name-body {
+		.typewriter
+	}
+	.field-name-field-image {
+		border: 2px solid #fff;
+	}
+	.node-article {
+		float: left;
+	}
+}

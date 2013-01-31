@@ -349,3 +349,28 @@ settings[alpha_region_footer_second_suffix] = ''
 settings[alpha_region_footer_second_weight] = '2'
 settings[alpha_region_footer_second_css] = ''
 version = '1.x'
+
+
+; LESS FILES
+
+stylesheets[all][] = less/reset.css.less
+stylesheets[all][] = less/mixins.css.less
+stylesheets[all][] = less/variables.css.less
+
+stylesheets[all][] = less/structure.css.less
+stylesheets[all][] = less/menus.css.less
+stylesheets[all][] = less/tabs.css.less
+
+stylesheets[all][] = less/blog.css.less
+stylesheets[all][] = less/wholesale.css.less
+stylesheets[all][] = less/resources.css.less
+stylesheets[all][] = less/titles.css.less
+
+stylesheets[all][] = less/colorbox.css.less
+
+scripts[] = js/fixed_footer.js
+scripts[] = js/menus.js
+scripts[] = js/site_by_etc.js
+scripts[] = js/overlay.js
+scripts[] = js/quicktabs_shim.js
+scripts[] = js/fix_location_headers.js

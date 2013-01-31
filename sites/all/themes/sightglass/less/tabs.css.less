@@ -1,0 +1,101 @@
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+// This stylesheet contains all the general styles for the 
+// tabs based interface that is used at the top of most
+// pages throughout the site
+// 
+// Tabbed spaces are divided into two regions left and right
+// and are both 50% of the available spaces minus margins
+
+// -- top-tabs should be added to every quicktabs instance
+
+.top-tabs {
+
+	.panels-flexible-region-inside {
+		padding: 0;
+	}
+	h2.pane-title {
+		.tondo-bold;
+	}
+
+	.quicktabs_main {
+		position: static;
+	}
+
+	.quicktabs-tabpage {
+		color: @bgcolor;
+	}
+
+	// -- LEFT SIDE - text overview
+
+	.overview {
+		.tondo-reg;
+		font-size: 15px;
+		h2 {
+			.intro-titles;
+		}
+	}
+
+	// END left side
+	// --------------------------------------------------------
+
+
+	// -- RIGHT SIDE - slidshow
+
+	.slideshow {
+		padding-top: 10px; // extra padding to pull slideshow even with title
+		.views-field-field-image {
+			border: 2px solid @bgcolor;
+			width: 338px;
+		}
+		.views-field-body {
+			padding: 10px 40px 0 40px;
+		}
+	}
+
+	// END right side
+	// --------------------------------------------------------
+
+	.view-featured-partner-tab {
+		.views-field-title {
+			.intro-titles;
+		}
+	}
+
+	// -- Slideshow controls
+	
+	.skin-default {
+		position: relative;
+	}
+	.views-slideshow-controls-bottom {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 20;
+		width: 100%;
+		span {
+			width: 50%;
+			height: 220px;
+			position: absolute;
+			top: 0;
+			z-index: 20;
+			a {
+				display: block;
+				text-indent: -550em;
+			}
+		}
+	}
+	.views-slideshow-controls-text-pause {
+		display: none;
+	}
+	.views-slideshow-controls-text-previous {
+		left: 0;
+	}
+	.views-slideshow-controls-text-next {
+		right: 0;
+	}
+
+	// END slideshow controls
+	// --------------------------------------------------------
+}

@@ -1,0 +1,11 @@
+name = Cycle
+description = Field formatter which integrates jQuery Cycle plugin.
+core = 7.x
+dependencies[] = jquery_plugin
+
+; Information added by drupal.org packaging script on 2012-11-30
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "cycle"
+datestamp = "1354236495"
+

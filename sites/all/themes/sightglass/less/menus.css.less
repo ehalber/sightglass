@@ -1,0 +1,248 @@
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+// This stylesheet holds all the style information
+// for all menus used on siteglass
+
+.menu-policies {
+	float: right;
+	.menu li {
+		display: inline;
+		margin-left: 20px;
+	}
+	a:link, a:visited {
+		color: @brown;
+		text-decoration: none;
+		font-size: 11px;
+	}
+	// This span is added with javascript for styling purposes
+	// on ETC logo
+	span {
+		border-bottom: 1px solid @brown;
+	}
+}
+
+.block-menu-menu-top-left {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 100;
+	a:link, a:visited {
+		text-decoration: none;
+		.tondo-bold;
+		color: @brown;
+	}
+	li {
+		float: left;
+		margin-right: 10px !important;
+	}
+}
+
+// - qTip minipanels dropdown overrides
+
+
+.qtip-contentWrapper {
+	background: transparent !important;
+
+}
+
+.qtip-borderBottom,
+.qtip-borderTop,
+.qtip-betweenCorners {
+	display: none !important;
+}
+
+.qtip {
+	left: 0 !important;
+	top: 20px !important;
+}
+
+canvas {
+	display: none;
+}
+
+.qtip-tip {
+	background: url(../images/ui_elements.png) 0 -147px !important;
+	height: 12px !important;
+	width: 23px !important;
+	top: 2px !important;
+}
+
+.qtip-content {
+	background: rgba(255,255,255,0.8) !important;
+	//.border-radius(4px, 4px, 4px, 4px);
+	//width: 600px !important;
+	padding: 15px !important;
+	height: 220px !important;
+	border: 0 !important;
+	a:link, a:visited {
+		text-decoration: none;
+		.tondo-reg;
+		font-size: 19px;
+		color: @brown;
+		display: block;
+		padding: 0px 8px;
+		&:hover {
+			background: @bgcolor;
+		}
+
+	}
+	.left-side {
+		background: url(../images/dots_vert.png) repeat-y 100% 0;
+		height: 200px;
+	}
+}
+
+#mini-panel-menu_our_company .right-side {
+	background: url(../images/cselect_brown_large.png) no-repeat 60% 50%;
+	width: 180px;
+	height: 200px;
+}
+
+#mini-panel-menu_blog {
+	.right-side {
+		line-height: 26px;
+		.pane-title {
+			.typewriter;
+			color: @brown;
+			margin: 0 0 0 8px;
+			padding: 0;
+			font-size: 14px;
+
+			span { 
+				border-bottom: 1px solid @brown;
+			}
+		}
+		a:link, a:visited {
+			.typewriter;
+			font-size: 15px;
+		}
+	}
+}
+
+#mini-panel-menu_wholesale {
+	.pane-title {
+		.typewriter;
+		color: @brown;
+		margin: 0 0 5px 8px;
+		padding: 0;
+		font-size: 14px;
+
+		span { 
+			border-bottom: 1px solid @brown;
+		}
+	}
+	.right-side {
+		&:hover {
+			.pane-title, a:link, a:visited {
+				color: @red;
+			}
+			.pane-title span {
+				border-bottom-color: @red;
+			}
+			.views-field-field-image img {
+				border-color: @red;
+			}
+		}
+		a:link, a:visited {
+			&:hover {
+				background: transparent;
+			}
+		}
+	}
+	
+	.views-field-title {
+		margin-bottom: 20px;
+	}
+	.views-field-field-image {
+		margin-left: 8px;
+		img {
+			border: 2px solid transparent;
+		}
+		a {
+			padding: 0;
+		}
+	}
+	
+}
+
+
+
+
+
+// Quick tabs
+
+.quicktabs-wrapper {
+	margin-bottom: 20px;
+	width: 740px;
+
+	// These are the tabs the user clicks to switch tab views
+	.quicktabs-tabs li {
+		background: @lightbrown;
+		cursor: pointer;
+		display: inline-block;
+		padding: 5px 0;
+		.border-radius(4px, 4px, 0, 0);
+		&.active {
+			background: @brown;
+			a:link, a:visited {
+				color: @bgcolor;
+			}
+		}
+		a:link, a:visited {
+			color: @brown;
+			text-decoration: none;
+			.typewriter;
+			.uppercase;
+		}
+		a {
+			display: block;
+			padding: 3px 20px;
+			.center;
+		}
+
+	}
+
+	// This shim was created for the design
+	.shim {
+		height: 8px;
+		position: relative;
+		top: 0;
+		background: @brown;
+		.border-radius(4px, 0, 0, 0);
+
+	}
+
+	.tab-slideshow {
+		min-height: 340px;
+	}
+	
+	// This is the main section where the tabbed content resides
+	.quicktabs_main {
+		.border-radius(0, 0, 4px, 4px);
+		position: absolute;
+		overflow: hidden;
+		z-index: 50;
+		background: @brown;
+		.quicktabs-tabpage {
+			padding: 20px;
+			background: @brown;
+		}
+		li {
+			margin-bottom: 4px;
+			a:link, a:visited {
+				display: block;
+				.typewriter;
+				width: 250px;
+				color: @bgcolor;
+				padding: 3px 5px;
+				text-decoration: none;
+				&:hover {
+					background: @bgcolor;
+					color: @brown;
+				}
+			}
+		}
+		
+	}
+}
