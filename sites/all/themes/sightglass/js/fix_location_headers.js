@@ -29,11 +29,15 @@
 
     // -- On resources page, added vertical divider
     if ( $('.page-resources').length ) {
-        $('.view-brewing-guides-home .views-row:nth-child(2n-1)').append('<div class="divider" />')
+        $('.view-brewing-guides-home .views-row:nth-child(2n-1)').append('<div class="divider" />');
     }
 
     if ( $('.node-type-brewing-guide').length ) {
-        $('.related-resources .views-row:nth-child(2n-1)').append('<div class="divider" />')
+        $('.related-resources .views-row:nth-child(2n-1)').append('<div class="divider" />');
+    }
+
+    if ( $('.front').length ) {
+        $('.view-front-page-gallery .views-row:nth-child(2n-1)').append('<div class="divider" />');
     }
 
 

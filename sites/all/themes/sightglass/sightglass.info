@@ -366,6 +366,7 @@ stylesheets[all][] = less/blog.css.less
 stylesheets[all][] = less/wholesale.css.less
 stylesheets[all][] = less/resources.css.less
 stylesheets[all][] = less/titles.css.less
+stylesheets[all][] = less/front.css.less
 
 stylesheets[all][] = less/colorbox.css.less
 
