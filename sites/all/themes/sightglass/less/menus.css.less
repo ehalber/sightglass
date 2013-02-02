@@ -22,11 +22,27 @@
 	}
 }
 
+.zone-menu {
+	
+	.region {
+		position: relative;
+		top: -130px;
+	}
+	.region-inner {
+		position: absolute;
+		width; 490px
+	}
+	.region-menu-first {
+		left: 0;
+	}
+	.region-menu-second {
+		left: 150px;
+	}
+
+}
+
 .block-menu-menu-top-left {
-	position: absolute;
-	left: 0;
-	top: 0;
-	z-index: 100;
+
 	a:link, a:visited {
 		text-decoration: none;
 		.tondo-bold;
@@ -35,6 +51,72 @@
 	li {
 		float: left;
 		margin-right: 10px !important;
+	}
+}
+
+.block-menu-menu-top-right {
+
+	a:link, a:visited {
+		text-decoration: none;
+		.tondo-bold;
+		color: @brown;
+	}
+	li {
+		float: left;
+		margin-right: 10px !important;
+		list-style: none !important;
+	}
+
+}
+
+.qtip-content {
+	li {
+		list-style: none;
+		img {
+			display: inline-block;
+			background-image: url(../images/ui_elements.png);
+			background-repeat: no-repeat;
+			height: 21px;
+			width: 21px;
+			margin-right: 5px;
+			vertical-align: middle;
+		}
+		.facebook img {
+			background-position: 0 0;
+		}
+		.twitter img {
+			background-position: -21px 0;
+		}
+		.instagram img {
+			background-position: -42px 0;
+		}
+		.email img {
+			background-position: -63px 0;
+		}
+	}
+	.addthis_toolbox {
+		a:link, a:visited {
+			&:hover {
+				background: transparent;
+			}
+		}
+		a:link span, a:visited span {
+			display: inline-block;
+			padding: 2px 5px;
+			width: 300px;
+			&:hover {
+				background: @bgcolor;
+			}
+		}
+	}
+}
+
+.sharing-dropdown {
+	li {
+		list-style: none;
+		.facebook {
+
+		}
 	}
 }
 
