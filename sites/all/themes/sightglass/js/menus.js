@@ -36,7 +36,7 @@
     // -- Replace share menu dropdown as it doesn't work out of the
     // the box
     $('.region-menu-second-inner a').mouseenter(function() {
-      if ( $(this).text() == 'Share') {
+      if ( $(this).text() === 'Share') {
         if (isAppended == false) {
           var menu = $('.zone-footer .sharing-dropdown .pane-content');
           $('body').find('.qtip').attr('qtip','4').find('.qtip-content').html(menu);

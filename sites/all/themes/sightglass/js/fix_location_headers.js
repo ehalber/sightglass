@@ -40,6 +40,46 @@
         $('.view-front-page-gallery .views-row:nth-child(2n-1)').append('<div class="divider" />');
     }
 
+    // -- On product catalog pages, added dividers
+    if ( $('.product-catalog').length ) {
+
+        $('.view-product-catalog .views-row:nth-child(3n-2)').append('<div class="divider" />');
+        $('.view-product-catalog .views-row:nth-child(3n-1)').append('<div class="divider" />');
+        $('.view-product-catalog .views-row:nth-child(1n)').append('<div class="horz-divider" />');
+        $('.view-product-catalog .views-row').click(function() {
+            window.location = $(this).find('.views-field-title a').attr('href');
+        });
+        $('.views-row-1, .views-row-2, .views-row-3').append('<div class="top-divider" />');
+    }
+
+    // -- On production detail pages, add grid 960 special classes
+    if ( $('.product-detail').length ) {
+
+        // -- Add alpha omega class to related content
+        $('.view-related-coffees .views-row:nth-child(3n-2)').addClass('alpha');
+        $('.view-related-coffees .views-row:nth-child(3n+3)').addClass('omega');
+
+        // -- Add dividing lines between products
+        $('.view-related-coffees .views-row:nth-child(3n-2)').append('<div class="divider" />');
+        $('.view-related-coffees .views-row:nth-child(3n-1)').append('<div class="divider" />');
+        $('.view-related-coffees .views-row:nth-child(1n)').append('<div class="horz-divider" />');
+        $('.view-related-coffees .views-row').click(function() {
+            window.location = $(this).find('.views-field-title a').attr('href');
+        });
+
+        $('.views-row-1, .views-row-2, .views-row-3').append('<div class="top-divider" />');
+
+        $('.pane-product-detail-description-panel-pane-1').before('<div class="above-description" />');
+
+        $('.description-button .pane-content').click(function() {
+            $('.views-field-body').slideToggle();
+        });
+
+        // -- Replace file name with Download text
+        $('.views-field-field-spec-sheet a').text('Download');
+
+    }
+
 
 
   });

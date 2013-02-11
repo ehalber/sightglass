@@ -368,6 +368,9 @@ stylesheets[all][] = less/resources.css.less
 stylesheets[all][] = less/titles.css.less
 stylesheets[all][] = less/front.css.less
 
+stylesheets[all][] = less/product_catalog.css.less
+stylesheets[all][] = less/product_detail.css.less
+
 stylesheets[all][] = less/colorbox.css.less
 
 scripts[] = js/fixed_footer.js
@@ -376,3 +379,4 @@ scripts[] = js/site_by_etc.js
 scripts[] = js/overlay.js
 scripts[] = js/quicktabs_shim.js
 scripts[] = js/fix_location_headers.js
+scripts[] = js/product_menu.js

@@ -1,0 +1,173 @@
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+// *
+// General look and feel of product catalog
+
+.product-catalog,
+.product-detail {
+	.view-product-catalog,
+	.view-related-coffees {
+		.views-row {
+			.center;
+			height: 240px;
+			padding-top: 20px;
+			cursor: pointer;
+		}
+		.views-field-field-region {
+			font-size: 12px;
+			.uppercase;
+			border-bottom: 1px solid;
+			display: inline-block;
+			margin-bottom: 8px;
+		}
+		.views-field-title {
+			margin-bottom: 5px;
+			a:link, a:visited {
+				color: @brown;
+				text-decoration: none;
+				font-size: 19px;
+				line-height: 21px;
+				padding: 0 20px;
+				display: block;
+			}
+		}
+		.views-field-field-taste-notes {
+			margin-bottom: 20px;
+			.typewriter;
+			padding: 0 15px;
+		}
+		.views-field-commerce-price {
+			border: 1px solid @brown;
+			width: 70px;
+			padding: 0;
+			margin: 0 auto;
+			.tondo-bold;
+			font-size: 12px;
+		}
+		.divider {
+			width: 2px;
+			height: 250px;
+			position: absolute;
+			background: url(../images/dots_vert.png) repeat-y;
+			left: 228px;
+			top: 0;
+		}
+		.horz-divider {
+			height: 2px;
+			width: 220px;
+			position: absolute;
+			background: url(../images/dots_horz.png) repeat-x;
+			bottom: 0;
+			left: 0;
+		}
+		.top-divider {
+			height: 2px;
+			width: 220px;
+			position: absolute;
+			background: url(../images/dots_horz.png) repeat-x;
+			top: -10px;
+			left: 0;
+		}
+	}
+	// Regional colors
+	// Latin America
+	&.latin-america {
+		.views-field-field-region {
+			color: @green;
+			border-bottom-color: @green;
+		}
+	}
+	// Africa
+	&.africa {
+		.views-field-field-region {
+			color: @red;
+			border-bottom-color: @red;
+		}
+	}
+	// Oceania
+	&.oceania {
+		.views-field-field-region {
+			color: @blue;
+			border-bottom-color: @blue
+		}
+	}
+	// Oceania
+	&.espresso {
+		.views-field-field-region {
+			color: @black;
+			border-bottom-color: @black
+		}
+	}
+}
+
+
+
+
+
+// Change logo color to match the selected region
+.page-coffees-latin-america,
+.latin-coffee {
+	.logo-img {
+		background-position: -130px 0;
+	}
+}
+
+.page-coffees-africa,
+.africa {
+	.logo-img {
+		background-position: -390px 0;
+	}
+}
+
+.page-coffees-oceania,
+.oceania {
+	.logo-img {
+		background-position: -260px 0;
+	}
+}
+
+.page-coffees-espresso,
+.espresso {
+	.logo-img {
+		background-position: 0 0;
+	}
+}
+
+
+// Interaction color for coffees in catalog/related view
+.page-coffees-latin-america,
+.latin-america .view-related-coffees {
+	.views-row {
+		&:hover {
+			background: @lightgreen;
+		}
+	}
+}
+
+.page-coffees-africa,
+.africa .view-related-coffees {
+	.views-row {
+		&:hover {
+			background: @lightred;
+		}
+	}
+}
+
+.page-coffees-oceania,
+.oceania .view-related-coffees {
+	.views-row {
+		&:hover {
+			background: @lightblue;
+		}
+	}
+}
+
+.page-coffees-espresso,
+.oceania .view-related-coffees {
+	.views-row {
+		&:hover {
+			background: @lightblack;
+		}
+	}
+}

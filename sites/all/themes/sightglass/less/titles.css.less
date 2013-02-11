@@ -10,6 +10,43 @@ h1.title {
 	}
 }
 
+.context-coffees {
+	h1.title span {
+		cursor: pointer;
+	}
+	&.node-type-latin-coffee,
+	&.latin-america {
+		h1.title span {
+			color: @green;
+			border-bottom-color: @green;
+		}
+	}
+	&.node-type-africa,
+	&.africa {
+		h1.title span {
+			color: @red;
+			border-bottom-color: @red;
+		}
+	}
+	&.node-type-oceania,
+	&.oceania {
+		h1.title span {
+			color: @blue;
+			border-bottom-color: @blue;
+		}
+	}
+	&.node-type-espresso,
+	&.espresso {
+		h1.title span {
+			color: @black;
+			border-bottom-color: @black;
+		}
+	}
+
+}
+
+
+
 .panel-display h2.pane-title {
 	.tondo-regular;
 }

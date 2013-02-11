@@ -248,83 +248,41 @@ canvas {
 	
 }
 
-
-
-
-
-// Quick tabs
-
-.quicktabs-wrapper {
-	margin-bottom: 20px;
-	width: 740px;
-
-	// These are the tabs the user clicks to switch tab views
-	.quicktabs-tabs li {
-		background: @lightbrown;
-		cursor: pointer;
-		display: inline-block;
-		padding: 5px 0;
-		.border-radius(4px, 4px, 0, 0);
-		&.active {
-			background: @brown;
-			a:link, a:visited {
-				color: @bgcolor;
-			}
-		}
-		a:link, a:visited {
-			color: @brown;
-			text-decoration: none;
-			.typewriter;
-			.uppercase;
-		}
-		a {
-			display: block;
-			padding: 3px 20px;
+// This code is for the main product menu that appears
+// on all the store pages. The user clicks the title
+// of the page to reveal and hide this menu.
+.block-menu-menu-products {
+	margin-bottom: 30px;
+	.content {
+		display: none;
+		li {
 			.center;
 		}
-
-	}
-
-	// This shim was created for the design
-	.shim {
-		height: 8px;
-		position: relative;
-		top: 0;
-		background: @brown;
-		.border-radius(4px, 0, 0, 0);
-
-	}
-
-	.tab-slideshow {
-		min-height: 340px;
-	}
-	
-	// This is the main section where the tabbed content resides
-	.quicktabs_main {
-		.border-radius(0, 0, 4px, 4px);
-		position: absolute;
-		overflow: hidden;
-		z-index: 50;
-		background: @brown;
-		.quicktabs-tabpage {
-			padding: 20px;
-			background: @brown;
-		}
-		li {
-			margin-bottom: 4px;
-			a:link, a:visited {
-				display: block;
-				.typewriter;
-				width: 250px;
-				color: @bgcolor;
-				padding: 3px 5px;
-				text-decoration: none;
-				&:hover {
-					background: @bgcolor;
-					color: @brown;
-				}
+		a:link,
+		a:visited {
+			font-size: 36px;
+			text-decoration: none;
+			.tondo-bold;
+			.uppercase;
+			color: @brown;
+			&.latin-america:hover {
+				color: @green;
 			}
-		}
-		
+			&.africa:hover {
+				color: @red;
+			}
+			&.oceania:hover {
+				color: @blue;
+			}
+			&.espresso:hover {
+				color: #000;
+			}
+			&.blends-decaf:hover {
+				color: @black;
+			}
+		} 
 	}
 }
+
+
+

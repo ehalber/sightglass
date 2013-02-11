@@ -1,0 +1,262 @@
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+// The product detail page is broken down into multiple views
+// Across the top there are three views, below that is the 
+// decription which is initially hidden, some static content
+// and then the random other suggestions consisiting of
+// three coffees from some meta region and three items
+// for brewing/preparing coffee
+
+
+// Local Variables
+ 
+// The variable controls the height of the first three
+// divs describing the product
+@l_top_element_height: 340px;
+
+.product-detail {
+
+	// Top left view
+	// contains region, title, amount, price and add to 
+	// cart button and quantity
+	.view-product-detail-left {
+		.views-row {
+			position: relative;
+			height: @l_top_element_height;
+		}
+		.views-field-title {
+
+		}
+		.views-field-field-region {
+			.uppercase;
+			border-bottom: 1px solid;
+			display: inline-block;
+			margin-bottom: 5px;
+		}
+		.views-field-commerce-price {
+			.typewriter;
+			font-size: 22px;
+		}
+		.views-field-field-amount {
+			.typewriter;
+			margin-bottom: 15px;
+			font-size: 12px;
+		}
+		.form-submit {
+			display: inline-block;
+			height: 42px;
+			width: 161px;
+			background-image: url(../images/ui_elements.png);
+			border: 0;
+			border-radius: 0;
+			text-indent: -300em;
+			position: absolute;
+			bottom: 0;
+		}
+	}
+
+	// Center view
+	// contains image of region and more detail button
+	.region-data {
+		position: relative;
+		height: @l_top_element_height;
+		.center;
+		.more-button {
+			position: absolute;
+			border: 1px solid @brown;
+			display: inline-block;
+			width: 150px;
+			cursor: pointer;
+			bottom: 0;
+			left: 32px;
+			.uppercase;
+		}
+	}
+
+	// Top right view
+	// contains taste notes, growing method, varietal/processing 
+	// method, location and download link
+	.view-product-detail-right {
+		.views-row {
+			position: relative;
+			height: @l_top_element_height;
+		}
+		.views-label {
+			.uppercase;
+			border-bottom: 1px solid @brown;
+			display: block;
+			font-size: 11px;
+			.tondo-bold;
+		}
+		.views-field-field-taste-notes {
+			height: 150px;
+		}
+		.views-field-field-varietal-processing-method,
+		.views-field-field-location,
+		.views-field-field-growing-method {
+			margin-bottom: 20px;
+		}
+		.views-field-field-spec-sheet {
+			a:link, a:visited {
+				color: #000;
+				.uppercase;
+				.tondo-bold;
+				vertical-align: top;
+			}
+		}
+	}
+
+	// Description view
+	.pane-product-detail-description-panel-pane-1 {
+		clear: both;
+	}
+	.view-product-detail-description {
+		clear: both;
+		.typewriter;
+		position: relative;
+		.views-field-body {
+			display: none;
+			padding: 30px 0 30px;
+		}
+	}
+
+	// This div is injected with javascript
+	.above-description {
+		height: 2px;
+		background: url(../images/dots_horz.png) repeat-x;
+		margin: 20px 100px 0 100px;
+		width: 740px;
+		clear: both;
+		float: left;
+		display: inline;
+	}
+
+	// Static info on coffee
+	.pane-coffee-static-info {
+		clear: both;
+		position: relative;
+		top: -1px;
+		background: @extralightbrown url(../images/dots_horz.png) repeat-x;
+		p {
+			font-size: 11px;
+			line-height: 16px;
+		}
+		.pane-content {
+			padding: 10px 0 0;
+		}
+	}
+	
+	.mprefix-2 {
+		margin-left: 100px;
+		padding-left: 20px;
+	}
+	.msuffix-2 {
+		margin-right: 100px;
+		padding-right: 20px;
+	}
+	
+	// Other suggestions contains related coffees from the 
+	// same region and somer random coffee making items
+	.other-suggestions {
+		clear: both;
+		.uppercase;
+		.center;
+		padding-top: 25px;
+		margin-bottom: 10px;
+		font-size: 19px;
+		.tondo;
+	}
+	.view-related-coffees {
+		margin-top: 20px;
+	}
+}
+
+// This section contains styles based on the meta-region
+// These are mostly colors and region specific settings
+.product-detail {
+
+	// Latin Amerca
+	&.latin-america {
+		.view-product-detail-left {
+			.views-field-field-region {
+				color: @green;
+				border-bottom-color: @green;
+			}
+			.views-field-title {
+				font-size: 19px;
+			}
+			.form-submit {
+				background-position: 0 -190px;
+			}
+		}
+		.view-related-coffees {
+			.views-field-field-region {
+				color: @green;
+			}
+		}
+	}
+
+	// Africa
+	&.africa {
+		.view-product-detail-left {
+			.views-field-field-region {
+				color: @red;
+				border-bottom-color: @red;
+			}
+			.views-field-title {
+				font-size: 19px;
+			}
+			.form-submit {
+				background-position: 0 -232px;
+			}
+		}
+		.view-related-coffees {
+			.views-field-field-region {
+				color: @red;
+			}
+		}
+	}
+
+	// Oceania
+	&.oceania {
+		.view-product-detail-left {
+			.views-field-field-region {
+				color: @blue;
+				border-bottom-color: @blue;
+			}
+			.views-field-title {
+				font-size: 19px;
+			}
+			.form-submit {
+				background-position: 0 -274px;
+			}
+		}
+		.view-related-coffees {
+			.views-field-field-region {
+				color: @blue;
+			}
+		}
+	}
+
+	// Espresso
+	&.espresso {
+		.view-product-detail-left {
+			.views-field-field-region {
+				color: @black;
+				border-bottom-color: @black;
+			}
+			.views-field-title {
+				font-size: 19px;
+			}
+			.form-submit {
+				background-position: 0 -148px;
+			}
+		}
+		.view-related-coffees {
+			.views-field-field-region {
+				color: @black;
+			}
+		}
+	}
+}

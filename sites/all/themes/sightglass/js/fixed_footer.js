@@ -8,7 +8,7 @@
     var fixedOptions = {
         position: 'fixed',
         bottom:   0,
-        width: '100%'
+        width: 1024
     } 
 
     var normalOptions = {
