@@ -49,15 +49,18 @@
         $('.view-product-catalog .views-row').click(function() {
             window.location = $(this).find('.views-field-title a').attr('href');
         });
-        $('.views-row-1, .views-row-2, .views-row-3').append('<div class="top-divider" />');
+        $('.coffee-row .views-row-1, .coffee-row .views-row-2, .coffee-row .views-row-3').append('<div class="top-divider" />');
+        $('.view-related-coffees .views-row:nth-child(3n-2)').append('<div class="divider" />');
+        $('.view-related-coffees .views-row:nth-child(3n-1)').append('<div class="divider" />');
+        $('.view-related-coffees .views-row:nth-child(1n)').append('<div class="horz-divider" />');
     }
 
     // -- On production detail pages, add grid 960 special classes
     if ( $('.product-detail').length ) {
 
         // -- Add alpha omega class to related content
-        $('.view-related-coffees .views-row:nth-child(3n-2)').addClass('alpha');
-        $('.view-related-coffees .views-row:nth-child(3n+3)').addClass('omega');
+        //$('.view-related-coffees .views-row:nth-child(3n-2)').addClass('alpha');
+        //$('.view-related-coffees .views-row:nth-child(3n+3)').addClass('omega');
 
         // -- Add dividing lines between products
         $('.view-related-coffees .views-row:nth-child(3n-2)').append('<div class="divider" />');
@@ -67,7 +70,7 @@
             window.location = $(this).find('.views-field-title a').attr('href');
         });
 
-        $('.views-row-1, .views-row-2, .views-row-3').append('<div class="top-divider" />');
+        $('.coffee-row .views-row-1, .coffee-row .views-row-2, .coffee-row .views-row-3').append('<div class="top-divider" />');
 
         $('.pane-product-detail-description-panel-pane-1').before('<div class="above-description" />');
 
@@ -76,7 +79,27 @@
         });
 
         // -- Replace file name with Download text
-        $('.views-field-field-spec-sheet a').text('Download');
+        $('.views-field-field-spec-sheet a, .views-field-field-spec-sheet-1 a').text('Download');
+
+        // -- Replace availablity field value with appropriate message (brewing tools)
+        if ( $('.views-field-commerce-stock .field-content').text() != '0' ) {
+            $('.views-field-commerce-stock .field-content').text('In stock');
+        } else {
+            $('.views-field-commerce-stock .field-content').text('Out of Stock');
+        }
+
+        // -- Hide/show brewing tool overview when during mouseeenter/mouseleave
+        // Got some help for this one at this url:
+        // http://stackoverflow.com/questions/5936642/how-to-stop-the-fadein-repeating-over-multiple-hovers
+        // This was going to be cooler looking abut a hard cut and slow feed look weird
+        /*
+        $('.brewing-row .view-related-coffees .views-row').hover(function() {
+            $(this).find('.views-field-field-overview').addClass('active');
+        }, function() {
+            $(this).find('.views-field-field-overview').removeClass('active');
+        });
+        */
+           
 
     }
 

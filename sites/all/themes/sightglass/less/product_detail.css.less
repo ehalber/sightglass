@@ -58,25 +58,32 @@
 
 	// Center view
 	// contains image of region and more detail button
-	.region-data {
-		position: relative;
-		height: @l_top_element_height;
-		.center;
-		.more-button {
-			position: absolute;
-			border: 1px solid @brown;
-			display: inline-block;
-			width: 150px;
-			cursor: pointer;
-			bottom: 0;
-			left: 32px;
-			.uppercase;
+	.view-product-detail-center {
+		img {
+			border: 3px solid #fff;
+		}
+		.region-data {
+			position: relative;
+			height: @l_top_element_height;
+			.center;
+			.more-button {
+				position: absolute;
+				border: 1px solid @brown;
+				display: inline-block;
+				width: 150px;
+				cursor: pointer;
+				bottom: 0;
+				left: 32px;
+				.uppercase;
+			}
 		}
 	}
 
 	// Top right view
 	// contains taste notes, growing method, varietal/processing 
 	// method, location and download link
+	// 
+	// This section mashes up coffees and brewing tools
 	.view-product-detail-right {
 		.views-row {
 			position: relative;
@@ -94,10 +101,14 @@
 		}
 		.views-field-field-varietal-processing-method,
 		.views-field-field-location,
-		.views-field-field-growing-method {
+		.views-field-field-growing-method,
+		.views-field-field-overview,
+		.views-field-field-details,
+		.views-field-commerce-stock {
 			margin-bottom: 20px;
 		}
-		.views-field-field-spec-sheet {
+		.views-field-field-spec-sheet,
+		.views-field-field-spec-sheet-1 {
 			a:link, a:visited {
 				color: #000;
 				.uppercase;
@@ -105,6 +116,8 @@
 				vertical-align: top;
 			}
 		}
+
+		
 	}
 
 	// Description view
@@ -136,7 +149,7 @@
 	.pane-coffee-static-info {
 		clear: both;
 		position: relative;
-		top: -1px;
+		top: -2px;
 		background: @extralightbrown url(../images/dots_horz.png) repeat-x;
 		p {
 			font-size: 11px;
@@ -256,6 +269,27 @@
 		.view-related-coffees {
 			.views-field-field-region {
 				color: @black;
+			}
+		}
+	}
+
+	// Espresso
+	&.brewing-tool {
+		.view-product-detail-left {
+			.views-field-field-region {
+				color: @brown;
+				border-bottom-color: @brown;
+			}
+			.views-field-title {
+				font-size: 19px;
+			}
+			.form-submit {
+				background-position: 0 -148px;
+			}
+		}
+		.view-related-coffees {
+			.views-field-field-region {
+				color: @brown;
 			}
 		}
 	}

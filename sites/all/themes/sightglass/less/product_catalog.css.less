@@ -8,11 +8,17 @@
 .product-detail {
 	.view-product-catalog,
 	.view-related-coffees {
+		margin-left: -10px;
+		position: relative;
+		width: 720px;
 		.views-row {
+			position: relative;
 			.center;
 			height: 240px;
-			padding-top: 20px;
 			cursor: pointer;
+			width: 220px;
+			padding: 20px 10px;
+			float: left;
 		}
 		.views-field-field-region {
 			font-size: 12px;
@@ -47,11 +53,12 @@
 		}
 		.divider {
 			width: 2px;
-			height: 250px;
+			height: 258px;
 			position: absolute;
 			background: url(../images/dots_vert.png) repeat-y;
-			left: 228px;
-			top: 0;
+			left: 239px;
+			top: 10px;
+			z-index: 200;
 		}
 		.horz-divider {
 			height: 2px;
@@ -59,17 +66,62 @@
 			position: absolute;
 			background: url(../images/dots_horz.png) repeat-x;
 			bottom: 0;
-			left: 0;
+			left: 10px;
 		}
 		.top-divider {
 			height: 2px;
 			width: 220px;
 			position: absolute;
 			background: url(../images/dots_horz.png) repeat-x;
-			top: -10px;
-			left: 0;
+			top: 0;
+			left: 10px;
 		}
 	}
+
+	// Brewing tool overrides
+		.brewing-row .view-related-coffees {
+			position: relative;
+			//clear: both;
+			
+			.views-row {
+				-webkit-transition: all .2s;
+				width: 220px;
+				height: 400px;
+				position: relative;
+				&:hover {
+					background: #D1CBC0;
+					.views-field-field-overview {
+						opacity: 1;
+					}
+				}
+			}
+			.divider {
+				height: 430px;
+			}
+			.views-field-title {
+				margin: 30px 0 20px;
+			}
+			img {
+				border: 3px solid #fff;
+			}
+			.views-field-field-overview {
+				-webkit-transition: all .2s;
+				.typewriter;
+				width: 216px;
+				height: 216px;
+				position: absolute;
+				top: 23px;
+				left: 13px;
+				opacity: 0;
+				background: rgba(255,255,255,0.9);
+				z-index: 100;
+				.field-content {
+					padding: 15px;
+				}
+			}
+		}
+
+
 	// Regional colors
 	// Latin America
 	&.latin-america {
@@ -134,6 +186,12 @@
 	}
 }
 
+.brewing-tool {
+	.logo-img {
+		background-position: 0 0;
+	}
+}
+
 
 // Interaction color for coffees in catalog/related view
 .page-coffees-latin-america,
@@ -165,6 +223,15 @@
 
 .page-coffees-espresso,
 .oceania .view-related-coffees {
+	.views-row {
+		&:hover {
+			background: @lightblack;
+		}
+	}
+}
+
+.page-brewing-tool,
+.brewing-tools .view-related-coffees {
 	.views-row {
 		&:hover {
 			background: @lightblack;
