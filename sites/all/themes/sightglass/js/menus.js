@@ -37,9 +37,10 @@
     // the box
     $('.region-menu-second-inner a').mouseenter(function() {
       if ( $(this).text() === 'Share') {
+        //alert('here');
         if (isAppended == false) {
           var menu = $('.zone-footer .sharing-dropdown .pane-content');
-          $('body').find('.qtip').attr('qtip','4').find('.qtip-content').html(menu);
+          $('body').find('.qtip').attr('qtip','5').find('.qtip-content').html(menu);
           $('.qtip-content .pane-content').show();
           isAppended = true;
         }
