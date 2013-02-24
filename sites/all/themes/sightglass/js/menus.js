@@ -33,20 +33,31 @@
 
     $('.zone-footer .sharing-dropdown .pane-content').hide();
 
-    // -- Replace share menu dropdown as it doesn't work out of the
-    // the box
+    // Replace share menu dropdown as it doesn't work out of the
+    // the box. This solution basically appends the correct working
+    // code after the js registers the components correctly. It
+    // then removes the non-working code.
+    
     $('.region-menu-second-inner a').mouseenter(function() {
       if ( $(this).text() === 'Share') {
-        //alert('here');
         if (isAppended == false) {
-          var menu = $('.zone-footer .sharing-dropdown .pane-content');
-          $('body').find('.qtip').attr('qtip','5').find('.qtip-content').html(menu);
+
+          // Save the code that's going to be inserted into the DOM 
+          var menu = $('.zone-footer .sharing-dropdown .pane-content').contents();
+
+          // Append the code to the correct element, and then remove
+          // the element from the DOM
+          $('.menu-minipanel-644 .pane-content').after(menu);
+          $('.sharing-dropdown .pane-content').remove();
+          
           $('.qtip-content .pane-content').show();
+
+          // Set switch to true to prevent this code from running again
           isAppended = true;
         }
       }
     });
-    
+
     // -- END fix share dropdown
     // ----------------------------------------------------------
   	

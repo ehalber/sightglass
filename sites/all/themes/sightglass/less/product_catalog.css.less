@@ -1,13 +1,154 @@
 @import 'mixins.css.less';
 @import 'variables.css.less';
 
-// *
-// General look and feel of product catalog
+
+// ---------------------------------------------------------
+//
+// -- START blog articles in tabs styles
+// 
+// ---------------------------------------------------------
+
+// These styles are for the blog article that populate
+// the top tab on all of the coffee catalog pages
+
+.view-blog-for-coffee {
+	.views-row {
+		position: relative;
+		width: 220px;
+		height: 360px;
+		.center;
+		float: left;
+		padding: 0 10px;
+		&:first-child {
+			padding-left: 0;
+		}
+		&:last-child {
+			padding-right: 0;
+		}
+	}
+	.views-field-title {
+		margin-top: 4px;
+		a {
+			font-size: 19px;
+			line-height: 21px;
+			color: #fff;
+			text-decoration: none;
+			
+		}
+	}
+	.views-field-field-image {
+		border: 2px solid #fff;
+	}
+	.views-field-created {
+		margin-top: 10px;
+		.field-content {
+			.uppercase;
+			color: @lightbrown;
+			border-bottom: 1px solid @lightbrown;
+			font-size: 11px;
+		}
+	}
+	.views-field-body {
+		.typewriter;
+		margin-top: 5px;
+		padding: 0 15px;
+		max-height: 120px;
+		height: 120px;
+		overflow: hidden;
+		p {
+			font-size: 13px;
+			line-height: 17px;
+		}
+	}
+	.views-field-path {
+		a {
+			display: inline-block;
+			.uppercase;
+			color: #fff;
+			-webkit-transition: all .2s;
+			border: 1px solid #fff;
+			padding: 1px 8px;
+			font-size: 12px;
+			text-decoration: none;
+			&:hover {
+				background: @lightbrown;
+				color: @brown;
+				border-color: @lightbrown;
+			}
+		}
+	}
+	.view-footer {
+		position: relative;
+		clear: both;
+		.center;
+		padding-top: 15px;
+		a {
+			display: inline-block;
+			border: 1px solid @lightbrown;
+			color: @lightbrown;
+			text-decoration: none;
+			padding: 0 8px;
+			.uppercase;
+			font-size: 15px;
+			-webkit-transition: all .2s;
+			&:hover {
+				color: @brown;
+				background: @lightbrown;
+				border-color: @lightbrown;
+			}
+		}
+		.horz-divider {
+			height: 2px;
+			width: 100%;
+			background: url(../images/dots_horz.png) 0 -2px repeat-x;
+			position: absolute;
+			z-index: 200;
+			top: 0;
+		}
+	}
+	.divider {
+		width: 2px;
+		height: 360px;
+		background: url(../images/dots_vert.png) -2px 0 repeat-y;
+		position: absolute;
+		left: 5px;
+		z-index: 200;
+		top: 0;
+		left: 229px;
+	}
+	
+	.views-row-2 {
+		.divider {
+			left: 239px;
+		}
+	}
+}
+
+
+.view-blog-for-coffee {
+
+}
+
+// ---------------------------------------------------------
+//
+// -- END blog articles in tabs styles
+// 
+// ---------------------------------------------------------
+
+
+
+
+// ---------------------------------------------------------
+//
+// -- START Catalog and detail page styles
+// 
+// ---------------------------------------------------------
 
 .product-catalog,
 .product-detail {
 	.view-product-catalog,
-	.view-related-coffees {
+	.view-related-coffees,
+	.view-brewing-tools {
 		margin-left: -10px;
 		position: relative;
 		width: 720px;
@@ -80,8 +221,10 @@
 	}
 
 	// Brewing tool overrides
-		.brewing-row .view-related-coffees {
+		.brewing-row .view-related-coffees,
+		.brewing-row .view-brewing-tools {
 			position: relative;
+			clear: both;
 			//clear: both;
 			
 			.views-row {
@@ -111,6 +254,7 @@
 				width: 216px;
 				height: 216px;
 				position: absolute;
+				overflow: hidden;
 				top: 23px;
 				left: 13px;
 				opacity: 0;
@@ -154,11 +298,20 @@
 	}
 }
 
+// ---------------------------------------------------------
+//
+// -- END Catalog and detail page styles
+// 
+// ---------------------------------------------------------
 
+// ---------------------------------------------------------
+//
+// -- START color matching
+// 
+// ---------------------------------------------------------
 
+// Match logo color, and rollover colors for sections
 
-
-// Change logo color to match the selected region
 .page-coffees-latin-america,
 .latin-coffee {
 	.logo-img {
@@ -195,7 +348,7 @@
 
 
 // Interaction color for coffees in catalog/related view
-.page-coffees-latin-america,
+.page-coffees-latin-america .view-product-catalog,
 .latin-america .view-related-coffees {
 	.views-row {
 		&:hover {
@@ -204,7 +357,7 @@
 	}
 }
 
-.page-coffees-africa,
+.page-coffees-africa .view-product-catalog,
 .africa .view-related-coffees {
 	.views-row {
 		&:hover {
@@ -213,7 +366,7 @@
 	}
 }
 
-.page-coffees-oceania,
+.page-coffees-oceania .view-product-catalog,
 .oceania .view-related-coffees {
 	.views-row {
 		&:hover {
@@ -222,7 +375,7 @@
 	}
 }
 
-.page-coffees-espresso,
+.page-coffees-espresso .view-product-catalog,
 .oceania .view-related-coffees {
 	.views-row {
 		&:hover {
@@ -231,11 +384,157 @@
 	}
 }
 
-.page-brewing-tool,
+.page-brewing-tool .view-product-catalog,
 .brewing-tools .view-related-coffees {
 	.views-row {
 		&:hover {
 			background: @lightblack;
 		}
 	}
+}
+
+// Interaction colors for blog elements in tabs 
+
+.page-coffees-latin-america {
+	.view-blog-for-coffee {
+		.views-field-created {
+			.field-content {
+				color: @lightgreen;
+				border-bottom: 1px solid @lightgreen;
+			}
+		}
+		.views-field-path {
+			a {
+				&:hover {
+					background: @lightgreen;
+					color: @green;
+					border-color: @lightgreen;
+				}
+			}
+		}
+		.view-footer {
+			a {
+				border: 1px solid @lightgreen;
+				color: @lightgreen;
+				&:hover {
+					color: @green;
+					background: @lightgreen;
+					border-color: @lightgreen;
+				}
+			}
+		}
+	}
+}
+
+.page-coffees-africa {
+	.view-blog-for-coffee {
+		.views-field-created {
+			.field-content {
+				color: @lightred;
+				border-bottom: 1px solid @lightred;
+			}
+		}
+		.views-field-path {
+			a {
+				&:hover {
+					background: @lightred;
+					color: @red;
+					border-color: @lightred;
+				}
+			}
+		}
+		.view-footer {
+			a {
+				border: 1px solid @lightred;
+				color: @lightred;
+				&:hover {
+					color: @red;
+					background: @lightred;
+					border-color: @lightred;
+				}
+			}
+		}
+	}
+}
+
+// Oceania
+.page-coffees-oceania {
+	.view-blog-for-coffee {
+		.views-field-created {
+			.field-content {
+				color: @lightblue;
+				border-bottom: 1px solid @lightblue;
+			}
+		}
+		.views-field-path {
+			a {
+				&:hover {
+					background: @lightblue;
+					color: @blue;
+					border-color: @lightblue;
+				}
+			}
+		}
+		.view-footer {
+			a {
+				border: 1px solid @lightblue;
+				color: @lightblue;
+				&:hover {
+					color: @blue;
+					background: @lightblue;
+					border-color: @lightblue;
+				}
+			}
+		}
+	}
+}
+
+// Espresso
+.page-coffees-espresso {
+	.view-blog-for-coffee {
+		.views-field-created {
+			.field-content {
+				color: @lightblack;
+				border-bottom: 1px solid @lightblack;
+			}
+		}
+		.views-field-path {
+			a {
+				&:hover {
+					background: @lightblack;
+					color: @black;
+					border-color: @lightblack;
+				}
+			}
+		}
+		.view-footer {
+			a {
+				border: 1px solid @lightblack;
+				color: @lightblack;
+				&:hover {
+					color: @black;
+					background: @lightblack;
+					border-color: @lightblack;
+				}
+			}
+		}
+	}
+}
+
+
+// ---------------------------------------------------------
+//
+// -- END Catalog and detail page styles
+// 
+// ---------------------------------------------------------
+
+// ---------------------------------------------------------
+//
+// -- START pager override for brewing tools and goods
+// 
+// ---------------------------------------------------------
+
+.pager {
+	background: transparent !important;
+	border: 0 !important;
 }

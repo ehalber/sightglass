@@ -40,7 +40,7 @@
         $('.view-front-page-gallery .views-row:nth-child(2n-1)').append('<div class="divider" />');
     }
 
-    // -- On product catalog pages, added dividers
+    // -- On product catalog pages, add dividers
     if ( $('.product-catalog').length ) {
 
         $('.view-product-catalog .views-row:nth-child(3n-2)').append('<div class="divider" />');
@@ -53,6 +53,22 @@
         $('.view-related-coffees .views-row:nth-child(3n-2)').append('<div class="divider" />');
         $('.view-related-coffees .views-row:nth-child(3n-1)').append('<div class="divider" />');
         $('.view-related-coffees .views-row:nth-child(1n)').append('<div class="horz-divider" />');
+
+        // Add dividers to blog articles in tab
+        $('.view-blog-for-coffee .views-row:nth-child(3n-2)').append('<div class="divider" />');
+        $('.view-blog-for-coffee .views-row:nth-child(3n-1)').append('<div class="divider" />');
+        $('.view-blog-for-coffee .view-footer').prepend('<div class="horz-divider" />');
+
+        // Add dividers for tools
+        $('.view-brewing-tools .views-row:nth-child(3n-2)').append('<div class="divider" />');
+        $('.view-brewing-tools .views-row:nth-child(3n-1)').append('<div class="divider" />');
+        $('.view-brewing-tools .views-row:nth-child(1n)').append('<div class="horz-divider" />');
+    }
+
+    if ( $('.brewing-tools').length ) {
+        $('.view-brewing-tools .views-row:nth-child(3n-2)').append('<div class="divider" />');
+        $('.view-brewing-tools .views-row:nth-child(3n-1)').append('<div class="divider" />');
+        $('.view-brewing-tools .views-row:nth-child(1n)').append('<div class="horz-divider" />');
     }
 
     // -- On production detail pages, add grid 960 special classes
@@ -74,7 +90,7 @@
 
         $('.pane-product-detail-description-panel-pane-1').before('<div class="above-description" />');
 
-        $('.description-button .pane-content').click(function() {
+        $('.description-button .more-button').click(function() {
             $('.views-field-body').slideToggle();
         });
 
