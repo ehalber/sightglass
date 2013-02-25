@@ -18,6 +18,7 @@
  *
  * @ingroup themeable
  */
+/*
 function omega_pager($vars) {
   global $pager_page_array, $pager_total;
   
@@ -135,7 +136,7 @@ function omega_pager($vars) {
     ));
   }
 }
-
+*/
 /**
  *  Implements hook_item_list().
  */
@@ -205,6 +206,7 @@ function omega_item_list($vars) {
  * links to remove theme completely when not present to avoid the
  * &nbsp; messing up the spacing/theming in the list.
  */
+/*
 function omega_views_mini_pager($vars) {
   global $pager_page_array, $pager_total;
 
@@ -274,7 +276,7 @@ function omega_views_mini_pager($vars) {
     );
   }
 }
-
+*/
 /**
  * Implements hook_links().
  */

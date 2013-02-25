@@ -65,11 +65,16 @@
         $('.view-brewing-tools .views-row:nth-child(1n)').append('<div class="horz-divider" />');
     }
 
+    /*
+    DELETE THIS:: I'm removing this code because I have replaced its
+    functionality with a views template
+
     if ( $('.brewing-tools').length ) {
         $('.view-brewing-tools .views-row:nth-child(3n-2)').append('<div class="divider" />');
         $('.view-brewing-tools .views-row:nth-child(3n-1)').append('<div class="divider" />');
         $('.view-brewing-tools .views-row:nth-child(1n)').append('<div class="horz-divider" />');
     }
+    */
 
     // -- On production detail pages, add grid 960 special classes
     if ( $('.product-detail').length ) {
