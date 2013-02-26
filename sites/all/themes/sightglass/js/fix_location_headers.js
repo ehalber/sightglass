@@ -95,7 +95,7 @@
 
         $('.pane-product-detail-description-panel-pane-1').before('<div class="above-description" />');
 
-        $('.description-button .more-button').click(function() {
+        $('.view-product-center .more-button').click(function() {
             $('.views-field-body').slideToggle();
         });
 
