@@ -178,6 +178,30 @@
     $('.page-wholesale-featured-partner').find('#quicktabs-tabpage-wholesale_tabs-2').removeClass('quicktabs-hide');
 
 
+
+    // Brewing Guides Menu
+    
+    $('.aeropress').live('hover', function() {
+      $('.brewing-guides').css('background-position', '-712px 0');
+    });
+
+    $('.french-press').live('hover', function() {
+      $('.brewing-guides').css('background-position', '-178px 0');
+    });
+
+    $('.clever').live('hover', function() {
+      $('.brewing-guides').css('background-position', '-356px 0');
+    });
+
+    $('.chemex').live('hover', function() {
+      $('.brewing-guides').css('background-position', '-534px 0');
+    });
+
+    $('.v60').live('hover', function() {
+      $('.brewing-guides').css('background-position', '0 0');
+    });
+
+    
 	
 
   });
