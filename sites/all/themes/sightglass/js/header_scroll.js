@@ -24,6 +24,9 @@
         }
     });
 
+    // Add arrow elements to main menu
+    $('.zone-menu .menu li a').append('<i class="arrow"></div>');
+
   });
   
 }(jQuery));
