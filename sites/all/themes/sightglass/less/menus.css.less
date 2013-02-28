@@ -22,56 +22,107 @@
 	}
 }
 
+.zone-menu-wrapper {
+	position: fixed;
+	height: 38px;
+	background: @bgcolor;
+	z-index: 150;
+	width: 1024px;
+	border-bottom: 1px solid @extralightbrown;
+
+}
+
+.zone-branding-wrapper {
+	margin-top: 60px;
+
+}
+
+// Force this zone to open up to the full width of 
+// the full width of design (1024px)
+// I'm also removing the default margin from the two
+// grid elements that are in place here. 
 .zone-menu {
-	
+	padding: 0;
+	margin: 0 !important;
+	width: 1024px !important;
 	.region {
-		position: relative;
-		top: -130px;
-	}
-	.region-inner {
-		position: absolute;
-		width: 490px
+		//position: relative;
+		//top: -130px;
 	}
 	.region-menu-first {
 		left: 0;
+		//width: 1024px !important;
+		margin: 0 !important;
 	}
 	.region-menu-second {
-		left: 100px;
+		margin: 0 !important;
+		float: right;
+		// Move the qtip container into the correct location
+		.qtip-wrapper {
+			right: 150px !important;
+		}
 	}
-	.region-menu-second-inner {
-		width: 350px;
-	}
+
 
 }
 
 .block-menu-menu-top-left {
+	.content {
+		a:link, a:visited {
+			text-decoration: none;
+			.tondo-bold;
+			color: @brown;
+			padding: 8px 20px;
+			display: inline-block;
+			font-size: 15px;
 
-	a:link, a:visited {
-		text-decoration: none;
-		.tondo-bold;
-		color: @brown;
-		padding: 4px;
-		display: inline-block;
-	}
-	li {
-		float: left;
-		margin-right: 10px !important;
+		}
+		li {
+			float: left;
+			margin: 0 !important;
+			border-right: 1px solid @extralightbrown;
+			&:hover {
+				background: @extralightbrown;
+			}
+		}
+		.separator {
+			display: inline-block;
+			width: 150px;
+			height: 38px;
+			border-right: 1px solid @extralightbrown;
+		}
 	}
 }
 
 .block-menu-menu-top-right {
-
-	a:link, a:visited {
-		text-decoration: none;
-		.tondo-bold;
-		color: @brown;
-		padding: 4px;
-		display: inline-block;
-	}
-	li {
-		float: left;
-		margin-right: 10px !important;
-		list-style: none !important;
+	.content {
+		ul {
+			float: right;
+		}
+		a:link, a:visited {
+			text-decoration: none;
+			.tondo-bold;
+			color: @brown;
+			padding: 4px;
+			display: inline-block;
+			padding: 8px 20px;
+			display: inline-block;
+			font-size: 15px;
+		}
+		.menu 	li {
+			float: left;
+			margin: 0 !important;
+			border-right: 1px solid @extralightbrown;
+			&:hover {
+				background: @extralightbrown;
+			}
+			&.first {
+				border-left: 1px solid @extralightbrown;
+			}
+			&.last {
+				border-right: 0;
+			}
+		}
 	}
 
 }
@@ -142,8 +193,8 @@
 }
 
 .qtip {
-	left: 0 !important;
-	top: 20px !important;
+	left: 15px !important;
+	top: 45px !important;
 }
 
 canvas {
@@ -187,6 +238,20 @@ canvas {
 	width: 180px;
 	height: 200px;
 }
+
+#mini-panel-menu_coffees {
+	h2.pane-title {
+		.typewriter;
+		margin-bottom: 5px;
+		font-size: 13px;
+		margin-left: 10px;
+		text-transform: capitalize;
+		span {
+			border-bottom: 1px solid @brown;
+		}
+	}
+}
+
 
 #mini-panel-menu_blog {
 	.right-side {
