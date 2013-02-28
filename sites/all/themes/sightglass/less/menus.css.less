@@ -29,7 +29,6 @@
 	z-index: 150;
 	width: 1024px;
 	border-bottom: 1px solid @extralightbrown;
-
 }
 
 .zone-branding-wrapper {
@@ -72,15 +71,26 @@
 			text-decoration: none;
 			.tondo-bold;
 			color: @brown;
-			padding: 8px 20px;
+			padding: 8px 22px;
 			display: inline-block;
 			font-size: 15px;
 
 		}
-		li {
+		.menu li {
 			float: left;
 			margin: 0 !important;
 			border-right: 1px solid @extralightbrown;
+			&:nth-child(3) {
+				a {
+					padding: 8px 23px 8px 24px;
+				}
+			}
+			&.last {
+				height: 38px;
+				hr {
+					display: none;
+				}
+			}
 			&:hover {
 				background: @extralightbrown;
 			}
@@ -194,7 +204,7 @@
 
 .qtip {
 	left: 15px !important;
-	top: 45px !important;
+	top: 39px !important;
 }
 
 canvas {

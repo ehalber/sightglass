@@ -10,9 +10,9 @@
     $(document).bind('load, scroll', function() {
         winTop = $(window).scrollTop();
         if (winTop >= 154) {
-            $('.separator').text('wave');
+            $('.separator').addClass('wave');
         } else {
-            $('.separator').text('blank');
+            $('.separator').removeClass('wave');
         }
     });
 
