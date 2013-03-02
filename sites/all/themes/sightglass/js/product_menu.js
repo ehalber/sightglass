@@ -15,6 +15,7 @@
         $('.block-menu-menu-products .content').slideToggle();
     });
 
+
   });
   
 }(jQuery));

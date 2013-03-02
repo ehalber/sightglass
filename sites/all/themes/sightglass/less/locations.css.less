@@ -4,7 +4,7 @@
 @import 'variables.css.less';
 
 .page-our-company-locations {
-	.view-locations {
+	.view-display-id-default {
 		.views-row {
 			margin-bottom: 60px;
 		}
@@ -43,5 +43,28 @@
 			margin-left: 60px;
 		}
 
+	}
+
+	.view-display-id-block_2 {
+		font-size: 14px;
+		.view-header {
+			border-bottom: 1px dotted @lightbrown;
+			padding-bottom: 10px;
+			margin-bottom: 10px;
+		}
+		.views-row {
+			border-bottom: 1px dotted @lightbrown;
+			padding-bottom: 10px;
+			margin-bottom: 10px;
+			.views-field-title {
+				.typewriter-bold;
+				.uppercase;
+				line-height: 20px;
+			}
+			.views-field-field-address {
+				.typewriter;
+				color: @lightbrown;
+			}
+		}
 	}
 }

@@ -29,6 +29,9 @@
 
         });
     }
+
+    // Add subscriptions button to 
+    $('.product-catalog .quicktabs-wrapper .item-list').append('<a href="" class="button-subscriptions">Subscriptions</a>');
    
     
   });

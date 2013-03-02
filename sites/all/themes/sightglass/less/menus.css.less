@@ -79,9 +79,19 @@
 			text-decoration: none;
 			.tondo-bold;
 			color: @brown;
-			padding: 8px 13px;
+			padding: 8px 20px 8px 13px;
 			display: inline-block;
 			font-size: 15px;
+			// The key to getting this to work is to use 
+			// position absolute. You won't be able to move it
+			// without this. I had to do this because using javascript
+			// to append a <i> element with styles was breaking
+			// the minipanels plugin code.
+			&:after {
+				content: url(../images/menu_arrow.png);
+				margin: -2px 0 0 5px;
+				position: absolute;
+			}
 
 		}
 		.menu li {
