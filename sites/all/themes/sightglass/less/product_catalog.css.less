@@ -197,7 +197,7 @@
 			width: 2px;
 			height: 258px;
 			position: absolute;
-			background: url(../images/dots_vert.png) repeat-y;
+			background: url(../images/dots_vert_1.png) repeat-y;
 			left: 239px;
 			top: 10px;
 			z-index: 200;
@@ -206,7 +206,7 @@
 			height: 2px;
 			width: 220px;
 			position: absolute;
-			background: url(../images/dots_horz.png) repeat-x;
+			background: url(../images/dots_horz_1.png) repeat-x;
 			bottom: 0;
 			left: 10px;
 		}
@@ -214,7 +214,7 @@
 			height: 2px;
 			width: 220px;
 			position: absolute;
-			background: url(../images/dots_horz.png) repeat-x;
+			background: url(../images/dots_horz_1.png) repeat-x;
 			top: 0;
 			left: 10px;
 		}
@@ -395,6 +395,24 @@
 	.views-row {
 		&:hover {
 			background: @lightblack;
+		}
+	}
+}
+
+.page-blends .view-product-catalog,
+.blends-decaf .view-related-coffees {
+	.views-row {
+		&:hover {
+			background: @lightbrown;
+		}
+	}
+}
+
+.page-decaf .view-product-catalog,
+.blends-decaf .view-related-coffees {
+	.views-row {
+		&:hover {
+			background: @lightbrown;
 		}
 	}
 }

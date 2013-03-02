@@ -1,0 +1,47 @@
+// Styles for the locations section of the site
+
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+.page-our-company-locations {
+	.view-locations {
+		.views-row {
+			margin-bottom: 60px;
+		}
+		.views-field-title {
+			.title {
+				.tondo-bold;
+				.uppercase;
+				font-size: 22px;
+			}
+			span {
+				margin-left: 15px;
+				.tondo-reg;
+
+			}
+			a {
+				display: inline-block;
+				.uppercase;
+				border: 1px solid @brown;
+				padding: 0 8px;
+				text-decoration: none;
+				color: @brown;
+				font-size: 13px;
+				line-height: 20px;
+				margin-top: 6px;
+				vertical-align: top;
+			}
+		}
+		.typewriter;
+		.views-label {
+			.typewriter-bold;
+		}
+		.views-field-field-address,
+		.views-field-field-hours,
+		.views-field-field-phone,
+		.views-field-field-transit {
+			margin-left: 60px;
+		}
+
+	}
+}

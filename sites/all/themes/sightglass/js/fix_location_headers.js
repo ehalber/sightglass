@@ -63,6 +63,16 @@
         $('.view-brewing-tools .views-row:nth-child(3n-2)').append('<div class="divider" />');
         $('.view-brewing-tools .views-row:nth-child(3n-1)').append('<div class="divider" />');
         $('.view-brewing-tools .views-row:nth-child(1n)').append('<div class="horz-divider" />');
+    
+
+        // Add click through behavior on brewing tools catalog page
+        
+        $('.view-brewing-tools .views-row').each(function() {
+            var url = $(this).find('.views-field-title a').attr('href');
+            $(this).click(function() {
+                location.href = url;
+            })
+        });
     }
 
     /*

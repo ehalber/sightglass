@@ -246,15 +246,27 @@ canvas {
 
 	}
 	.left-side {
-		background: url(../images/dots_vert.png) repeat-y 100% 0;
+		background: url(../images/dots_vert_1.png) repeat-y 100% 0;
 		height: 200px;
 	}
 }
 
-#mini-panel-menu_our_company .right-side {
-	background: url(../images/cselect_brown_large.png) no-repeat 60% 50%;
-	width: 180px;
-	height: 200px;
+#mini-panel-menu_our_company {
+	h2.pane-title {
+		.typewriter;
+		margin-bottom: 5px;
+		font-size: 13px;
+		margin-left: 10px;
+		text-transform: capitalize;
+		span {
+			border-bottom: 1px solid @brown;
+		}
+	}
+	.right-side {
+		background: url(../images/cselect_brown_large.png) no-repeat 60% 50%;
+		width: 180px;
+		height: 200px;
+	}
 }
 
 #mini-panel-menu_coffees {
@@ -380,7 +392,7 @@ canvas {
 		height: 204px;
 		background: url(../images/guides_nav.png) no-repeat;
 	}
-	
+	/*
 	.aeropress:hover {
 		color: @green;
 	}
@@ -396,12 +408,59 @@ canvas {
 	.v60:hover {
 		color: @red;
 	}
+	*/
 }
 
 .menu-minipanel-614 {
-	a:hover {
-		background: transparent !important;
+	.pane-title {
+		.typewriter;
+		color: @brown;
+		margin: 0 0 5px 8px;
+		padding: 0;
+		font-size: 14px;
+
+		span { 
+			border-bottom: 1px solid @brown;
+		}
 	}
 }
 
+// Footer menu
+.pane-menu-menu-footer-about {
+	li {
+		line-height: 20px;
+		&:hover {
+			background: @bgcolor;
+		}
+	}
+	a:link, a:visited {
+		color: @brown;
+		text-decoration: none;
+		display: block;
+		padding: 2px 4px 0;
+	}
+}
+
+// Blog dropdown menu
+.menu-minipanel-579 {
+	.left-side {
+		position: relative;
+		.pane-menu-menu-menu-blog-left-bottom {
+			position: absolute;
+			bottom: 0;
+		}
+	}
+}
+
+// Coffees dropdown menu
+.menu-minipanel-952 {
+	.right-side {
+		position: relative;
+		height: 200px;
+		.pane-menu-menu-menu-subscriptions {
+			position: absolute;
+			bottom: 0;
+		}
+	}
+}
 

@@ -375,6 +375,10 @@ stylesheets[all][] = less/featured_partner.css.less
 
 stylesheets[all][] = less/colorbox.css.less
 
+stylesheets[all][] = less/brewing_guide.css.less
+
+stylesheets[all][] = less/locations.css.less
+
 scripts[] = js/fixed_footer.js
 scripts[] = js/menus.js
 scripts[] = js/site_by_etc.js

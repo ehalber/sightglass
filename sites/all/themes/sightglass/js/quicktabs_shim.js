@@ -7,7 +7,7 @@
 
     // Hide all open tabbed content and force all tabs
     // to display non-active state when viewing blog
-    if ( $('.page-blog').length || $('.page-blog-categories').length || $('.page-blog-archive').length || $('.node-type-article').length ) {
+    if ( $('.page-brewing-tools-and-goods').length || $('.page-blog').length || $('.page-blog-categories').length || $('.page-blog-archive').length || $('.node-type-article').length ) {
         $('.quicktabs-tabpage').addClass('quicktabs-hide');
         $('.quicktabs-tabs li').removeClass('active');
     }
@@ -15,7 +15,7 @@
     // Add extra open/close functionality to quicktabs tabs
     // This code allows user to close tab on a second click if
     // that tab is currently open
-    if ( $('.page-blog').length || $('.page-blog-categories').length || $('.page-blog-archive').length || $('.node-type-article').length ) {
+    if ( $('.page-brewing-tools-and-goods').length || $('.page-blog').length || $('.page-blog-categories').length || $('.page-blog-archive').length || $('.node-type-article').length ) {
         $('.quicktabs-tabs li a').click(function() {
 
             if ($(this).parent().hasClass('tab-open')) {

@@ -160,7 +160,7 @@
 	// This div is injected with javascript
 	.above-description {
 		height: 2px;
-		background: url(../images/dots_horz.png) repeat-x;
+		background: url(../images/dots_horz_1.png) repeat-x;
 		margin: 20px 100px 0 100px;
 		width: 740px;
 		clear: both;
@@ -173,10 +173,15 @@
 		clear: both;
 		position: relative;
 		top: -2px;
-		background: @extralightbrown url(../images/dots_horz.png) repeat-x;
+		background: @extralightbrown url(../images/dots_horz_1.png) repeat-x;
 		p {
 			font-size: 11px;
 			line-height: 16px;
+			color: @brown;
+			.tondo-reg;
+			strong {
+				.tondo-bold;
+			}
 		}
 		.pane-content {
 			padding: 10px 0 0;
@@ -292,6 +297,27 @@
 		.view-related-coffees {
 			.views-field-field-region {
 				color: @black;
+			}
+		}
+	}
+
+	// Espresso
+	&.blends-decaf {
+		.view-product-detail-left {
+			.views-field-field-region {
+				color: @brown;
+				border-bottom-color: @brown;
+			}
+			.views-field-title {
+				font-size: 19px;
+			}
+			.form-submit {
+				background-position: 0 -148px;
+			}
+		}
+		.view-related-coffees {
+			.views-field-field-region {
+				color: @brown;
 			}
 		}
 	}
