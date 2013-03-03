@@ -1,0 +1,132 @@
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+
+// Checkout progress meter
+.commerce-checkout-progress {
+	li {
+		.border-radius(4px);
+		border: 1px solid #ccc;
+		padding: 4px 5px;
+		width: 110px;
+		.center;
+		.typewriter;
+		&.active {
+			color: #fff;
+			background: #000;
+		}
+	}
+}
+
+.page-cart {
+	.commerce-line-item-views-form {
+
+		width: 780px;
+		margin: 0 auto;
+		table {
+			width: 100%;
+			thead tr {
+				border-bottom: 1px solid #000;
+			}
+			tr.odd,
+			tr.even {
+				border: 0;
+				background: none;
+			}
+			th {
+				.tondo-bold;
+				.center;
+				&.views-field-line-item-title {
+					text-align: left;
+				}
+			}
+			tbody {
+				border-bottom: 1px solid #000;
+			}
+			tbody td {
+				padding : 10px 0;
+			}
+			td {
+				.center;
+				background: url(../images/dots_horz_1.png) repeat-x 0 100%;
+				&.views-field-line-item-title {
+					text-align: left;
+					a {
+						color: #000;
+						margin-left: 10px;
+						text-decoration: none;
+						.tondo-bold;
+					}
+				}
+			}
+			td,img {
+				vertical-align: middle;
+			}
+			tr.views-row-last td {
+				background: none;
+			}
+			.views-field-edit-quantity {
+				input {
+					border: 2px solid #ccc;
+					.center;
+				}
+			}
+		}
+
+		.line-item-summary {
+			font-size: 30px;
+			.tondo-reg;
+		}
+	}
+}
+
+
+.page-checkout {
+	#edit-cart-contents {
+		display: none;
+	}
+	table {
+		width: 100%;
+	}
+	tr.odd,
+	tr.even {
+		background: none;
+	}
+	.view-content {
+		th {
+			.tondo-bold;
+			.center;
+			&.views-field-line-item-title {
+				text-align: left;
+			}
+		}
+		thead tr {
+				border-bottom: 1px solid #000;
+			}
+		tbody {
+			border-bottom: 1px solid #000;
+		}
+		tbody td {
+			padding : 10px 0;
+		}
+		td {
+			.center;
+			background: url(../images/dots_horz_1.png) repeat-x 0 100%;
+			img {
+				margin-right: 10px;
+			}
+			&.views-field-line-item-title {
+				text-align: left;
+				color: #000;
+				.tondo-bold;
+			}
+		}
+		td,img {
+			vertical-align: middle;
+		}
+		tr.views-row-last td {
+			background: none;
+		}
+	}
+
+}

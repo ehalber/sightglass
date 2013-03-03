@@ -381,6 +381,8 @@ stylesheets[all][] = less/locations.css.less
 
 stylesheets[all][] = less/subscriptions.css.less
 
+stylesheets[all][] = less/cart.css.less
+
 scripts[] = js/eh.utils.js
 scripts[] = js/fixed_footer.js
 scripts[] = js/menus.js
