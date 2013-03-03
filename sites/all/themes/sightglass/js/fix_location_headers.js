@@ -134,6 +134,10 @@
 
     }
 
+    if ( $('.page-subscriptions').length ) {
+        $('.view-subscriptions.varietal .views-row').append('<div class="divider" />');
+    }
+
 
 
   });

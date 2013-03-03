@@ -1,0 +1,103 @@
+// Subscripions styles
+
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+.page-subscriptions {
+
+	.view-subscriptions {
+		margin: 0 auto;
+		position: relative;
+		.divider {
+			width: 2px;
+			height: 480px;
+			position: absolute;
+			background: url(../images/dots_vert.png) repeat-y -2px 0;
+			top: 0;
+			left: 300px;
+		}
+		.views-row {
+			float: left;
+			height: 450px;
+			width: 220px;
+			padding: 20px;
+			.center;
+			&.views-row-first {
+				margin-right: 50px;
+			}
+			&.espresso {
+				float: right;
+			}
+		}
+		.views-field-field-image {
+			margin-bottom: 20px;
+			border: 0;
+			width: auto;
+		}
+		.views-field-title {
+			margin-bottom: 4px;
+			a {
+				text-decoration: none;
+				color: #fff;
+				font-size: 19px;
+				line-height: 21px;
+			}
+		}
+		.views-field-field-taste-notes {
+			.typewriter;
+		}
+		.views-field-field-region {
+			margin-bottom: 4px;
+			.field-content {
+				border-bottom: 1px solid #fff;
+				display: inline-block;
+			}
+		}
+		.views-field-path {
+			margin-top: 15px;
+			a {
+				color: #fff;
+				border: 1px solid #fff;
+				text-decoration: none;
+				.uppercase;
+				display: inline-block;
+				padding: 2px 10px;
+				font-size: 12px;
+
+			}
+		}
+
+
+	}
+	.varietal {
+			margin-left: 50px;
+		}
+		.espresso {
+			float: right;
+		}
+	.subscription-program {
+		h2.pane-title {
+			font-size: 22px;
+			.tondo-bold;
+		}
+	}
+}
+
+
+// Subscription detail page: Depending on the presence
+// of the subscription class in the body tag, we're going
+// to hide and show specific elements
+body.subscription {
+	.views-field-add-to-cart-form,
+	.views-field-field-product {
+		display: none;
+	}
+	// Hide subscribe elements
+	.subscribe-button {
+		display: block;
+	}
+}
+
+.subscribe-button {
+	display: none;
+}

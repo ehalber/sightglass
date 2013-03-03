@@ -33,11 +33,6 @@ function commerce_checkout_progress_block_view($delta = 'indication') {
   if ($delta === 'indication') {
     // Get the current page that was created/stored earlier by commerce checkout.
     $page_id = commerce_checkout_progress_commerce_checkout_router();
-
-    if (empty($page_id) && variable_get('commerce_checkout_progress_cart', FALSE) && $_GET['q'] = 'cart') {
-      $page_id = 'cart';
-    }
-
     $block_pages = variable_get('commerce_checkout_progress_block_pages', array());
 
     // on block configuration page, use select nothing, it mean, we need
@@ -59,6 +54,12 @@ function commerce_checkout_progress_block_view($delta = 'indication') {
     if ($visible) {
       // Get non-empty pages.
       $pages = commerce_checkout_progress_get_items();
+      if (empty($page_id)) {
+        if (!isset($pages['cart'])) {
+          return;
+        }
+        $page_id = 'cart';
+      }
       $content = array(
         '#theme' => 'commerce_checkout_progress_list',
         '#items' => $pages,
@@ -277,32 +278,10 @@ function commerce_checkout_progress_get_items() {
   foreach ($panes as $id => $pane) {
     // Panes could exist in removed pages (through
     // hook_commerce_checkout_page_info_alter()).
-    if (!isset($pages[$pane['page']])) {
-      continue;
+    if (isset($pages[$pane['page']])) {
+      // Pane has page ID, use this value to flag that the page is not empty.
+      $pages[$pane['page']]['has_item'] = TRUE;
     }
-
-    // special case at commerce_payment_redirect page, this page is not empty
-    // but in some cases, it just redirects user to next step.
-    // code in this block copied from commerce_payment_redirect_pane_checkout_form().
-    // See commerce_payment_redirect_pane_checkout_form() for more detail.
-    if ($id === 'commerce_payment_redirect') {
-      $order = menu_get_object('commerce_order');
-      if (!empty($order->data['payment_method'])) {
-        $payment_method = commerce_payment_method_instance_load($order->data['payment_method']);
-        if (!empty($payment_method['offsite'])) {
-          if (arg(3) !== 'return' || arg(4) == $order->data['payment_redirect_key']) {
-            $callback = commerce_payment_method_callback($payment_method, 'redirect_form');
-            if ($callback) {
-              $pages[$pane['page']]['has_item'] = TRUE;
-            }
-          }
-        }
-      }
-      continue;
-    }
-
-    // pane has page ID, use this value to flag that the page is not empty.
-    $pages[$pane['page']]['has_item'] = TRUE;
   }
 
   $items = array();
@@ -329,6 +308,6 @@ function commerce_checkout_progress_get_items() {
     );
     $items = array_reverse($items);
   }
-
+  drupal_alter('commerce_checkout_progress_items', $items);
   return $items;
 }

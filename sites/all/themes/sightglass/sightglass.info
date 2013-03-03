@@ -379,6 +379,9 @@ stylesheets[all][] = less/brewing_guide.css.less
 
 stylesheets[all][] = less/locations.css.less
 
+stylesheets[all][] = less/subscriptions.css.less
+
+scripts[] = js/eh.utils.js
 scripts[] = js/fixed_footer.js
 scripts[] = js/menus.js
 scripts[] = js/site_by_etc.js
@@ -388,3 +391,4 @@ scripts[] = js/fix_location_headers.js
 scripts[] = js/product_menu.js
 scripts[] = js/pager.js
 scripts[] = js/header_scroll.js
+scripts[] = js/subscriptions.js

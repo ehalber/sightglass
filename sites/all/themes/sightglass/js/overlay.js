@@ -68,7 +68,7 @@
     // Display a zoomed in version of the map when user
     // click on the map on the coffee pages
     
-    $('.product-detail.node-type-latin-coffee .view-product-center a').each(function() {
+    $('.product-detail.node-type-latin-coffee .view-product-center .image a').each(function() {
         $(this).attr('href', $(this).find('img').attr('src'));
         var string = $(this).attr('href');
         $(this).attr('href', string.replace(/220x220_square/gi, 'coffee_region_large'));  

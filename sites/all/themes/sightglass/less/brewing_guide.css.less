@@ -1,0 +1,51 @@
+// These styles are for the brewing guides detail page-break-inside: 
+
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+
+.node-type-brewing-guide {
+
+.pane-brewing-guide-detail-panel-pane-2 {
+	width: 540px;
+}
+
+.pane-brewing-guide-detail-panel-pane-4 {
+	width: 200px;
+}
+
+	.view-brewing-guide-detail {
+
+
+		.views-field-body {
+			margin-top: 30px;
+		}
+		.views-field-field-instructions {
+			.views-label {
+				font-size: 24px;
+				.tondo-bold;
+				display: block;
+				margin-bottom: 30px;
+			}
+			.field-content {
+				li {
+					margin-bottom: 15px;
+					font-size: 15px;
+					strong {
+						.tondo-bold;
+					}
+				}
+			}
+			ol {
+				list-style: none;
+			}
+		}
+		.views-field-field-stuff-you-will-need,
+		.views-field-field-ingredients {
+			.views-label {
+				.tondo-bold;
+				font-size: 18px;
+			}
+		}
+	}
+}

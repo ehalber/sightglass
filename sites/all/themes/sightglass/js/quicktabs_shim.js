@@ -30,9 +30,13 @@
         });
     }
 
-    // Add subscriptions button to 
-    $('.product-catalog .quicktabs-wrapper .item-list').append('<a href="" class="button-subscriptions">Subscriptions</a>');
-   
+    // Add subscriptions button to only non-subscription 
+    // catalog pages 
+    if ( $('.page-coffees-subscriptions').length == 0 ) {
+        $('.product-catalog .quicktabs-wrapper .item-list').append('<a href="" class="button-subscriptions">Subscriptions</a>');
+    }
+    
+    
     
   });
   
