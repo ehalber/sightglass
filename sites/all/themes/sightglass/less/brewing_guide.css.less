@@ -5,14 +5,22 @@
 
 
 .node-type-brewing-guide {
+	.left {
+		width: 465px;
+		margin-right: 11px;
+	}
+	.right {
+		width: 200px;
+	}
 
-.pane-brewing-guide-detail-panel-pane-2 {
-	width: 540px;
-}
+	.pane-brewing-guide-detail-panel-pane-2 {
+		//width: 460px;
+		//padding-right: 20px;
+	}
 
-.pane-brewing-guide-detail-panel-pane-4 {
-	width: 200px;
-}
+	.pane-brewing-guide-detail-panel-pane-4 {
+		
+	}
 
 	.view-brewing-guide-detail {
 
@@ -48,4 +56,109 @@
 			}
 		}
 	}
+	.view-brewing-tools {
+		position: relative;
+		clear: both;
+	}
 }
+
+.view-display-id-panel_pane_4 {
+	padding-top: 25px;
+	ul {
+		margin-left: 20px;
+	}
+	.views-label {
+		margin-bottom: 20px;
+		display: block;
+	}
+	li {
+		line-height: 20px;
+		font-size: 14px;
+	}
+	.views-field-field-brewing-insert-image {
+		margin-bottom: 20px;
+	}
+}
+
+.node-type-brewing-guide {
+
+	.view-display-id-panel_pane_5 {
+		
+		padding-left: 0;
+		width: 700px;
+		.views-row {
+			width: 220px;
+		}
+	}
+	.views-row-first {
+		margin-left: 0;
+	}
+	.views-row-last {
+		margin-right: 0;
+	}
+
+	.pane-brewing-tools {
+		.view-brewing-tools {
+			background: url(../images/dots_horz_1.png) repeat-x 0 100%;
+			height: 442px;
+		}
+		h2.pane-title {
+			font-size: 19px;
+			.uppercase;
+			padding-bottom: 15px;
+			margin-bottom: 5px;
+			background: url(../images/dots_horz_1.png) repeat-x 0 100%;
+			.tondo-bold;
+			.center;
+		}
+		.horz-divider {
+			display: none;
+		}
+	}
+
+	.view-footer {
+		.center;
+		a {
+			color: @brown;
+			text-decoration: none;
+			border: 1px solid @brown;
+			.uppercase;
+			display: inline-block;
+			padding: 2px 20px;
+			.tondo-reg;
+		}
+	}
+
+}
+
+// These styles are for the 3 brewing guides at the 
+// bottom of each brewing guide detail page
+
+
+
+.pane-brewing-guide-detail-panel-pane-5 {
+	clear: both;
+	padding-top: 50px;
+	h2.pane-title {
+		.uppercase;
+		font-size: 19px;
+		padding-bottom: 15px;
+		margin-bottom: 10px;
+		background: url(../images/dots_horz_1.png) repeat-x 0 100%;
+		.tondo-bold;
+		.center;
+	}
+	.view-display-id-panel_pane_5 {
+		background: url(../images/dots_horz_1.png) repeat-x 0 100%;
+		height: 220px;
+		.views-row {
+			background: none;
+		}
+		.divider {
+			height: 200px;
+			left: 229px;
+		}
+	}
+	
+}
+

@@ -33,7 +33,7 @@
     }
 
     if ( $('.node-type-brewing-guide').length ) {
-        $('.related-resources .views-row:nth-child(2n-1)').append('<div class="divider" />');
+        //$('.related-resources .views-row:nth-child(2n-1)').append('<div class="divider" />');
     }
 
     if ( $('.front').length ) {
@@ -65,9 +65,11 @@
         $('.view-brewing-tools .views-row:nth-child(1n)').append('<div class="horz-divider" />');
     
 
+
+
         // Add click through behavior on brewing tools catalog page
         
-        $('.view-brewing-tools .views-row').each(function() {
+        $('.page-resources .view-brewing-tools .views-row').each(function() {
             var url = $(this).find('.views-field-title a').attr('href');
             $(this).click(function() {
                 location.href = url;
@@ -136,6 +138,13 @@
 
     if ( $('.page-subscriptions').length ) {
         $('.view-subscriptions.varietal .views-row').append('<div class="divider" />');
+    }
+
+    if ( $('.node-type-brewing-guide').length ) {
+
+          // Add dividers for guides
+        $('.view-display-id-panel_pane_5 .views-row:nth-child(3n-2)').append('<div class="divider" />');
+        $('.view-display-id-panel_pane_5 .views-row:nth-child(3n-1)').append('<div class="divider" />');
     }
 
 
