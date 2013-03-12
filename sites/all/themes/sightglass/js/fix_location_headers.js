@@ -147,6 +147,11 @@
         $('.view-display-id-panel_pane_5 .views-row:nth-child(3n-1)').append('<div class="divider" />');
     }
 
+    // On checkout page, update the page title
+    if ( $('.page-checkout').length ) {
+        $('h1').replaceWith('<h1 class="title" id="page-title"><span>Checkout</span></h1>');
+    }
+
 
 
   });

@@ -82,6 +82,11 @@
 
 
 .page-checkout {
+	// remove the payment button
+	.payment {
+		display: none;
+	}
+
 	#edit-cart-contents {
 		display: none;
 	}
@@ -129,4 +134,80 @@
 		}
 	}
 
+	// Checkout address form 
+	@form_size: 520px;
+	.fieldset-legend {
+		color: @brown;
+		.tondo-bold;
+		font-size: 15px;
+	}
+	label {
+		.tondo-reg;
+		font-weight: normal;
+	}
+	.name-block,
+	.street-block {
+		input[type=text] {
+			width: @form_size;
+		}
+	}
+	.country[size] {
+		width: @form_size;
+	}
+	select[size] {
+		height: 23px;
+	}
+	.locality[size] {
+		width: 213px;
+	}
+
+}
+
+.page-checkout-review {
+	.checkout-help {
+		display: none;
+	}
+	.pane-title td,
+	.pane-data td {
+		padding-left: 0 !important;
+	}
+	.pane-data {
+		border-bottom: 0;
+		color: #666;
+		label {
+			float: left;
+			margin-right: 4px;
+		}
+	}
+	.checkout-review {
+		.pane-title {
+			border-top: 1px solid #000;
+			border-bottom: 0;
+			.tondo-bold;
+			color: #000;
+
+			td {
+				padding-top: 3px;
+			}
+		}
+		.pane-data-full {
+			padding-bottom: 15px;
+		}
+	}
+	// Payment form
+	.form-item-commerce-payment-payment-details-credit-card-type select {
+		width: 157px;
+	}
+	.form-radios {
+		display: none;
+	}
+	.commerce_payment {
+		border-top: 1px solid #000;
+	}
+	#commerce-checkout-form-review {
+		.checkout-help span {
+			margin-bottom: 5px;
+			display: block;
+		}
+	}
 }

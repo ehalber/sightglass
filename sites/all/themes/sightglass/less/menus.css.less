@@ -79,7 +79,7 @@
 			text-decoration: none;
 			.tondo-bold;
 			color: @brown;
-			padding: 8px 20px 8px 13px;
+			padding: 8px 25px 8px 18px;
 			display: inline-block;
 			font-size: 15px;
 			// The key to getting this to work is to use 
@@ -89,7 +89,7 @@
 			// the minipanels plugin code.
 			&:after {
 				content: url(../images/menu_arrow.png);
-				margin: -2px 0 0 5px;
+				margin: -2px 0 0 7px;
 				position: absolute;
 			}
 
@@ -133,9 +133,14 @@
 			color: @brown;
 			padding: 4px;
 			display: inline-block;
-			padding: 9px 20px 10px 20px;
+			padding: 9px 28px 10px 24px;
 			display: inline-block;
 			font-size: 13px;
+			&:after {
+				content: url(../images/menu_arrow.png);
+				margin: -2px 0 0 7px;
+				position: absolute;
+			}
 		}
 		.menu 	li {
 			float: left;
@@ -241,7 +246,7 @@ canvas {
 	//.border-radius(4px, 4px, 4px, 4px);
 	//width: 600px !important;
 	padding: 15px !important;
-	height: 220px !important;
+	height: 200px !important;
 	border: 0 !important;
 	a:link, a:visited {
 		text-decoration: none;
@@ -369,6 +374,7 @@ canvas {
 		display: none;
 		li {
 			.center;
+			line-height: 48px;
 		}
 		a:link,
 		a:visited {
@@ -470,6 +476,9 @@ canvas {
 		.pane-menu-menu-menu-subscriptions {
 			position: absolute;
 			bottom: 0;
+			a {
+				color: @red;
+			}
 		}
 	}
 }
