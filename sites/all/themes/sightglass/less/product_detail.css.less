@@ -45,9 +45,9 @@
 		}
 		.form-submit {
 			display: inline-block;
-			height: 42px;
-			width: 161px;
-			background-image: url(../images/ui_elements.png);
+			height: 45px;
+			width: 160px;
+			background-image: url(../images/buttons_big.png);
 			border: 0;
 			border-radius: 0;
 			text-indent: -300em;
@@ -55,17 +55,17 @@
 			bottom: 0;
 		}
 		.form-item-quantity {
-			background: url(../images/quantity.png) no-repeat;
-			bottom: -85px;
-			height: 41px;
+			background: url(../images/buttons_other.png) no-repeat 0 -42px;
+			bottom: -105px;
+			height: 42px;
 			width: 161px;
 			position: relative;
 			label {
 				display: none;
 			}
 			input {
-				border: 1px solid #9B8579;
-				border-left: 0;
+				//border: 1px solid #9B8579;
+				border: 0;
 				text-align: center;
 				height: 41px;
 				position: absolute;
@@ -74,7 +74,23 @@
 				width: 42px;
 				font-size: 18px;
 				padding: 0 5px;
+				background: none;
 
+			}
+		}
+		.subscribe-wrapper {
+			position: relative;
+			.subscribe-button {
+				position: absolute;
+				bottom: -150px;
+				width: 160px;
+				height: 42px;
+				background: url(../images/buttons_big.png) no-repeat 0 -50px;
+				&:hover {
+					background-position: -160px -50px;
+				}
+				text-indent: -300em;
+				cursor: pointer;
 			}
 		}
 	}
@@ -228,7 +244,10 @@
 				font-size: 19px;
 			}
 			.form-submit {
-				background-position: 0 -190px;
+				background-position: 0 -400px;
+				&:hover {
+					background-position: -160px -400px;
+				}
 			}
 		}
 		.view-related-coffees {
@@ -249,7 +268,10 @@
 				font-size: 19px;
 			}
 			.form-submit {
-				background-position: 0 -232px;
+				background-position: 0 -350px;
+				&:hover {
+					background-position: -160px -350px;
+				}
 			}
 		}
 		.view-related-coffees {
@@ -270,7 +292,10 @@
 				font-size: 19px;
 			}
 			.form-submit {
-				background-position: 0 -274px;
+				background-position: 0 -450px;
+				&:hover {
+					background-position: -160px -450px;
+				}
 			}
 		}
 		.view-related-coffees {
@@ -291,7 +316,10 @@
 				font-size: 19px;
 			}
 			.form-submit {
-				background-position: 0 -148px;
+				background-position: 0 -550px;
+				&:hover {
+					background-position: -160px -550px;
+				}
 			}
 		}
 		.view-related-coffees {
@@ -312,7 +340,10 @@
 				font-size: 19px;
 			}
 			.form-submit {
-				background-position: 0 -148px;
+				background-position: 0 -500px;
+				&:hover {
+					background-position: -160px -500px;
+				}
 			}
 		}
 		.view-related-coffees {
@@ -333,7 +364,10 @@
 				font-size: 19px;
 			}
 			.form-submit {
-				background-position: 0 -148px;
+				background-position: 0 -500px;
+				&:hover {
+					background-position: -160px -500px;
+				}
 			}
 		}
 		.view-related-coffees {

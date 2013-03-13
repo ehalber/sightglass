@@ -78,6 +78,31 @@
 			.tondo-reg;
 		}
 	}
+	.big-button-container {
+		width: 160px;
+		background: url(../images/buttons_big.png) 0 0;
+		text-indent: -300em;
+		display: inline-block;
+		height: 45px;
+		border: 0;
+		border-radius: 0;
+		cursor: pointer;
+	}
+	#edit-submit {
+		.big-button-container;
+		&:hover {
+			background-position: -160px 0;
+		}
+	}
+	#edit-checkout {
+		.big-button-container;
+		background-position: 0 -200px;
+		position: relative;
+		top: -3px;
+		&:hover {
+			background-position: -160px -200px;
+		}
+	}
 }
 
 
