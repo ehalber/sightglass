@@ -26,13 +26,15 @@
 			height: @l_top_element_height;
 		}
 		.views-field-title {
-
+			.tondo-bold;
+			line-height: 21px;
 		}
 		.views-field-field-region {
 			.uppercase;
 			border-bottom: 1px solid;
 			display: inline-block;
 			margin-bottom: 5px;
+			.tondo-bold;
 		}
 		.views-field-commerce-price {
 			.typewriter;
@@ -42,6 +44,7 @@
 			.typewriter;
 			margin-bottom: 15px;
 			font-size: 12px;
+			margin-top: 5px;
 		}
 		.form-submit {
 			display: inline-block;
@@ -56,7 +59,7 @@
 		}
 		.form-item-quantity {
 			background: url(../images/buttons_other.png) no-repeat 0 -42px;
-			bottom: -105px;
+			bottom: -85px;
 			height: 42px;
 			width: 161px;
 			position: relative;
@@ -145,6 +148,9 @@
 		.views-field-field-details,
 		.views-field-commerce-stock {
 			margin-bottom: 20px;
+			.field-content {
+				.typewriter;
+			}
 		}
 		.views-field-field-spec-sheet,
 		.views-field-field-spec-sheet-1 {
@@ -239,9 +245,11 @@
 			.views-field-field-region {
 				color: @green;
 				border-bottom-color: @green;
+				.tondo-bold;
 			}
 			.views-field-title {
 				font-size: 19px;
+				.tondo-bold;
 			}
 			.form-submit {
 				background-position: 0 -400px;

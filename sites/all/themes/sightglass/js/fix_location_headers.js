@@ -38,6 +38,8 @@
 
     if ( $('.front').length ) {
         $('.view-front-page-gallery .views-row:nth-child(2n-1)').append('<div class="divider" />');
+        $('.view-front-page-gallery .views-row:nth-child(1n)').append('<div class="horz-divider" />');
+
     }
 
     // -- On product catalog pages, add dividers
