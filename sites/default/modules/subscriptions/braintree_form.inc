@@ -18,6 +18,6 @@
     </div>
     <script type="text/javascript" src="https://js.braintreegateway.com/v1/braintree.js"></script>
     <script type="text/javascript">
-      //var braintree = Braintree.create("YourClientSideEncryptionKey");
-      //braintree.onSubmitEncryptForm('braintree-payment-form');
+      var braintree = Braintree.create("MIIBCgKCAQEAs/hPHehk3Yq/utGpBsImUVXh0LDtFvM6/XJyNpMmjl3ZN9Hp/sftkI9gSIoS/zpIqSBQ+CK7SnyVjpmdq0wWshVZe2V+8dSySGnuj000rMIYTTUVwIecUAaIpNDE4CUh/3mSktUI2vAHcNzZ4RIQJFjaTFsOYQA0gp3WNilE28YahpnUVT1hkPZBvXkL2c4TF/dB6ucduv0627Hp42ks89IYWR2WvzxksjcME24fmo28UWviXraSR8MCGmCJ95VJ305oAXprgF7DPDQ/YBynAQ+K+GYQ2Rv1wrAaXyMILfpHL3SQ79IselfV43Zf9xuLN7/KmbnWFwi2XNi4/2KPvQIDAQAB");
+      braintree.onSubmitEncryptForm("braintree-payment-form");
     </script>
