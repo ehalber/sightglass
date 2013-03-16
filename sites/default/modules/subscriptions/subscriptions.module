@@ -10,7 +10,7 @@
  */
 function subscription_purchase_form($form, &$form_submit) {
 
-  $form['title'] = array(
+  $form['username'] = array(
     '#username' => 'username',
     '#type' => 'textfield',
     '#title' => t('Enter username'),
@@ -23,6 +23,22 @@ function subscription_purchase_form($form, &$form_submit) {
 
 }
 
+
+/**
+ * This is the validation routine for the content of 
+ * the form. Right now I have just setup a really 
+ * simple example throwing an error if the user submits
+ * the form with no data
+ * 
+ * @param  [type] $form       [description]
+ * @param  [type] $form_state [description]
+ * @return [type]             [description]
+ */
+function subscription_purchase_form_validate($form, &$form_state) {
+  if (strlen($form_state['values']['username']) == 0) {
+    form_set_error('username', 'what are you thinking, man!');
+  }
+}
 
 /**
  * This function just returns the form that we've created.
