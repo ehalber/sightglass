@@ -8,6 +8,7 @@
  * @param  [type] $form_submit [description]
  * @return [type]              [description]
  */
+/*
 function subscription_purchase_form($form, &$form_submit) {
 
   $form['username'] = array(
@@ -22,6 +23,7 @@ function subscription_purchase_form($form, &$form_submit) {
   return $form;
 
 }
+*/
 
 
 /**
@@ -65,6 +67,8 @@ function subscription_form() {
 */
 
 
+
+
 /**
  * This function registers custom block with drupal. In 
  * this function we can pass in parameters that define
@@ -101,7 +105,7 @@ function subscriptions_block_view($delta = '') {
     case 'braintree':
       $block['subject'] = t('Brain Tree Starter');
       //$block['content'] = subscription_form(); this is old
-      // we're going inject the braintree form here instead
+      // we're going inject the brgaintree form here instead
       $block['content'] = '<h1>Braintree Credit Card Transaction Form</h1>
     <div>
       <form action="/create_transaction" method="POST" id="braintree-payment-form">
