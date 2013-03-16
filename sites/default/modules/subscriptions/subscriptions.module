@@ -34,22 +34,35 @@ function subscription_purchase_form($form, &$form_submit) {
  * @param  [type] $form_state [description]
  * @return [type]             [description]
  */
+/*
+
+Lets not do this, because we should use the braintree
+form and js to handle the request, not Drupal.
+
 function subscription_purchase_form_validate($form, &$form_state) {
   if (strlen($form_state['values']['username']) == 0) {
     form_set_error('username', 'what are you thinking, man!');
   }
 }
 
+*/
 /**
  * This function just returns the form that we've created.
  * Basically, it's just a convenience function to keep our
  * code neat and readable
  * @return [type] [description]
  */
+
+/*
+Lets not do this, because we should use the braintree
+form and js to handle the request, not Drupal.
+
+
 function subscription_form() {
   return drupal_get_form('subscription_purchase_form');
 }
 
+*/
 
 
 /**
@@ -87,7 +100,9 @@ function subscriptions_block_view($delta = '') {
   switch($delta) {
     case 'braintree':
       $block['subject'] = t('Brain Tree Starter');
-      $block['content'] = subscription_form();
+      //$block['content'] = subscription_form(); this is old
+      // we're going inject the braintree form here instead
+      $block['content'] = include('braintree_form.inc');
       break;
   }
   return $block;
