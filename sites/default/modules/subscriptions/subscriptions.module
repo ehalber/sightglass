@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * This function describes the form that we're going
+ * to be using for the upload process.
+ * 
+ * @param  [type] $form        [description]
+ * @param  [type] $form_submit [description]
+ * @return [type]              [description]
+ */
+function subscription_purchase_form($form, &$form_submit) {
+
+  $form['title'] = array(
+    '#username' => 'username',
+    '#type' => 'textfield',
+    '#title' => t('Enter username'),
+    '#size' => 60,
+  );
+
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Upload Lesson'));
+
+  return $form;
+
+}
+
+
+/**
+ * This function just returns the form that we've created.
+ * Basically, it's just a convenience function to keep our
+ * code neat and readable
+ * @return [type] [description]
+ */
+function subscription_form() {
+  return drupal_get_form('subscription_purchase_form');
+}
+
+
+
+/**
+ * This function registers custom block with drupal. In 
+ * this function we can pass in parameters that define
+ * the block, this mostly high level stuff and doesn't
+ * have anything to do with the actual contents of the
+ * blocks that we'll be using
+ * 
+ * @return [type] [description]
+ */
+function subscriptions_block_info() {
+  $blocks = array();
+
+  $blocks['braintree'] = array(
+    'info' => t('Braintree'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * This functions allows us to inject the data that
+ * we need into the block in question. This is kind of 
+ * a list of the block we have on the system and where
+ * there data is coming from. Their data is usually
+ * coming from another function/method
+ * 
+ * @param  string $delta [description]
+ * @return [type]        [description]
+ */
+function subscriptions_block_view($delta = '') {
+  $block = array();
+  switch($delta) {
+    case 'braintree':
+      $block['subject'] = t('Brain Tree Starter');
+      $block['content'] = subscription_form();
+      break;
+  }
+  return $block;
+}
+

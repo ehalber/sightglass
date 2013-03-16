@@ -1,0 +1,4 @@
+name = Subscriptions
+description = subscription form for braintree
+core = 7.x
+package = Drupal 7 Development
