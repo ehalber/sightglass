@@ -394,3 +394,4 @@ scripts[] = js/product_menu.js
 scripts[] = js/pager.js
 scripts[] = js/header_scroll.js
 scripts[] = js/subscriptions.js
+scripts[] = js/sign_in.js

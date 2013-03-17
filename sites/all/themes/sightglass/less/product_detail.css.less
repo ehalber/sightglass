@@ -30,12 +30,14 @@
 			line-height: 21px;
 			font-size: 19px;
 		}
-		.views-field-field-region {
+		.views-field-field-region,
+		.views-field-field-type {
 			.uppercase;
-			border-bottom: 1px solid;
+			border-bottom: 1px solid @brown;
 			display: inline-block;
 			margin-bottom: 5px;
 			.tondo-bold;
+			line-height: 14px;
 		}
 		.views-field-commerce-price {
 			.typewriter;
@@ -261,6 +263,7 @@
 		.view-related-coffees {
 			.views-field-field-region {
 				color: @green;
+				line-height: 14px;
 			}
 		}
 	}
@@ -383,62 +386,64 @@
 				border: 3px solid #fff;
 			}
 		}
-		.view-related-coffees {
-			.views-row {
-				-webkit-transition: all .2;
-				&.Latin-America {
-					&:hover {
-						background: @lightgreen;
-					}
-				}
-				&.Africa {
-					&:hover {
-						background: @lightred;
-					}
-				}
-				&.Pacific {
-					&:hover {
-						background: @lightblue;
-					}
-				}
-				&.Decaf, &.Blends {
-					&:hover {
-						background: @lightbrown;
-					}
-				}
-				&.Espresso {
-					&:hover {
-						background: @lightblack;
-					}
-				}
-			}
-			.views-field-field-region {
-				border-bottom: 0;
-				.Latin-America {
-					color: @green;
-					border-bottom: 1px solid @green;
-				}
-				.Africa {
-					color: @red;
-					border-bottom: 1px solid @red;
-				}
-				.Pacific {
-					color: @blue;
-					border-bottom: 1px solid @blue;
-				}
-				.Blends, .Decaf {
-					color: @brown;
-					border-bottom: 1px solid @brown;
-				}
-				.Espresso {
-					color: @black;
-					border-bottom: 1px solid @black;
-				}
-			}
-		}
+		
 	}
 }
 
+
+.view-related-coffees {
+	.views-row {
+		-webkit-transition: all .2;
+		&.Latin-America {
+			&:hover {
+				background: @lightgreen;
+			}
+		}
+		&.Africa {
+			&:hover {
+				background: @lightred;
+			}
+		}
+		&.Pacific {
+			&:hover {
+				background: @lightblue;
+			}
+		}
+		&.Decaf, &.Blends {
+			&:hover {
+				background: @lightbrown;
+			}
+		}
+		&.Espresso {
+			&:hover {
+				background: @lightblack;
+			}
+		}
+	}
+	.views-field-field-region {
+		border-bottom: 0;
+		.Latin-America {
+			color: @green;
+			border-bottom: 1px solid @green;
+		}
+		.Africa {
+			color: @red;
+			border-bottom: 1px solid @red;
+		}
+		.Pacific {
+			color: @blue;
+			border-bottom: 1px solid @blue;
+		}
+		.Blends, .Decaf {
+			color: @brown;
+			border-bottom: 1px solid @brown;
+		}
+		.Espresso {
+			color: @black;
+			border-bottom: 1px solid @black;
+		}
+	}
+}
 
 // Styles for the zoomed coffee view map
 .product-detail {
@@ -449,6 +454,11 @@
 		display: none;
 	}
 	#fancybox-close {
-		display: none !important;
+		background: url(../images/ui_elements.png) -29px -323px;
+		position: fixed;
+		top: 35px;
+		right: 35px;
+		width: 20px;
+		height: 20px;
 	}
 }

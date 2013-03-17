@@ -486,3 +486,46 @@ canvas {
 	}
 }
 
+// Sign in dropdown
+.pane-user-login {
+	width: 300px;
+	padding: 20px;
+	input[type=text], input[type=password] {
+		border: 0 !important;
+		width: 150px;
+		padding: 3px;
+		.typewriter;
+		background: @bgcolor;
+	}
+	input[type=submit], input[type=submit]:hover {
+		border-radius: 0;
+		border: 0;
+		text-indent: -300em;
+		display: inline-block;
+		width: 119px;
+		height: 42px;
+		background: url(../images/buttons_other.png);
+		float: left;
+	}
+	.item-list a:link, a:visited {
+		color: @brown;
+		text-decoration: none;
+	}
+	.form-item {
+		position: relative;
+	}
+	label {
+		position: absolute;
+		margin: 1px 0 0 3px;
+		.typewriter;
+	}
+	.form-required {
+		display: none;
+	}
+	a:link, a:visited {
+		font-size: 11px;
+		float: right;
+		.tondo-reg;
+	}
+}
+

@@ -52,16 +52,16 @@
             },
             titlePosition: 'outside',
             onStart: function() {
-                $('#fancybox-overlay').append('<div class="logo" />');
-                $('.logo').css(logoCSS);
-                $('.logo').css('left', $(window).width()/2 - 71);
+                //$('#fancybox-overlay').append('<div class="logo" />');
+                //$('.logo').css(logoCSS);
+                //$('.logo').css('left', $(window).width()/2 - 71);
             },
             onComplete: function() {
-                $('body').css('overflow-y', 'hidden');
+                //$('body').css('overflow-y', 'hidden');
             },
             onClosed: function() {
-                $('.logo').remove();
-                $('body').css('overflow-y', 'scroll');
+                //$('.logo').remove();
+               // $('body').css('overflow-y', 'scroll');
             }
         });
     }
@@ -90,16 +90,16 @@
         
             titlePosition: 'outside',
             onStart: function() {
-                $('#fancybox-overlay').append('<div class="logo" />');
-                $('.logo').css(logoCSS);
-                $('.logo').css('left', $(window).width()/2 - 71);
+                //$('#fancybox-overlay').append('<div class="logo" />');
+                //$('.logo').css(logoCSS);
+                //$('.logo').css('left', $(window).width()/2 - 71);
             },
             onComplete: function() {
-                $('body').css('overflow-y', 'hidden');
+                //$('body').css('overflow-y', 'hidden');
             },
             onClosed: function() {
-                $('.logo').remove();
-                $('body').css('overflow-y', 'scroll');
+                //$('.logo').remove();
+                //$('body').css('overflow-y', 'scroll');
             }
         });
     });
