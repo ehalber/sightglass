@@ -28,6 +28,7 @@
 		.views-field-title {
 			.tondo-bold;
 			line-height: 21px;
+			font-size: 19px;
 		}
 		.views-field-field-region {
 			.uppercase;
@@ -54,12 +55,11 @@
 			border: 0;
 			border-radius: 0;
 			text-indent: -300em;
-			position: absolute;
-			bottom: 0;
+			//position: absolute;
+			//bottom: 0;
 		}
 		.form-item-quantity {
 			background: url(../images/buttons_other.png) no-repeat 0 -42px;
-			bottom: -85px;
 			height: 42px;
 			width: 161px;
 			position: relative;
@@ -82,10 +82,9 @@
 			}
 		}
 		.subscribe-wrapper {
-			position: relative;
+			position: absolute;
+			bottom: 0;
 			.subscribe-button {
-				position: absolute;
-				bottom: -150px;
 				width: 160px;
 				height: 42px;
 				background: url(../images/buttons_big.png) no-repeat 0 -50px;
@@ -229,7 +228,7 @@
 		padding-top: 25px;
 		margin-bottom: 10px;
 		font-size: 19px;
-		.tondo;
+		.tondo-bold;
 	}
 	.view-related-coffees {
 		margin-top: 20px;
@@ -379,9 +378,62 @@
 				}
 			}
 		}
+		.region-data {
+			img {
+				border: 3px solid #fff;
+			}
+		}
 		.view-related-coffees {
+			.views-row {
+				-webkit-transition: all .2;
+				&.Latin-America {
+					&:hover {
+						background: @lightgreen;
+					}
+				}
+				&.Africa {
+					&:hover {
+						background: @lightred;
+					}
+				}
+				&.Pacific {
+					&:hover {
+						background: @lightblue;
+					}
+				}
+				&.Decaf, &.Blends {
+					&:hover {
+						background: @lightbrown;
+					}
+				}
+				&.Espresso {
+					&:hover {
+						background: @lightblack;
+					}
+				}
+			}
 			.views-field-field-region {
-				color: @brown;
+				border-bottom: 0;
+				.Latin-America {
+					color: @green;
+					border-bottom: 1px solid @green;
+				}
+				.Africa {
+					color: @red;
+					border-bottom: 1px solid @red;
+				}
+				.Pacific {
+					color: @blue;
+					border-bottom: 1px solid @blue;
+				}
+				.Blends, .Decaf {
+					color: @brown;
+					border-bottom: 1px solid @brown;
+				}
+				.Espresso {
+					color: @black;
+					border-bottom: 1px solid @black;
+				}
 			}
 		}
 	}

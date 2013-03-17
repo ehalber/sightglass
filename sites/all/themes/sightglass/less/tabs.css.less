@@ -219,7 +219,12 @@
 		display: inline-block;
 		border: 1px solid @brown;
 		padding: 1px 30px;
-		.border-radius(4px)
+		.border-radius(4px);
+		-webkit-transition: all .2s;
+		&:hover {
+			background: @brown;
+			color: @bgcolor;
+		}
 	}
 }
 
@@ -243,7 +248,7 @@
 		}
 		.quicktabs-tabs li {
 			background: @lightgreen;
-			&.active {
+			&.active, &:hover {
 				background: @green;
 				a:link, a:visited {
 					color: @bgcolor;
@@ -261,7 +266,7 @@
 		}
 		.quicktabs-tabs li {
 			background: @lightred;
-			&.active {
+			&.active, &:hover {
 				background: @red;
 				a:link, a:visited {
 					color: @bgcolor;
@@ -279,7 +284,7 @@
 		}
 		.quicktabs-tabs li {
 			background: @lightblue;
-			&.active {
+			&.active, &:hover {
 				background: @blue;
 				a:link, a:visited {
 					color: @bgcolor;
@@ -297,7 +302,7 @@
 		}
 		.quicktabs-tabs li {
 			background: @lightblack;
-			&.active {
+			&.active, &:hover {
 				background: @black;
 				a:link, a:visited {
 					color: @bgcolor;

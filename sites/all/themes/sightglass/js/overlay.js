@@ -29,11 +29,12 @@
     // of the global variables, but I'm not sure how to do it
     // efficiently.
     
-    if ( $('.brewing-tool .view-product-detail-center .image').length ) {
-        var $productImage = $('.brewing-tool .view-product-detail-center .image');
+    if ( $('.brewing-tool .view-product-center .image').length ) {
+        console.log('here');
+        var $productImage = $('.brewing-tool .view-product-center .image');
         $productImage.find('a').attr('href', $productImage.find('img').attr('src'));
         var productTemp = $productImage.find('a').attr('href');
-        $productImage.find('a').attr('href', productTemp.replace(/220x220_square/gi, 'lightbox_display'));
+        $productImage.find('a').attr('href', productTemp.replace(/220x220_square/gi, 'product_zoom'));
 
         $('.fancybox').fancybox({
             transitionIn: 'fade',

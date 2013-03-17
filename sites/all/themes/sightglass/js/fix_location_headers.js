@@ -30,6 +30,7 @@
     // -- On resources page, added vertical divider
     if ( $('.page-resources').length ) {
         $('.view-brewing-guides-home .views-row:nth-child(2n-1)').append('<div class="divider" />');
+        $('.view-brewing-guides-home .views-row:nth-child(1n)').append('<div class="horz-divider" />');
     }
 
     if ( $('.node-type-brewing-guide').length ) {
@@ -71,7 +72,7 @@
 
         // Add click through behavior on brewing tools catalog page
         
-        $('.page-resources .view-brewing-tools .views-row').each(function() {
+        $('.view-brewing-tools .views-row').each(function() {
             var url = $(this).find('.views-field-title a').attr('href');
             $(this).click(function() {
                 location.href = url;
@@ -97,13 +98,23 @@
         //$('.view-related-coffees .views-row:nth-child(3n-2)').addClass('alpha');
         //$('.view-related-coffees .views-row:nth-child(3n+3)').addClass('omega');
 
+        
+        // -- Grab the region's parent and place on view to control
+        // rollover color
+
+        $('.view-related-coffees .views-row').each(function() {
+            $(this).addClass($(this).find('.views-field-field-region .field-content div').attr('class'));
+        });
+
         // -- Add dividing lines between products
+        
         $('.view-related-coffees .views-row:nth-child(3n-2)').append('<div class="divider" />');
         $('.view-related-coffees .views-row:nth-child(3n-1)').append('<div class="divider" />');
         $('.view-related-coffees .views-row:nth-child(1n)').append('<div class="horz-divider" />');
         $('.view-related-coffees .views-row').click(function() {
             window.location = $(this).find('.views-field-title a').attr('href');
         });
+
 
         $('.coffee-row .views-row-1, .coffee-row .views-row-2, .coffee-row .views-row-3').append('<div class="top-divider" />');
 
