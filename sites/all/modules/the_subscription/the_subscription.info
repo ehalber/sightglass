@@ -1,0 +1,3 @@
+name = The Subscription
+description = A block module that does user's subscription
+core = 7.x

@@ -1,0 +1,280 @@
+<?php
+/**
+ * @file
+ * A block module that displays recent blog and forum posts.
+ */
+
+/**
+ * Implements hook_help.
+ *
+ * Displays help and module information.
+ *
+ * @param path 
+ *   Which path of the site we're using to display help
+ * @param arg 
+ *   Array that holds the current path as returned from arg() function
+ */
+function the_subscription_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#the_subscription":
+      return '<p>' . t("Displays links to nodes created on this date") . '</p>';
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function the_subscription_block_info() {
+  $blocks['the_subscription'] = array(
+    'info' => t('The Subscription'), //The name that will appear in the block list.
+    //'cache' => DRUPAL_CACHE_PER_ROLE, //Default
+      'cache' => DRUPAL_NO_CACHE,
+
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view()
+ */
+function the_subscription_block_view($delta = '') {
+	/*dsm('hello');
+	dpm($delta);*/
+	$block = array();
+
+	switch($delta){
+    	case 'the_subscription':
+    		$block['subject'] = t('The Subscription');
+    		$block['content'] = 'hello world'; //mymodule_form(); //'hello world'; //_bar_owner_custom();
+      		/*if(user_access('access content')){
+       			//Retrieve and process data here.
+   			}*/
+   			break;
+   	}
+
+   	return $block;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function the_subscription_menu() {
+  $items = array();
+
+  $items['the_subscription'] = array(
+    'title' => 'The Subscription',
+    'description' => 'Configuration for The Subscription module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('the_subscription_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Page callback: Current posts settings
+ *
+ * @see the_subscription_menu()
+ */
+function the_subscription_form($form, &$form_state) {
+
+  drupal_add_js('https://js.braintreegateway.com/v1/braintree.js', 'external');
+  $form['the_subscription'] = array(
+    '#action' => '#',
+    'the_subscription' => array(
+      '#type' => 'select',
+      '#title' => t('Your Subscription'),
+      '#options' => array(
+        '' => 'Please Select One...',
+        'owls_howl_espresso' => t('Owl\'s Howl Espresso Subscription'),
+        'seasonal_variety' => t('Seasonal Variety Subscription'),
+      ),
+      '#default_value' => variable_get('#', TRUE),
+      '#description' => t('Your Subscription Selection'),
+      '#required' => TRUE,
+    ),
+    'first_name' => array(
+      '#type' => 'textfield',
+      '#title' => t('First Name'),
+      '#description' => t('Your First Name'),
+      '#required' => TRUE,
+    ),
+    'last_name' => array(
+      '#type' => 'textfield',
+      '#title' => t('Last Name'),
+      '#description' => t('Your Last Name'),
+      '#required' => TRUE,
+    ),
+    'e_mail' => array(
+      '#type' => 'textfield',
+      '#title' => t('E-Mail'),
+      '#description' => t('Your E-Mail Address'),
+      '#required' => TRUE,
+    ),
+    'cc_number' => array(
+      '#type' => 'textfield',
+      '#title' => t('Credit Card Number'),
+      '#description' => t('Your Credit Card Number'),
+      '#required' => TRUE,
+    ),
+    'cc_exp' => array(
+      '#type' => 'textfield',
+      '#title' => t('Credit Card Expiration Date'),
+      '#description' => t('Your Credit Card Expiration Date'),
+      '#required' => TRUE,
+    ),
+    'cvv' => array(
+      '#type' => 'textfield',
+      '#title' => t('Credit Card CVV'),
+      '#description' => t('Your Credit Card CVV'),
+      '#required' => TRUE,
+    ),
+    'cardholder_name' => array(
+      '#type' => 'textfield',
+      '#title' => t('Credit Card Holder Name'),
+      '#description' => t('Your Credit Card Holder Name'),
+      '#required' => TRUE,
+    ),
+    'billing_fname' => array(
+      '#type' => 'textfield',
+      '#title' => t('Billing First Name'),
+      '#description' => t('Billing First Name'),
+      '#required' => TRUE,
+    ),
+    'billing_lname' => array(
+      '#type' => 'textfield',
+      '#title' => t('Billing Last Name'),
+      '#description' => t('Billing Last Name'),
+      '#required' => TRUE,
+    ),
+    'billing_address1' => array(
+      '#type' => 'textfield',
+      '#title' => t('Billing Address 1'),
+      '#description' => t('Billing Address 1'),
+      '#required' => TRUE,
+    ),
+    'billing_address2' => array(
+      '#type' => 'textfield',
+      '#title' => t('Billing Address 2'),
+      '#description' => t('Billing Address 2'),
+      '#required' => FALSE,
+    ),
+    'billing_city' => array(
+      '#type' => 'textfield',
+      '#title' => t('Billing City'),
+      '#description' => t('Billing City'),
+      '#required' => TRUE,
+    ),
+    'billing_state' => array(
+      '#type' => 'textfield',
+      '#title' => t('Billing State'),
+      '#description' => t('Billing State'),
+      '#required' => TRUE,
+    ),
+    'billing_zipcode' => array(
+      '#type' => 'textfield',
+      '#title' => t('Billing Zip Code'),
+      '#description' => t('Billing Zip Code'),
+      '#required' => TRUE,
+    ),
+    'billing_country_code' => array(
+      '#type' => 'textfield',
+      '#default_value' => 'US',
+      '#title' => t('Billing Country Code'),
+      '#description' => t('Billing Country Code'),
+      '#required' => TRUE,
+    ),
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Submit'),
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * validation
+ */
+function the_subscription_form_validate($form, &$form_state) {
+
+  include ("includes/braintree/lib/Braintree.php");
+
+  Braintree_Configuration::environment('sandbox');
+  Braintree_Configuration::merchantId('xxvqtjhnbj947cy2');
+  Braintree_Configuration::publicKey('t3gc446h8264g8q3');
+  Braintree_Configuration::privateKey('e7d5619196e71a4ea4e1c1631b2c1ac1');
+
+  /*echo '<pre>form_state';
+  print_r($form_state);*/
+
+  $result = Braintree_Customer::create(array(
+    'firstName' => $form_state['values']['first_name'],
+    'lastName'  => $form_state['values']['last_name'],
+    'email'     => $form_state['values']['e_mail'],
+    'creditCard' => array(
+      'number' => $form_state['values']['cc_number'],
+      'expirationDate' => $form_state['values']['cc_exp'],
+      'cvv' => $form_state['values']['cvv'],
+      'cardholderName' => $form_state['values']['cardholder_name'],
+      'billingAddress' => array(
+        'firstName' => $form_state['values']['billing_fname'],
+        'lastName' => $form_state['values']['billing_lname'],
+        'streetAddress' => $form_state['values']['billing_address1'],
+        'extendedAddress' => $form_state['values']['billing_address2'],
+        'locality' => $form_state['values']['billing_city'],
+        'region' => $form_state['values']['billing_state'],
+        'postalCode' => $form_state['values']['billing_zipcode'],
+        'countryCodeAlpha2' => $form_state['values']['billing_country_code'],
+      ),
+    ),
+  ));
+
+  if ($result->success) {
+    //dsm('hello');
+    $credit_cards = $result->customer->creditCards;
+    $cc_attributes = $credit_cards[0]->_attributes;
+    /*echo '<h1>Payment Method Token: ' . $cc_attributes['token'] . '</h1>';
+    echo "<pre> {$form_state['values']}: ";
+    print_r($form_state['values']);
+    echo '<pre>result: ';
+    print_r($result);
+    die('xxx');*/
+
+    // starts subscription creation
+    $sub_result = Braintree_Subscription::create(array(
+      'paymentMethodToken' => $cc_attributes['token'],
+      'planId' => $form_state['values']['the_subscription']
+    ));
+
+    if ($sub_result->success) {
+      dsm('Your subscription was created successfully. Message: ' . $sub_result->subscription->status);
+    }
+    //dsm("<h1>Success! Customer ID: " . $result->customer->id . "</h1>");
+  } else {
+    dsm("<h1>Error: " . $result->message . "</h1>");
+  }
+
+  /*$customers = Braintree_Customer::all();
+  foreach ($customers->_ids as $key => $customer_id) {
+    if ($key == 0) {
+      echo "<h1>Existing Customer:</h1>";
+    }
+    $customer = Braintree_Customer::find($customer_id);
+
+    echo 'customer_id: ' . $customer->id . '<br />';
+    echo 'merchant_id: ' . $customer->merchantId . '<br />';
+    echo 'firstName: ' . $customer->firstName . '<br />';
+    echo 'lastName: ' . $customer->lastName . '<br />';
+    echo 'company: ' . $customer->company . '<br />';
+    echo 'email: ' . $customer->email . '<br />';
+    echo 'phone: ' . $customer->phone . '<br />';
+    echo 'fax: ' . $customer->fax . '<br />';
+    echo 'website: ' . $customer->website . '<br />';
+  }*/
+
+  //die('xxx');
+}
