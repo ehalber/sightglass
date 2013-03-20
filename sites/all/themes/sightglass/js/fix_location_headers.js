@@ -104,6 +104,8 @@
 
         $('.view-related-coffees .views-row').each(function() {
             $(this).addClass($(this).find('.views-field-field-region .field-content div').attr('class'));
+            $(this).append('<div class="top-divider" />');
+
         });
 
         // -- Add dividing lines between products

@@ -150,6 +150,17 @@
 		display: inline-block;
 		line-height: 14px;
 	}
+	.coffee-row {
+		.pane-title {
+			clear: both;
+			text-transform: uppercase;
+			text-align: center;
+			padding-top: 25px;
+			margin-bottom: 10px;
+			font-size: 19px;
+			font-family: Tondo-Bold !important;
+		}
+	}
 }
 
 .product-catalog,
@@ -218,8 +229,9 @@
 			width: 220px;
 			position: absolute;
 			background: url(../images/dots_horz_1.png) repeat-x;
-			bottom: 0;
+			bottom: -1px;
 			left: 10px;
+			z-index: 10;
 		}
 		.top-divider {
 			height: 2px;
@@ -229,6 +241,7 @@
 			top: 0;
 			left: 10px;
 		}
+
 	}
 
 	// Brewing tool overrides
@@ -307,6 +320,7 @@
 			border-bottom-color: @black
 		}
 	}
+
 }
 
 // ---------------------------------------------------------

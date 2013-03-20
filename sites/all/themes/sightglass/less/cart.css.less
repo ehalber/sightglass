@@ -18,6 +18,18 @@
 	}
 }
 
+// Big button mixin for all cart
+.big-button-container {
+	width: 160px;
+	background: url(../images/buttons_big.png) 0 0;
+	text-indent: -300em;
+	display: inline-block;
+	height: 45px;
+	border: 0;
+	border-radius: 0;
+	cursor: pointer;
+}
+
 .page-cart {
 	.commerce-line-item-views-form {
 
@@ -78,16 +90,7 @@
 			.tondo-reg;
 		}
 	}
-	.big-button-container {
-		width: 160px;
-		background: url(../images/buttons_big.png) 0 0;
-		text-indent: -300em;
-		display: inline-block;
-		height: 45px;
-		border: 0;
-		border-radius: 0;
-		cursor: pointer;
-	}
+	
 	#edit-submit {
 		.big-button-container;
 		&:hover {
@@ -96,13 +99,14 @@
 	}
 	#edit-checkout {
 		.big-button-container;
-		background-position: 0 -200px;
+		background-position: 0 -300px;
 		position: relative;
 		top: -3px;
 		&:hover {
-			background-position: -160px -200px;
+			background-position: -160px -300px;
 		}
 	}
+
 }
 
 
@@ -110,6 +114,10 @@
 	// remove the payment button
 	.payment {
 		display: none;
+	}
+
+	.form-item, .form-actions {
+		margin-bottom: 0;
 	}
 
 	#edit-cart-contents {
@@ -160,7 +168,7 @@
 	}
 
 	// Checkout address form 
-	@form_size: 520px;
+	@form_size: 400px;
 	.fieldset-legend {
 		color: @brown;
 		.tondo-bold;
@@ -183,10 +191,42 @@
 		height: 23px;
 	}
 	.locality[size] {
-		width: 213px;
+		width: 138px;
+	}
+	.state {
+		width: 138px;
+	}
+	#edit-account-login-mail {
+		width: 400px;
+	}
+	.checkout-continue {
+		.big-button-container;
+		background-position: 0 -250px;
+		&:hover {
+			background-position: -160px -250px;
+		}
+	}
+	.checkout-cancel {
+		.big-button-container;
+		background: url(../images/buttons_big.png) !important;
+		background-position: 0 -600px !important;
+		&:hover {
+			background-position: -160px -600px !important;
+		}
+	}
+	.checkout-back {
+		.big-button-container;
+		background: url(../images/buttons_big.png) !important;
+		background-position: 0 -650px !important;
+		&:hover {
+			background-position: -160px -650px !important;
+		}
 	}
 
 }
+
+
+
 
 .page-checkout-review {
 	.checkout-help {
@@ -235,4 +275,22 @@
 			display: block;
 		}
 	}
+	.checkout-continue {
+		.big-button-container;
+		background-position: 0 -700px !important;
+		&:hover {
+			background-position: -160px -700px !important;;
+		}
+	}
+}
+
+input.delete-line-item {
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: url(../images/ui_elements.png) -55px -329px no-repeat!important;
+	width: 14px !important;
+	height: 14px;
+	display: inline-block;
+	text-indent: -300em;
+	padding: 0 !important;
 }

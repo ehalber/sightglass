@@ -6,7 +6,7 @@
   
   $(document).ready(function() {
 
-    //$('.pager').clone(true,true).appendTo('.quicktabs-wrapper');
+    $('.page-cart h1').text('Shopping Bag');
 
   });
   
