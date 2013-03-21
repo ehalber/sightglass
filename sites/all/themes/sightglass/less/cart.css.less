@@ -15,6 +15,12 @@
 			color: #fff;
 			background: #000;
 		}
+		a {
+			color: #000;
+			&:link, &:visited {
+				text-decoration: none;
+			}
+		}
 	}
 }
 
@@ -33,7 +39,7 @@
 .page-cart {
 	.commerce-line-item-views-form {
 
-		width: 780px;
+		width: 700px;
 		margin: 0 auto;
 		table {
 			width: 100%;
@@ -109,8 +115,56 @@
 
 }
 
+.button-operator {
+	margin: 0 15px;
+}
+
+table.checkout-review .pane-data-full {
+	padding: 0;
+}
+
+.checkout_review {
+	border-bottom: 1px solid #000;
+}
+
+ol.inline.commerce-checkout-progress li {
+	width: 158px;
+	&:last-child {
+		margin: 0;
+	}
+}
+
+.component-type-commerce-price-formatted-amount {
+	font-size: 30px;
+	color: @brown;
+	border-bottom: none !important;
+}
+
+.commerce-price-formatted-components {
+	width: 100% !important;
+	.component-title {
+		width: 60%;
+		text-align: right;
+	}
+	.component-type-base-price {
+		background: url(../images/dots_horz_1.png) 0 100% repeat-x !important;
+		td {
+			padding: 6px 0;
+		}
+	}
+	.component-type-flat-rate-test-shipping-rate {
+		background: url(../images/dots_horz_1.png) 0 100% repeat-x !important;
+		td {
+			padding: 6px 0;
+		}
+	}
+}
 
 .page-checkout {
+	.region-content {
+		margin-left: 130px;
+		width: 700px !important;
+	}
 	// remove the payment button
 	.payment {
 		display: none;
@@ -225,12 +279,25 @@
 
 }
 
+.commerce_payment {
+	margin-top: -12px;
+}
 
-
+#edit-checkout-review tr:first-child {
+	border-top: 0;
+	td {
+		height: 30px;
+		color: @brown;
+		font-size: 16px;
+	}
+}
 
 .page-checkout-review {
 	.checkout-help {
 		display: none;
+	}
+	tr {
+		border: 0;
 	}
 	.pane-title td,
 	.pane-data td {
@@ -266,9 +333,7 @@
 	.form-radios {
 		display: none;
 	}
-	.commerce_payment {
-		border-top: 1px solid #000;
-	}
+
 	#commerce-checkout-form-review {
 		.checkout-help span {
 			margin-bottom: 5px;

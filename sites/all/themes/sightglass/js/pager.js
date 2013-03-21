@@ -6,7 +6,7 @@
   
   $(document).ready(function() {
 
-    $('.page-cart h1').text('Shopping Bag');
+    $('.page-cart h1').html('<span>Shopping Bag</span>');
 
   });
   

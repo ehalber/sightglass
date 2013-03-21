@@ -37,7 +37,7 @@
 			background: @lightbrown;
 			cursor: pointer;
 			display: inline-block;
-			padding: 5px 0;
+			padding: 3px 0;
 			.border-radius(4px, 4px, 0, 0);
 			&.active {
 				background: @brown;
@@ -195,6 +195,7 @@
 		.view-list-brewing-tools {
 			//margin-left: 220px;
 			li {
+				margin-right: 3px;
 				a:link,
 				a:visited {
 					.tondo-reg;
@@ -249,6 +250,8 @@
 		}
 		.quicktabs-tabs li {
 			background: @lightgreen;
+			border: 1px solid @green;
+			border-bottom: 0;
 			&.active, &:hover {
 				background: @green;
 				a:link, a:visited {
@@ -267,6 +270,9 @@
 		}
 		.quicktabs-tabs li {
 			background: @lightred;
+			background: @lightred;
+			border: 1px solid @red;
+			border-bottom: 0;
 			&.active, &:hover {
 				background: @red;
 				a:link, a:visited {
@@ -285,6 +291,9 @@
 		}
 		.quicktabs-tabs li {
 			background: @lightblue;
+			background: @lightblue;
+			border: 1px solid @blue;
+			border-bottom: 0;
 			&.active, &:hover {
 				background: @blue;
 				a:link, a:visited {
@@ -303,8 +312,33 @@
 		}
 		.quicktabs-tabs li {
 			background: @lightblack;
+			background: @lightblack;
+			border: 1px solid @black;
+			border-bottom: 0;
 			&.active, &:hover {
 				background: @black;
+				a:link, a:visited {
+					color: @bgcolor;
+				}
+			}
+		}
+	}
+}
+
+// Espresso
+.blends-decaf {
+	.top-tabs {
+		.quicktabs-tabpage,
+		.shim {
+			background: @brown !important;
+		}
+		.quicktabs-tabs li {
+			background: @lightbrown;
+			background: @lightbrown;
+			border: 1px solid @brown;
+			border-bottom: 0;
+			&.active, &:hover {
+				background: @brown;
 				a:link, a:visited {
 					color: @bgcolor;
 				}
