@@ -57,9 +57,10 @@
 	.region-menu-second {
 		margin: 0 !important;
 		float: right;
+		width: 360px !important;
 		// Move the qtip container into the correct location
 		.qtip-wrapper {
-			right: 150px !important;
+			width: 330px;
 		}
 	}
 	.arrow {
@@ -123,7 +124,20 @@
 	}
 }
 
+.region-menu-second-inner {
+	width: auto !important;
+	position: relative;
+	.qtip {
+		//left: 60px !important;
+	}
+}
+
+.block-menu-top-right {
+	position: relative;
+}
+
 .block-menu-menu-top-right {
+	
 	.content {
 		ul {
 			float: right;
@@ -195,7 +209,7 @@
 		a:link span, a:visited span {
 			display: inline-block;
 			padding: 2px 5px;
-			width: 300px;
+			width: 220px;
 			&:hover {
 				background: @bgcolor;
 			}
@@ -249,21 +263,30 @@ canvas {
 	padding: 15px !important;
 	height: 200px !important;
 	border: 0 !important;
-	a:link, a:visited {
-		text-decoration: none;
-		.tondo-reg;
-		font-size: 19px;
-		color: @brown;
-		display: block;
-		padding: 0px 8px;
-		&:hover {
-			background: @bgcolor;
-		}
+	.menu-minipanel-952,
+	.menu-minipanel-613,
+	.menu-minipanel-614,
+	.menu-minipanel-579,
+	.menu-minipanel-644,
+	.menu-minipanel-1044,
+	.menu-minipanel-1006 {
 
-	}
-	.left-side {
-		background: url(../images/dots_vert_1.png) repeat-y 100% 0;
-		height: 200px;
+		a:link, a:visited {
+			text-decoration: none;
+			.tondo-reg;
+			font-size: 19px;
+			color: @brown;
+			display: block;
+			padding: 0px 8px;
+			&:hover {
+				background: @bgcolor;
+			}
+
+		}
+		.left-side {
+			background: url(../images/dots_vert_1.png) repeat-y 100% 0;
+			height: 200px;
+		}
 	}
 }
 
@@ -529,3 +552,59 @@ canvas {
 	}
 }
 
+.view-commerce-cart-block {
+	display: none;
+	.views-row {
+		padding-top: 15px;
+		clear: both;
+		background: url(../images/dots_horz_1.png) 0 100% repeat-x;
+		&:after {
+			content: '.';
+			display: block;
+			visibility: hidden;
+			clear: both;
+			height; 0;
+		}
+	}
+	.image {
+		float: left;
+		width: 60px;
+	}
+	.content {
+		float: left;
+		width: 210px;
+		margin-left: 15px;
+		.title {
+			line-height: 17px;
+			a:link, a:visited {
+				color: @brown;
+				text-decoration: none;
+				.tondo-bold;
+			}
+		}
+	}
+	.line-item-summary-view-cart {
+		margin: 0;
+		padding: 0;
+		text-indent: -300em;
+		text-align: left;
+		a {
+			display: block !important;
+			width: 160px;
+			height: 45px;
+			background: url(../images/buttons_big.png) 0 -300px;
+			padding: 0;
+			margin-top: 20px;
+			//visibility: hidden;
+			
+			&:hover {
+				background-position: -160px -300px;
+			}
+		}
+	}
+}
+
+.fix-menu-height {
+	overflow: visible !importantt;
+	height: auto !important;
+}

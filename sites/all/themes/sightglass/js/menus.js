@@ -14,6 +14,8 @@
   		//$('.view-blog-categories-menu ul li:last-child').append('<li><a href="/blog_categories/all">All</a></li>');
   	});
 
+
+
   	// -- Move tooltip into correct position
   	// When getting an element relative to another element,
   	// the position method is the one to use.
@@ -29,7 +31,7 @@
     // -- END move tooltip position fix
     // ----------------------------------------------------------
 
-    var isAppended = false;
+    var isShareAppended = false;
 
     $('.zone-footer .sharing-dropdown .pane-content').hide();
 
@@ -40,7 +42,7 @@
     
     $('.region-menu-second-inner a').mouseenter(function() {
       if ( $(this).text() === 'Share') {
-        if (isAppended == false) {
+        if (isShareAppended == false) {
 
           // Save the code that's going to be inserted into the DOM 
           var menu = $('.zone-footer .sharing-dropdown .pane-content').contents();
@@ -53,10 +55,42 @@
           $('.qtip-content .pane-content').show();
 
           // Set switch to true to prevent this code from running again
-          isAppended = true;
+          isShareAppended = true;
         }
       }
     });
+
+    var isShoppingAppended = false;
+
+    $('.region-menu-second-inner a').mouseenter(function() {
+      if ( $(this).text() === 'Bag') {
+        if (isShoppingAppended == false) {
+
+          // Save the code that's going to be inserted into the DOM 
+          var menu = $('.block-commerce-cart .cart-contents').contents();
+          console.log(menu);
+
+          // Append the code to the correct element, and then remove
+          // the element from the DOM
+          $('.menu-minipanel-1382 .pane-content').after(menu);
+          $('.pane-commerce-cart-block .pane-content').remove();
+          
+          $('.qtip-content .pane-content').show();
+
+          // Set switch to true to prevent this code from running again
+          isShoppingAppended = true;
+        }
+      }
+    });
+
+    $('.block-menu-top-right .menu a').mouseenter(function() {
+      if ($(this).text() == 'Bag') {
+        $('.qtip').find('.menu-minipanel-1382').parent().addClass('fix-menu-height');
+        $('.view-commerce-cart-block').show();
+      }
+      //$('.view-blog-categories-menu ul li:last-child').append('<li><a href="/blog_categories/all">All</a></li>');
+    });
+
 
     // -- END fix share dropdown
     // ----------------------------------------------------------

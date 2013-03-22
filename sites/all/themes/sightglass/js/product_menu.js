@@ -17,7 +17,7 @@
     });
 
     // Inject the shopping cart link into the menu
-    $('.block-menu-menu-top-right .menu li:nth-child(2)').after('<li class="leaf">hello</li>');
+    //$('.block-menu-menu-top-right .menu li:nth-child(2)').after('<li class="leaf">hello</li>');
 
 
   });

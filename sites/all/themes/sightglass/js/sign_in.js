@@ -24,6 +24,12 @@
       
     }); 
 
+    // Replace the default loaded cart with one that
+    // actually works. I will never use the minipanels
+    // menu plugin again, it's just a huge pain in 
+    // the fucking ass
+    //$('.menu-minipanel-1382').html('hello there fucker');
+
   });
   
 }(jQuery));

@@ -19,5 +19,14 @@ function sightglass_alpha_preprocess_html(&$vars) {
 	
 
 	//drupal_add_js('http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-511d3a0e269f77f9', 'external');
+	//
+	// If the user is logged in, replace the contents of 
+	// the menu item with the logout action
+	
+	global $user;
+	if ($user->uid) {
+		// update the menu
+		
+	}
 
 }
