@@ -1,0 +1,50 @@
+.commerce_add_to_cart_confirmation_overlay {
+	display: none;
+}
+
+div.messages.commerce-add-to-cart-confirmation {
+	width: 700px;
+	background: rgba(255,255,255,0.9);
+	box-shadow: none;
+	margin-left: -350px !important;
+	border: 0;
+	border-radius: 0;
+}
+
+.big-button {
+	width: 160px !important;
+	height: 45px !important;
+	overflow: hidden;
+	display: block;
+	text-indent: -300em;
+	background: transparent url(../images/buttons_big.png) no-repeat 0 0;
+	padding: 0 !important;
+	border-radius: 0 !important;
+
+}
+
+.commerce-add-to-cart-confirmation {
+	.button-wrapper {
+		background: transparent !important;
+	}
+	.button {
+		background-color: transparent !important;
+		padding: 0 !important;
+	}
+	.checkout {
+		a {
+			.big-button;
+			background-position: 0 -300px;
+			&:hover {
+				background-position: -160px -300px;
+			}
+		}
+	}
+	.continue {
+		.big-button;
+		background-position: 0 -200px;
+		&:hover {
+			background-position: -160px -200px;
+		}
+	}
+}
