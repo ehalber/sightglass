@@ -81,7 +81,9 @@ function the_subscription_menu() {
  */
 function the_subscription_form($form, &$form_state) {
 
-  drupal_add_js('https://js.braintreegateway.com/v1/braintree.js', 'external');
+  // drupal_add_js('https://js.braintreegateway.com/v1/braintree.js', 'external');
+
+
   $form['the_subscription'] = array(
     '#action' => '#',
     'the_subscription' => array(
@@ -96,7 +98,18 @@ function the_subscription_form($form, &$form_state) {
       '#description' => t('Your Subscription Selection'),
       '#required' => TRUE,
     ),
-    'first_name' => array(
+    'subscription_type' => array(
+      '#type' => 'radios',
+      '#title' => t('Subscription Type'),
+      '#description' => t('Subscription Type'),
+      '#options' => array(
+        'once_a_week' => t('Once a Week'),
+        'twice_a_week' => t('Every other Week'),
+        'once_a_month' => t('Once a Month')
+      ),
+      '#required' => TRUE,
+    ),
+    /*'first_name' => array(
       '#type' => 'textfield',
       '#title' => t('First Name'),
       '#description' => t('Your First Name'),
@@ -186,7 +199,7 @@ function the_subscription_form($form, &$form_state) {
       '#title' => t('Billing Country Code'),
       '#description' => t('Billing Country Code'),
       '#required' => TRUE,
-    ),
+    ),*/
     'submit' => array(
       '#type' => 'submit',
       '#value' => t('Submit'),
@@ -200,6 +213,74 @@ function the_subscription_form($form, &$form_state) {
  * validation
  */
 function the_subscription_form_validate($form, &$form_state) {
+
+  $the_subscription = $form_state['values']['the_subscription'];
+  $subscription_type = $form_state['values']['subscription_type'];
+
+  if(!empty($the_subscription) && !empty($subscription_type)) {
+
+    /*echo 'the_subscription: ' . $the_subscription . '<br />';
+    echo 'subscription_type: ' . $subscription_type . '<br />';
+
+    exit;*/
+  
+    include ("includes/recurly/lib/recurly.php");
+
+    Recurly_Client::$apiKey = '31c39c61f3a843949e79e5b237446ea6';
+
+    switch ($the_subscription) {
+      case 'owls_howl_espresso':
+        switch ($subscription_type) {
+          case 'once_a_week':
+            drupal_goto('https://etc.recurly.com/subscribe/owls-howl-7', 
+              array('external' => TRUE));
+            break;
+          case 'twice_a_week':
+            drupal_goto('https://etc.recurly.com/subscribe/owls-howl-14', 
+              array('external' => TRUE));
+            break;
+          case 'once_a_month':
+            drupal_goto('https://etc.recurly.com/subscribe/owls-howl-30', 
+              array('external' => TRUE));
+            break;
+          default:
+            # code...
+            break;
+        }
+        break;
+
+      case 'seasonal_variety':
+        switch ($subscription_type) {
+          case 'once_a_week':
+            drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-7', 
+              array('external' => TRUE));
+            break;
+          case 'twice_a_week':
+            drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-14', 
+              array('external' => TRUE));
+            break;
+          case 'once_a_month':
+            drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-30', 
+              array('external' => TRUE));
+            break;
+          default:
+            # code...
+            break;
+        }
+      
+      default:
+        # code...
+        break;
+    }
+
+    /*$accounts = Recurly_AccountList::getActive();
+
+    echo '<pre>accounts: ';
+    print_r($accounts);
+    exit; */
+  }
+}
+function the_subscription_form_validatebraintree($form, &$form_state) {
 
   include ("includes/braintree/lib/Braintree.php");
 
