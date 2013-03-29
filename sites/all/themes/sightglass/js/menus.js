@@ -68,7 +68,7 @@
 
           // Save the code that's going to be inserted into the DOM 
           var menu = $('.block-commerce-cart .cart-contents').contents();
-          console.log(menu);
+          
 
           // Append the code to the correct element, and then remove
           // the element from the DOM
@@ -83,12 +83,9 @@
       }
     });
 
-    $('.block-menu-top-right .menu a').mouseenter(function() {
-      if ($(this).text() == 'Bag') {
+    $('.block-menu-top-right .menu .menu-bag').mouseenter(function() {
         $('.qtip').find('.menu-minipanel-1382').parent().addClass('fix-menu-height');
         $('.view-commerce-cart-block').show();
-      }
-      //$('.view-blog-categories-menu ul li:last-child').append('<li><a href="/blog_categories/all">All</a></li>');
     });
 
 

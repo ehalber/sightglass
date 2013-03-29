@@ -19,6 +19,25 @@
     // Inject the shopping cart link into the menu
     //$('.block-menu-menu-top-right .menu li:nth-child(2)').after('<li class="leaf">hello</li>');
 
+    // This is some js hackery to append a modified shopping
+    // cart to the menu and then display different states of the
+    // cart based on quantity
+    $('.menu-bag').append($('.menu-cart .line-item-quantity-raw'));
+
+    console.log($('.menu-bag .line-item-quantity-raw').text());
+
+    console.log($('.menu-bag').text());
+
+    var menuText = $('.menu-bag').text();
+
+    console.log(menuText.length);
+
+    if ( $('.menu-bag').text() == 'Bag: ' ) {
+        $('.menu-bag').removeClass('has-contents').text('Bag: 0');
+
+    } else {
+        $('.menu-bag').addClass('has-contents');
+    }
 
   });
   

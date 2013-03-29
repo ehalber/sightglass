@@ -57,10 +57,10 @@
 	.region-menu-second {
 		margin: 0 !important;
 		float: right;
-		width: 360px !important;
+		width: 380px !important;
 		// Move the qtip container into the correct location
 		.qtip-wrapper {
-			width: 330px;
+			width: 350px;
 		}
 	}
 	.arrow {
@@ -148,14 +148,9 @@
 			color: @brown;
 			padding: 4px;
 			display: inline-block;
-			padding: 9px 28px 10px 24px;
+			padding: 9px 18px 10px 14px;
 			display: inline-block;
 			font-size: 13px;
-			&:after {
-				content: url(../images/menu_arrow.png);
-				margin: -2px 0 0 7px;
-				position: absolute;
-			}
 		}
 		.menu li {
 			float: left;
@@ -169,6 +164,13 @@
 			}
 			&.last {
 				border-right: 0;
+			}
+		}
+		a.show-arrow {
+			&:after {
+				content: url(../images/menu_arrow.png);
+				margin: -2px 0 0 7px;
+				position: absolute;
 			}
 		}
 	}
@@ -552,8 +554,12 @@ canvas {
 	}
 }
 
-.view-commerce-cart-block {
-	display: none;
+.has-contents {
+	background: #fff;
+}
+
+.dropdown-cart {
+	//display: none;
 	.views-row {
 		padding-top: 15px;
 		clear: both;

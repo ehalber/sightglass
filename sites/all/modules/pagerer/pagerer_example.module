@@ -50,14 +50,11 @@ function pagerer_example_page() {
   $browser_info = _pagerer_browser_info();
   if ($browser_info['browser'] == 'MSIE' and $browser_info['version_major'] < 9) {
     drupal_set_message(
-      t("Internet Explorer version 9 or higher is needed to display correctly the jQuery slider."),
+      t("Internet Explorer version 9+ is needed to display correctly the slider and the scrollpane elements."),
       'warning',
       FALSE
     );
   }
-
-  // Get pagerer configuration.
-  $vars = _pagerer_get_variables();
 
   // *** First data table - associated to pager element 0 ***
   $header_0 = array(
@@ -125,17 +122,11 @@ function pagerer_example_page() {
 
   // Attach the pager themes.
   $build['l_pager_pager_0'] = array('#markup' => '<b>' . t("Drupal standard 'pager' theme:") . '</b>');
-  if ($vars['pagerer_override_pager']) {
-    $build['pager_pager_0'] = array(
-      '#markup' => '<br/>' . t("Drupal standard 'pager' theme is <a href='@url'>configured</a> to be overridden by 'pagerer' theme (see below)", array('@url' => url('admin/config/user-interface/pagerer'))) . '<br/>',
-    );
-  }
-  else {
-    $build['pager_pager_0'] = array(
-      '#theme' => 'pager',
-      '#element' => 0,
-    );
-  }
+  $build['pager_pager_0'] = array(
+    '#theme' => 'pagerer',
+    '#preset' => 'core',
+    '#element' => 0,
+  );
   $build['l_pagerer_standard_0'] = array('#markup' => '<br/>' . t("<b>'pagerer_standard' pager theme (mimick of Drupal's standard)</b> in three 'display' modes: 'pages', 'items', and 'item_ranges'"));
   $build['pagerer_standard_pages_0'] = array(
     '#theme' => 'pagerer_standard',
@@ -157,20 +148,18 @@ function pagerer_example_page() {
     '#element' => 0,
   );
   $build['l_pagerer_adaptive_0'] = array('#markup' => '<br/><b>' . t("'pagerer_adaptive' pager theme:") . '</b>');
-  if (!$vars['pagerer_enable_adaptive']) {
-    $build['pagerer_adaptive_0'] = array(
-      '#markup' => '<br/>' . t("'pagerer_adaptive' pager theme is not enabled in <a href='@url'>configuration</a>.", array('@url' => url('admin/config/user-interface/pagerer'))) . '<br/>',
-    );
-  }
-  else {
-    $build['pagerer_adaptive_0'] = array(
-      '#theme' => 'pagerer_adaptive',
-      '#element' => 0,
-    );
-  }
+  $build['pagerer_adaptive_0'] = array(
+    '#theme' => 'pagerer_adaptive',
+    '#element' => 0,
+  );
   $build['l_pagerer_mini_0'] = array('#markup' => '<br/><b>' . t("'pagerer_mini' pager theme:") . '</b>');
   $build['pagerer_mini_0'] = array(
     '#theme' => 'pagerer_mini',
+    '#element' => 0,
+  );
+  $build['l_pagerer_scrollpane_0'] = array('#markup' => '<br/><b>' . t("'pagerer_scrollpane' pager theme:") . '</b>');
+  $build['pagerer_scrollpane_0'] = array(
+    '#theme' => 'pagerer_scrollpane',
     '#element' => 0,
   );
   $build['l_pagerer_slider_0'] = array('#markup' => '<br/><b>' . t("'pagerer_slider' pager theme:") . '</b>');
@@ -179,12 +168,10 @@ function pagerer_example_page() {
     '#element' => 0,
   );
 
-  $build['l_pagerer_pagerer_0'] = array('#markup' => '<br/><b>' . t("'pagerer' (configured) theme:") . '</b>');
+  $build['l_pagerer_pagerer_0'] = array('#markup' => '<br/><b>' . t("'pagerer' core replacement theme:") . '</b>');
   $build['pagerer_pagerer_0'] = array(
     '#theme' => 'pagerer',
-    '#left_pane' => $vars['left_pane'],
-    '#center_pane' => $vars['center_pane'],
-    '#right_pane' => $vars['right_pane'],
+    '#preset' => _pagerer_get_variable('core_override_preset'),
     '#element' => 0,
   );
 
@@ -203,23 +190,14 @@ function pagerer_example_page() {
 
   // Attach the pager themes.
   $build['l_pagerer_adaptive_1'] = array('#markup' => '<br/><b>' . t("'pagerer_adaptive' pager theme:") . '</b>');
-  if (!$vars['pagerer_enable_adaptive']) {
-    $build['pagerer_adaptive_1'] = array(
-      '#markup' => '<br/>' . t("'pagerer_adaptive' pager theme is not enabled in <a href='@url'>configuration</a>.", array('@url' => url('admin/config/user-interface/pagerer'))) . '<br/>',
-    );
-  }
-  else {
-    $build['pagerer_adaptive_1'] = array(
-      '#theme' => 'pagerer_adaptive',
-      '#element' => 1,
-    );
-  }
-  $build['l_pagerer_pagerer_1'] = array('#markup' => '<br/><b>' . t("'pagerer' (configured) theme:") . '</b>');
+  $build['pagerer_adaptive_1'] = array(
+    '#theme' => 'pagerer_adaptive',
+    '#element' => 1,
+  );
+  $build['l_pagerer_pagerer_1'] = array('#markup' => '<br/><b>' . t("'pagerer' core replacement theme:") . '</b>');
   $build['pagerer_pagerer_1'] = array(
     '#theme' => 'pagerer',
-    '#left_pane' => $vars['left_pane'],
-    '#center_pane' => $vars['center_pane'],
-    '#right_pane' => $vars['right_pane'],
+    '#preset' => _pagerer_get_variable('core_override_preset'),
     '#element' => 1,
   );
   $build['l_pagerer_pagerer_direct_1'] = array('#markup' => '<br/><b>' . t("'pagerer' (direct call from module) theme:") . '</b> ' . t("Note the usage of the 'tags' variables to customise labels and hover titles."));
@@ -294,23 +272,14 @@ function pagerer_example_page() {
 
   // Attach the pager themes.
   $build['l_pagerer_adaptive_2'] = array('#markup' => '<br/><b>' . t("'pagerer_adaptive' pager theme:") . '</b>');
-  if (!$vars['pagerer_enable_adaptive']) {
-    $build['pagerer_adaptive_2'] = array(
-      '#markup' => '<br/>' . t("'pagerer_adaptive' pager theme is not enabled in <a href='@url'>configuration</a>.", array('@url' => url('admin/config/user-interface/pagerer'))) . '<br/>',
-    );
-  }
-  else {
-    $build['pagerer_adaptive_2'] = array(
-      '#theme' => 'pagerer_adaptive',
-      '#element' => 2,
-    );
-  }
-  $build['l_pagerer_pagerer_2'] = array('#markup' => '<br/><b>' . t("'pagerer' (configured) theme:") . '</b>');
+  $build['pagerer_adaptive_2'] = array(
+    '#theme' => 'pagerer_adaptive',
+    '#element' => 2,
+  );
+  $build['l_pagerer_pagerer_2'] = array('#markup' => '<br/><b>' . t("'pagerer' core replacement theme:") . '</b>');
   $build['pagerer_pagerer_2'] = array(
     '#theme' => 'pagerer',
-    '#left_pane' => $vars['left_pane'],
-    '#center_pane' => $vars['center_pane'],
-    '#right_pane' => $vars['right_pane'],
+    '#preset' => _pagerer_get_variable('core_override_preset'),
     '#element' => 2,
   );
 
