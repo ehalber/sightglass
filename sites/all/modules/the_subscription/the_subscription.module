@@ -3,7 +3,6 @@
  * @file
  * A block module that displays recent blog and forum posts.
  */
-
 /**
  * Implements hook_help.
  *
@@ -39,17 +38,18 @@ function the_subscription_block_info() {
  * Implements hook_block_view()
  */
 function the_subscription_block_view($delta = '') {
-	/*dsm('hello');
-	dpm($delta);*/
+  /* // If we are using page from recurly, this is the handling redirect
+  if (isset($_GET['account_code'])) {
+    $account_code = drupal_get_path_alias($_GET['account_code']);
+    dpm($account_code);
+  }
+  */
 	$block = array();
 
 	switch($delta){
     	case 'the_subscription':
     		$block['subject'] = t('The Subscription');
-    		$block['content'] = 'hello world'; //mymodule_form(); //'hello world'; //_bar_owner_custom();
-      		/*if(user_access('access content')){
-       			//Retrieve and process data here.
-   			}*/
+    		$block['content'] = '';
    			break;
    	}
 
@@ -81,129 +81,193 @@ function the_subscription_menu() {
  */
 function the_subscription_form($form, &$form_state) {
 
-  // drupal_add_js('https://js.braintreegateway.com/v1/braintree.js', 'external');
-
+  $form['#attached']['css'][drupal_get_path('module', 'the_subscription') . '/sub_form.css'] = array();
 
   $form['the_subscription'] = array(
     '#action' => '#',
     'the_subscription' => array(
       '#type' => 'select',
-      '#title' => t('Your Subscription'),
+      '#title' => t('Your Subscription Selection'),
       '#options' => array(
         '' => 'Please Select One...',
         'owls_howl_espresso' => t('Owl\'s Howl Espresso Subscription'),
         'seasonal_variety' => t('Seasonal Variety Subscription'),
       ),
       '#default_value' => variable_get('#', TRUE),
-      '#description' => t('Your Subscription Selection'),
       '#required' => TRUE,
+    )
+  );
+  
+  $form['subscription_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Subscription Type'),
+    '#options' => array(
+      'once_a_week' => t('Once a Week'),
+      'twice_a_week' => t('Every other Week'),
+      'once_a_month' => t('Once a Month')
     ),
-    'subscription_type' => array(
-      '#type' => 'radios',
-      '#title' => t('Subscription Type'),
-      '#description' => t('Subscription Type'),
-      '#options' => array(
-        'once_a_week' => t('Once a Week'),
-        'twice_a_week' => t('Every other Week'),
-        'once_a_month' => t('Once a Month')
-      ),
-      '#required' => TRUE,
-    ),
-    /*'first_name' => array(
-      '#type' => 'textfield',
-      '#title' => t('First Name'),
-      '#description' => t('Your First Name'),
-      '#required' => TRUE,
-    ),
-    'last_name' => array(
-      '#type' => 'textfield',
-      '#title' => t('Last Name'),
-      '#description' => t('Your Last Name'),
-      '#required' => TRUE,
-    ),
-    'e_mail' => array(
-      '#type' => 'textfield',
-      '#title' => t('E-Mail'),
-      '#description' => t('Your E-Mail Address'),
-      '#required' => TRUE,
-    ),
-    'cc_number' => array(
+    '#required' => TRUE,
+  );
+
+  $form['contact_information'] = array(
+    '#type' => 'item',
+    '#title' => t('Contact Information'),
+    '#prefix' => '<div style="font-size:20px;">',
+    '#suffix' => '</div>',
+  );
+
+  $form['name'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Name'),
+    // Make the fieldset collapsible.
+    '#collapsible' => TRUE, // Added
+    '#collapsed' => FALSE,  // Added
+  );
+  
+  $form['name'] = array(
+    '#prefix' => '<div class="two-col">',
+    '#suffix' => '</div>'
+  );
+    
+  // Make these fields required.
+  $form['name']['first'] = array(
+    '#type' => 'textfield',
+    '#title' => t('First name'),
+    '#size' => 40,
+    '#prefix' => '<div class="col1">',
+    '#suffix' => '</div>',
+    '#required' => TRUE, // Added
+  );
+
+  $form['name']['last'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Last name'),
+    '#size' => 40,
+    '#prefix' => '<div class="col1">',
+    '#suffix' => '</div>',
+    '#required' => TRUE, // Added
+  );
+
+  $form['e_mail'] = array(
+    '#type' => 'textfield',
+    '#title' => t('E-Mail'),
+    '#required' => TRUE,
+  );
+
+  $form['billing_information'] = array(
+    '#type' => 'item',
+    '#title' => t('Billing Information'),
+    '#prefix' => '<div style="font-size:20px;">',
+    '#suffix' => '</div>',
+  );
+
+  $form['billing'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Billing'),
+    // Make the fieldset collapsible.
+    '#collapsible' => TRUE, // Added
+    '#collapsed' => FALSE,  // Added
+  );
+
+  $form['billing'] = array(
+    '#prefix' => '<div class="two-col">',
+    '#suffix' => '</div>'
+  );
+
+  $form['billing']['cc_number'] = array(
       '#type' => 'textfield',
       '#title' => t('Credit Card Number'),
-      '#description' => t('Your Credit Card Number'),
+      '#size' => 40,
+      '#prefix' => '<div class="col1">',
+      '#suffix' => '</div>',
       '#required' => TRUE,
-    ),
-    'cc_exp' => array(
-      '#type' => 'textfield',
-      '#title' => t('Credit Card Expiration Date'),
-      '#description' => t('Your Credit Card Expiration Date'),
-      '#required' => TRUE,
-    ),
-    'cvv' => array(
-      '#type' => 'textfield',
-      '#title' => t('Credit Card CVV'),
-      '#description' => t('Your Credit Card CVV'),
-      '#required' => TRUE,
-    ),
-    'cardholder_name' => array(
-      '#type' => 'textfield',
-      '#title' => t('Credit Card Holder Name'),
-      '#description' => t('Your Credit Card Holder Name'),
-      '#required' => TRUE,
-    ),
-    'billing_fname' => array(
-      '#type' => 'textfield',
-      '#title' => t('Billing First Name'),
-      '#description' => t('Billing First Name'),
-      '#required' => TRUE,
-    ),
-    'billing_lname' => array(
-      '#type' => 'textfield',
-      '#title' => t('Billing Last Name'),
-      '#description' => t('Billing Last Name'),
-      '#required' => TRUE,
-    ),
-    'billing_address1' => array(
-      '#type' => 'textfield',
-      '#title' => t('Billing Address 1'),
-      '#description' => t('Billing Address 1'),
-      '#required' => TRUE,
-    ),
-    'billing_address2' => array(
-      '#type' => 'textfield',
-      '#title' => t('Billing Address 2'),
-      '#description' => t('Billing Address 2'),
-      '#required' => FALSE,
-    ),
-    'billing_city' => array(
-      '#type' => 'textfield',
-      '#title' => t('Billing City'),
-      '#description' => t('Billing City'),
-      '#required' => TRUE,
-    ),
-    'billing_state' => array(
-      '#type' => 'textfield',
-      '#title' => t('Billing State'),
-      '#description' => t('Billing State'),
-      '#required' => TRUE,
-    ),
-    'billing_zipcode' => array(
-      '#type' => 'textfield',
-      '#title' => t('Billing Zip Code'),
-      '#description' => t('Billing Zip Code'),
-      '#required' => TRUE,
-    ),
-    'billing_country_code' => array(
-      '#type' => 'textfield',
-      '#default_value' => 'US',
-      '#title' => t('Billing Country Code'),
-      '#description' => t('Billing Country Code'),
-      '#required' => TRUE,
-    ),*/
-    'submit' => array(
-      '#type' => 'submit',
-      '#value' => t('Submit'),
-    ),
+  );
+
+  $form['billing']['cvv'] = array(
+    '#type' => 'textfield',
+    '#title' => t('CVV'),
+    '#size' => 4,
+    '#prefix' => '<div class="col1">',
+    '#suffix' => '</div>',
+    '#required' => TRUE, // Added
+  );
+
+  $cc_default = Date('Now');
+
+  $form['cc_exp'] = array(
+    '#type' => 'date_select',
+    '#title' => t('Credit Card Expiration'),
+    //'#title_display' => 'invisible',
+    '#date_format' => 'm-Y',
+    '#default_value' => $cc_default,
+    '#date_year_range' => '0:+15',
+    '#size' => 40,
+    //'#attributes' => array('title' => t('Enter your CC expiration')),
+    '#date_label_position' => 'within',
+    '#required' => TRUE,
+  );
+
+  $form['billing_address1'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Address 1'),
+    '#required' => TRUE,
+  );
+
+  $form['billing_address2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Address 2'),
+    '#required' => FALSE,
+  );
+
+  $form['billing_city'] = array(
+    '#type' => 'textfield',
+    '#title' => t('City'),
+    '#required' => TRUE,
+  );
+
+  $form['bil_state_zip'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Billing'),
+    // Make the fieldset collapsible.
+    '#collapsible' => TRUE, // Added
+    '#collapsed' => FALSE,  // Added
+  );
+
+  $form['bil_state_zip'] = array(
+    '#prefix' => '<div class="two-col">',
+    '#suffix' => '</div>'
+  );
+
+  $form['bil_state_zip']['billing_state'] = array(
+    '#type' => 'textfield',
+    '#title' => t('State'),
+    '#size' => 40,
+    '#prefix' => '<div class="col1">',
+    '#suffix' => '</div>',
+    '#required' => TRUE,
+  );
+
+  $form['bil_state_zip']['billing_zipcode'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Zip Code'),
+    '#size' => 12,
+    '#prefix' => '<div class="col1">',
+    '#suffix' => '</div>',
+    '#required' => TRUE,
+  );
+  
+  $form['billing_country_code'] = array(
+    //'#type' => 'textfield',
+    '#type' => 'select',
+    '#options' => list_countries(),
+    '#default_value' => 'USD',
+    '#title' => t('Country Code'),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
   );
 
   return $form;
@@ -214,148 +278,364 @@ function the_subscription_form($form, &$form_state) {
  */
 function the_subscription_form_validate($form, &$form_state) {
 
+  /*echo '<pre>form_state:';
+  print_r($form_state);
+  exit;*/
+
   $the_subscription = $form_state['values']['the_subscription'];
   $subscription_type = $form_state['values']['subscription_type'];
 
+  /*include ("includes/recurly/lib/recurly.php");
+
+  Recurly_Client::$apiKey = '31c39c61f3a843949e79e5b237446ea6';
+
+  $plans = Recurly_PlanList::get();
+  echo '<pre>plans';echo '<br/>';
+
+  foreach ($plans as $plan) {
+    print "Plan Code: {$plan->plan_code}\n";
+  }
+
+  print_r($plans);exit;*/
+
   if(!empty($the_subscription) && !empty($subscription_type)) {
 
-    /*echo 'the_subscription: ' . $the_subscription . '<br />';
-    echo 'subscription_type: ' . $subscription_type . '<br />';
-
-    exit;*/
+    try {
   
-    include ("includes/recurly/lib/recurly.php");
+      include ("includes/recurly/lib/recurly.php");
 
-    Recurly_Client::$apiKey = '31c39c61f3a843949e79e5b237446ea6';
+      Recurly_Client::$apiKey = '31c39c61f3a843949e79e5b237446ea6';
 
-    switch ($the_subscription) {
-      case 'owls_howl_espresso':
-        switch ($subscription_type) {
-          case 'once_a_week':
-            drupal_goto('https://etc.recurly.com/subscribe/owls-howl-7', 
-              array('external' => TRUE));
-            break;
-          case 'twice_a_week':
-            drupal_goto('https://etc.recurly.com/subscribe/owls-howl-14', 
-              array('external' => TRUE));
-            break;
-          case 'once_a_month':
-            drupal_goto('https://etc.recurly.com/subscribe/owls-howl-30', 
-              array('external' => TRUE));
-            break;
-          default:
-            # code...
-            break;
-        }
-        break;
+      $subscription = new Recurly_Subscription();
 
-      case 'seasonal_variety':
-        switch ($subscription_type) {
-          case 'once_a_week':
-            drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-7', 
-              array('external' => TRUE));
-            break;
-          case 'twice_a_week':
-            drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-14', 
-              array('external' => TRUE));
-            break;
-          case 'once_a_month':
-            drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-30', 
-              array('external' => TRUE));
-            break;
-          default:
-            # code...
-            break;
-        }
-      
-      default:
-        # code...
-        break;
+      switch ($the_subscription) {
+        case 'owls_howl_espresso':
+          switch ($subscription_type) {
+            case 'once_a_week':
+              $plan_code = 'owls-howl-7';
+              /*drupal_goto('https://etc.recurly.com/subscribe/owls-howl-7', 
+                array('external' => TRUE));*/
+              break;
+            case 'twice_a_week':
+              $plan_code = 'owls-howl-14';
+              /*drupal_goto('https://etc.recurly.com/subscribe/owls-howl-14', 
+                array('external' => TRUE));*/
+              break;
+            case 'once_a_month':
+              $plan_code = 'owls-howl-30';
+              /*drupal_goto('https://etc.recurly.com/subscribe/owls-howl-30', 
+                array('external' => TRUE));*/
+              break;
+            default:
+              # code...
+              break;
+          }
+          break;
+
+        case 'seasonal_variety':
+          switch ($subscription_type) {
+            case 'once_a_week':
+              $plan_code = 'seasonal-variety-7';
+              /*drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-7', 
+                array('external' => TRUE));*/
+              break;
+            case 'twice_a_week':
+              $plan_code = 'seasonal-variety-14';
+              /*drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-14', 
+                array('external' => TRUE));*/
+              break;
+            case 'once_a_month':
+              $plan_code = 'seasonal-variety-30';
+              /*drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-30', 
+                array('external' => TRUE));*/
+              break;
+            default:
+              # code...
+              break;
+          }
+        
+        default:
+          # code...
+          break;
+      }
+
+      $subscription->plan_code = $plan_code;
+      $subscription->currency = $form_state['values']['billing_country_code'];
+
+      $account = new Recurly_Account();
+      $account->account_code = $form_state['values']['e_mail'];;
+      $account->email = $form_state['values']['e_mail'];
+      $account->first_name = $form_state['values']['first'];
+      $account->last_name = $form_state['values']['last'];
+
+      $billing_info = new Recurly_BillingInfo();
+      $billing_info->first_name = $form_state['values']['first'];
+      $billing_info->last_name = $form_state['values']['last'];
+      $billing_info->address1 = $form_state['values']['billing_address1'];
+      $billing_info->address2 = $form_state['values']['billing_address2'];
+      $billing_info->city = $form_state['values']['billing_city'];
+      $billing_info->state = $form_state['values']['billing_state'];
+      $billing_info->zip = $form_state['values']['billing_zipcode'];
+      $billing_info->country = $form_state['values']['billing_country_code'];
+      $billing_info->number = $form_state['values']['cc_number'];
+      $billing_info->month = $form_state['input']['cc_exp']['month'];
+      $billing_info->year = $form_state['input']['cc_exp']['year'];
+
+      $account->billing_info = $billing_info;
+      $subscription->account = $account;
+
+      $subscription->create();
+
+    } catch (Exception $e) {
+      switch(get_class($e)){
+        case 'Recurly_NotFoundError':
+          //print 'Record could not be found';
+          drupal_set_message('Record could not be found', 'error');
+        case 'Recurly_ValidationError':
+          //if there are multiple errors, they are comma delimited
+          /*$messages = explode(',',$e->getMessage()); 
+          foreach($messages as $message){
+            print $message . "\n";
+          }*/
+          drupal_set_message($e->getMessage(), 'error');
+          break;
+        case 'Recurly_ServerError':
+          //print 'Problem communicating with Recurly';
+          drupal_set_message('Problem communicating with Recurly', 'error');
+        default:
+          //print get_class($e) . ': ' . $e->getMessage();
+          drupal_set_message(get_class($e) . ': ' . $e->getMessage(), 'error');
+      }
+      $form_state['redirect'] = FALSE;
     }
-
-    /*$accounts = Recurly_AccountList::getActive();
-
-    echo '<pre>accounts: ';
-    print_r($accounts);
-    exit; */
   }
 }
-function the_subscription_form_validatebraintree($form, &$form_state) {
 
-  include ("includes/braintree/lib/Braintree.php");
-
-  Braintree_Configuration::environment('sandbox');
-  Braintree_Configuration::merchantId('xxvqtjhnbj947cy2');
-  Braintree_Configuration::publicKey('t3gc446h8264g8q3');
-  Braintree_Configuration::privateKey('e7d5619196e71a4ea4e1c1631b2c1ac1');
-
-  /*echo '<pre>form_state';
-  print_r($form_state);*/
-
-  $result = Braintree_Customer::create(array(
-    'firstName' => $form_state['values']['first_name'],
-    'lastName'  => $form_state['values']['last_name'],
-    'email'     => $form_state['values']['e_mail'],
-    'creditCard' => array(
-      'number' => $form_state['values']['cc_number'],
-      'expirationDate' => $form_state['values']['cc_exp'],
-      'cvv' => $form_state['values']['cvv'],
-      'cardholderName' => $form_state['values']['cardholder_name'],
-      'billingAddress' => array(
-        'firstName' => $form_state['values']['billing_fname'],
-        'lastName' => $form_state['values']['billing_lname'],
-        'streetAddress' => $form_state['values']['billing_address1'],
-        'extendedAddress' => $form_state['values']['billing_address2'],
-        'locality' => $form_state['values']['billing_city'],
-        'region' => $form_state['values']['billing_state'],
-        'postalCode' => $form_state['values']['billing_zipcode'],
-        'countryCodeAlpha2' => $form_state['values']['billing_country_code'],
-      ),
-    ),
-  ));
-
-  if ($result->success) {
-    //dsm('hello');
-    $credit_cards = $result->customer->creditCards;
-    $cc_attributes = $credit_cards[0]->_attributes;
-    /*echo '<h1>Payment Method Token: ' . $cc_attributes['token'] . '</h1>';
-    echo "<pre> {$form_state['values']}: ";
-    print_r($form_state['values']);
-    echo '<pre>result: ';
-    print_r($result);
-    die('xxx');*/
-
-    // starts subscription creation
-    $sub_result = Braintree_Subscription::create(array(
-      'paymentMethodToken' => $cc_attributes['token'],
-      'planId' => $form_state['values']['the_subscription']
-    ));
-
-    if ($sub_result->success) {
-      dsm('Your subscription was created successfully. Message: ' . $sub_result->subscription->status);
-    }
-    //dsm("<h1>Success! Customer ID: " . $result->customer->id . "</h1>");
-  } else {
-    dsm("<h1>Error: " . $result->message . "</h1>");
+function the_subscription_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'the_subscription_form':
+          $form['#submit'][] = 'the_subscription_submit';
+      break;
   }
+}
 
-  /*$customers = Braintree_Customer::all();
-  foreach ($customers->_ids as $key => $customer_id) {
-    if ($key == 0) {
-      echo "<h1>Existing Customer:</h1>";
-    }
-    $customer = Braintree_Customer::find($customer_id);
+function the_subscription_form_submit($form, &$form_state) {
+  $form_state['redirect'] = 'node/subscription-thank-you';
+}
 
-    echo 'customer_id: ' . $customer->id . '<br />';
-    echo 'merchant_id: ' . $customer->merchantId . '<br />';
-    echo 'firstName: ' . $customer->firstName . '<br />';
-    echo 'lastName: ' . $customer->lastName . '<br />';
-    echo 'company: ' . $customer->company . '<br />';
-    echo 'email: ' . $customer->email . '<br />';
-    echo 'phone: ' . $customer->phone . '<br />';
-    echo 'fax: ' . $customer->fax . '<br />';
-    echo 'website: ' . $customer->website . '<br />';
-  }*/
 
-  //die('xxx');
+function list_countries() {
+
+  $array = array(
+    'AUD' => "Australian Dollar",
+    'CAD' => "Canadian Dollar",
+    'CZK' => "Czech Koruna",
+    'DKK' => "Danish Krone",
+    'EUR' => "Euro",
+    'HKD' => "Hong Kong Dollar",
+    'HUF' => "Hungarian Forint",
+    'ILS' => "Israeli New Sheqel",
+    'JPY' => "Japanese Yen",
+    'MXN' => "Mexican Peso",
+    'NOK' => "Norwegian Krone",
+    'NZD' => "New Zealand Dollar",
+    'PHP' => "Philippine Peso",
+    'PLN' => "Polish Zloty",
+    'GBP' => "Pound Sterling",
+    'SGD' => "Singapore Dollar",
+    'SEK' => "Swedish Krona",
+    'CHF' => "Swiss Franc",
+    'TWD' => "Taiwan New Dollar",
+    'THB' => "Thai Baht",
+    'USD' => "U.S. Dollar",
+);
+
+  /*$array['Africa']['Algeria'] = "Algeria (People's Democratic Republic of Algeria)";
+  $array['Africa']['Angola'] = "Angola (Republic of Angola)";
+  $array['Africa']['Benin'] = "Benin (Republic of Benin)";
+  $array['Africa']['Botswana'] = "Botswana (Republic of Botswana)";
+  $array['Africa']['BurkinaFaso'] = "Burkina Faso";
+  $array['Africa']['Burundi'] = "Burundi (Republic of Burundi)";
+  $array['Africa']['Cameroon'] = "Cameroon (Republic of Cameroon)";
+  $array['Africa']['CapeVerde'] = "Cape Verde (Republic of Cape Verde)";
+  $array['Africa']['CentralAfricanRepublic'] = "Central African Republic (Central African Republic)";
+  $array['Africa']['Chad'] = "Chad (Republic of Chad)";
+  $array['Africa']['Comoros'] = "Comoros (Union of the Comoros)";
+  $array['Africa']['CotedIvoire'] = "Côte d'Ivoire (Republic of Côte d'Ivoire)";
+  $array['Africa']['Djibouti'] = "Djibouti (Republic of Djibouti)";
+  $array['Africa']['Egypt'] = "Egypt (Arab Republic of Egypt)";
+  $array['Africa']['EquatorialGuinea'] = "Equatorial Guinea (Republic of Equatorial Guinea)";
+  $array['Africa']['Eritrea'] = "Eritrea (State of Eritrea)";
+  $array['Africa']['Ethiopia'] = "Ethiopia (Federal Democratic Republic of Ethiopia)";
+  $array['Africa']['Gabon'] = "Gabon (Gabonese Republic)";
+  $array['Africa']['Gambia'] = "Gambia (Republic of The Gambia)";
+  $array['Africa']['Ghana'] = "Ghana (Republic of Ghana)";
+  $array['Africa']['Guinea'] = "Guinea (Republic of Guinea)";
+  $array['Africa']['GuineaBissau'] = "Guinea-Bissau (Republic of Guinea-Bissau)";
+  $array['Africa']['Kenya'] = "Kenya (Republic of Kenya)";
+  $array['Africa']['Lesotho'] = "Lesotho (Kingdom of Lesotho)";
+  $array['Africa']['Liberia'] = "Liberia (Republic of Liberia)";
+  $array['Africa']['Libya'] = "Libya (Great Socialist People's Libyan Arab Jamahiriya)";
+  $array['Africa']['Madagascar'] = "Madagascar (Republic of Madagascar)";
+  $array['Africa']['Malawi'] = "Malawi (Republic of Malawi)";
+  $array['Africa']['Mali'] = "Mali (Republic of Mali)";
+  $array['Africa']['Mauritania'] = "Mauritania (Islamic Republic of Mauritania)";
+  $array['Africa']['Mauritius'] = "Mauritius (Republic of Mauritius)";
+  $array['Africa']['Morocco'] = "Morocco (Kingdom of Morocco)";
+  $array['Africa']['Mozambique'] = "Mozambique (Republic of Mozambique)";
+  $array['Africa']['Namibia'] = "Namibia (Republic of Namibia)";
+  $array['Africa']['Niger'] = "Niger (Republic of Niger)";
+  $array['Africa']['Nigeria'] = "Nigeria (Federal Republic of Nigeria)";
+  $array['Africa']['Congo'] = "Republic of the Congo (Republic of the Congo)";
+  $array['Africa']['Rwanda'] = "Rwanda (Republic of Rwanda)";
+  $array['Africa']['SaoTomeAndPrincipe'] = "Sao Tome and Principe";
+  $array['Africa']['Senegal'] = "Senegal (Republic of Senegal)";
+  $array['Africa']['Seychelles'] = "Seychelles (Republic of Seychelles)";
+  $array['Africa']['SierraLeone'] = "Sierra Leone (Republic of Sierra Leone)";
+  $array['Africa']['Somalia'] = "Somalia (Somali Republic)";
+  $array['Africa']['SouthAfrica'] = "South Africa (Republic of South Africa)";
+  $array['Africa']['Sudan'] = "Sudan (Republic of Sudan)";
+  $array['Africa']['Swaziland'] = "Swaziland (Kingdom of Swaziland)";
+  $array['Africa']['Tanzania'] = "Tanzania (United Republic of Tanzania)";
+  $array['Africa']['Togo'] = "Togo (Togolese Republic)";
+  $array['Africa']['Tunisia'] = "Tunisia (Tunisian Republic)";
+  $array['Africa']['Uganda'] = "Uganda (Republic of Uganda)";
+  $array['Africa']['WesternSahara'] = "Western Sahara (Sahrawi Arab Democratic Republic)";
+  $array['Africa']['Zambia'] = "Zambia (Republic of Zambia)";
+  $array['Africa']['Zimbabwe'] = "Zimbabwe (Republic of Zimbabwe)";
+
+  $array['Asia']['Afghanistan'] = "Afghanistan";
+  $array['Asia']['Armenia'] = "Armenia";
+  $array['Asia']['Azerbaijan'] = "Azerbaijan";
+  $array['Asia']['Bahrain'] = "Bahrain";
+  $array['Asia']['Bangladesh'] = "Bangladesh";
+  $array['Asia']['Bhutan'] = "Bhutan";
+  $array['Asia']['Brunei'] = "Brunei";
+  $array['Asia']['Burma'] = "Burma (Myanmar)";
+  $array['Asia']['Cambodia'] = "Cambodia";
+  $array['Asia']['China'] = "China";
+  $array['Asia']['Georgia'] = "Georgia";
+  $array['Asia']['HongKong'] = "Hong Kong";
+  $array['Asia']['India'] = "India";
+  $array['Asia']['Indonesia'] = "Indonesia";
+  $array['Asia']['Iran'] = "Iran";
+  $array['Asia']['Iraq'] = "Iraq";
+  $array['Asia']['Israel'] = "Israel";
+  $array['Asia']['Japan'] = "Japan";
+  $array['Asia']['Jordan'] = "Jordan";
+  $array['Asia']['Kazakhstan'] = "Kazakhstan";
+  $array['Asia']['KoreaNorth'] = "Korea - North";
+  $array['Asia']['KoreaSouth'] = "Korea - South";
+  $array['Asia']['Kuwait'] = "Kuwait";
+  $array['Asia']['Kyrgyzstan'] = "Kyrgyzstan";
+  $array['Asia']['Laos'] = "Laos";
+  $array['Asia']['Lebanon'] = "Lebanon";
+  $array['Asia']['Malaysia'] = "Malaysia";
+  $array['Asia']['Maldives'] = "Maldives";
+  $array['Asia']['Mongolia'] = "Mongolia";
+  $array['Asia']['Nepal'] = "Nepal";
+  $array['Asia']['Oman'] = "Oman";
+  $array['Asia']['Pakistan'] = "Pakistan";
+  $array['Asia']['Philippines'] = "Philippines";
+  $array['Asia']['Qatar'] = "Qatar";
+  $array['Asia']['Russia'] = "Russia";
+  $array['Asia']['SaudiArabia'] = "Saudi Arabia";
+  $array['Asia']['Singapore'] = "Singapore";
+  $array['Asia']['SriLanka'] = "Sri Lanka";
+  $array['Asia']['Syria'] = "Syria";
+  $array['Asia']['Taiwan'] = "Taiwan";
+  $array['Asia']['Tajikistan'] = "Tajikistan";
+  $array['Asia']['Thailand'] = "Thailand";
+  $array['Asia']['Turkmenistan'] = "Turkmenistan";
+  $array['Asia']['UnitedArabEmirates'] = "United Arab Emirates";
+  $array['Asia']['Uzbekistan'] = "Uzbekistan";
+  $array['Asia']['Vietnam'] = "Vietnam";
+  $array['Asia']['Yemen'] = "Yemen";
+
+  $array['Europe']['Albania'] = "Albania";
+  $array['Europe']['Andorra'] = "Andorra";
+  $array['Europe']['Austria'] = "Austria";
+  $array['Europe']['Belgium'] = "Belgium";
+  $array['Europe']['Bulgaria'] = "Bulgaria";
+  $array['Europe']['Belarus'] = "Belarus";
+  $array['Europe']['BosniaAndHerzegovina'] = "Bosnia and Herzegovina";
+  $array['Europe']['Cyprus'] = "Cyprus";
+  $array['Europe']['Croatia'] = "Croatia";
+  $array['Europe']['CzechRepublic'] = "Czech Republic";
+  $array['Europe']['Denmark'] = "Denmark";
+  $array['Europe']['Estonia'] = "Estonia";
+  $array['Europe']['Finland'] = "Finland";
+  $array['Europe']['France'] = "France";
+  $array['Europe']['Germany'] = "Germany";
+  $array['Europe']['Greece'] = "Greece";
+  $array['Europe']['Hungary'] = "Hungary";
+  $array['Europe']['Iceland'] = "Iceland";
+  $array['Europe']['Ireland'] = "Ireland";
+  $array['Europe']['Italy'] = "Italy";
+  $array['Europe']['Latvia'] = "Latvia";
+  $array['Europe']['Lithuania'] = "Lithuania";
+  $array['Europe']['Luxembourg'] = "Luxembourg";
+  $array['Europe']['Liechtenstein'] = "Liechtenstein";
+  $array['Europe']['Malta'] = "Malta";
+  $array['Europe']['Moldova'] = "Moldova";
+  $array['Europe']['Monaco'] = "Monaco";
+  $array['Europe']['Montenegro'] = "Montenegro";
+  $array['Europe']['TheNetherlands'] = "The Netherlands";
+  $array['Europe']['Norway'] = "Norway";
+  $array['Europe']['Poland'] = "Poland";
+  $array['Europe']['Portugal'] = "Portugal";
+  $array['Europe']['Romania'] = "Romania";
+  $array['Europe']['SanMarino'] = "San Marino";
+  $array['Europe']['Serbia'] = "Serbia";
+  $array['Europe']['Slovakia'] = "Slovakia";
+  $array['Europe']['Slovenia'] = "Slovenia";
+  $array['Europe']['Spain'] = "Spain";
+  $array['Europe']['Sweden'] = "Sweden";
+  $array['Europe']['Switzerland'] = "Switzerland";
+  $array['Europe']['Turkey'] = "Turkey";
+  $array['Europe']['Ukraine'] = "Ukraine";
+  $array['Europe']['UnitedKingdom'] = "United Kingdom";
+  $array['Europe']['Vatican'] = "Vatican City State";
+  $array['Europe']['Macedonia'] = "Former Yugoslav Republic of Macedonia";
+
+  $array['North-America']['AntiguaAndBarbuda'] = "Antigua and Barbuda";
+  $array['North-America']['TheBahamas'] = "The Bahamas";
+  $array['North-America']['Barbados'] = "Barbados";
+  $array['North-America']['Belize'] = "Belize";
+  $array['North-America']['Canada'] = "Canada";
+  $array['North-America']['CostaRica'] = "Costa Rica";
+  $array['North-America']['Cuba'] = "Cuba";
+  $array['North-America']['Dominica'] = "Dominica";
+  $array['North-America']['DominicanRepublic'] = "Dominican Republic";
+  $array['North-America']['ElSalvador'] = "El Salvador";
+  $array['North-America']['Greenland'] = "Greenland (Kalaallit Nunaat)";
+  $array['North-America']['Grenada'] = "Grenada";
+  $array['North-America']['Guatemala'] = "Guatemala";
+  $array['North-America']['Haiti'] = "Haiti";
+  $array['North-America']['Honduras'] = "Honduras";
+  $array['North-America']['Jamaica'] = "Jamaica";
+  $array['North-America']['Mexico'] = "Mexico";
+  $array['North-America']['Nicaragua'] = "Nicaragua";
+  $array['North-America']['Panama'] = "Panama";
+  $array['North-America']['SaintKittsAndNevis'] = "Saint Kitts and Nevis";
+  $array['North-America']['SaintLucia'] = "Saint Lucia";
+  $array['North-America']['SaintVincentAndTheGrenadines'] = "Saint Vincent and the Grenadines";
+  $array['North-America']['TrinidadAndTobago'] = "Trinidad and Tobago";
+  $array['North-America']['USA'] = "United States of America";
+
+  $array['South-America']['Argentina'] = "Argentina";
+  $array['South-America']['Bolivia'] = "Bolivia";
+  $array['South-America']['Brazil'] = "Brazil";
+  $array['South-America']['Chile'] = "Chile";
+  $array['South-America']['Colombia'] = "Colombia";
+  $array['South-America']['Ecuador'] = "Ecuador";
+  $array['South-America']['FrenchGuiana'] = "French Guiana";
+  $array['South-America']['Guyana'] = "Guyana";
+  $array['South-America']['Paraguay'] = "Paraguay";
+  $array['South-America']['Peru'] = "Peru";
+  $array['South-America']['Suriname'] = "Suriname";
+  $array['South-America']['Uruguay'] = "Uruguay";
+  $array['South-America']['Venezuela'] = "Venezuela";*/
+
+  return $array;
 }
