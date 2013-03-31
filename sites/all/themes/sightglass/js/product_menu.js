@@ -33,7 +33,7 @@
     console.log(menuText.length);
 
     if ( $('.menu-bag').text() == 'Bag: ' ) {
-        $('.menu-bag').removeClass('has-contents').text('Bag: 0');
+        $('.menu-bag').removeClass('has-contents').text('Bag');
 
     } else {
         $('.menu-bag').addClass('has-contents');

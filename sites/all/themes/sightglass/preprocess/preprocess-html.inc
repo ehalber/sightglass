@@ -32,11 +32,6 @@ function sightglass_alpha_preprocess_html(&$vars) {
 	//unset($vars['page']['header']['menu']['menu_second']['menu_menu-top-right']['1044']);
 	//
 	//dpm($vars);
+	//dsm($vars);
 
-}
-
-
-function sightglass_alpha_preprocess_page(&$vars) {
-	//dpm($vars);
-	//unset($vars['page']['header']['menu']['menu_second']['menu_menu-top-right']['1044']);
 }

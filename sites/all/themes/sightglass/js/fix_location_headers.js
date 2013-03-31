@@ -80,6 +80,15 @@
         });
     }
 
+    // -- On blog page
+    if ( $('.node-type-article').length ) {
+
+        // Add dividers to blog articles in tab
+        $('.view-blog-references .views-row:nth-child(3n-2)').append('<div class="divider" />');
+        $('.view-blog-references .views-row:nth-child(3n-1)').append('<div class="divider" />');
+        $('.view-blog-references .view-footer').prepend('<div class="horz-divider" />');
+    }
+
     /*
     DELETE THIS:: I'm removing this code because I have replaced its
     functionality with a views template

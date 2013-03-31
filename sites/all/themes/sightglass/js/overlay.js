@@ -60,7 +60,6 @@
     // efficiently.
     
     if ( $('.brewing-tool .view-product-center .image').length ) {
-        console.log('here');
         var $productImage = $('.brewing-tool .view-product-center .image');
         $productImage.find('a').attr('href', $productImage.find('img').attr('src'));
         var productTemp = $productImage.find('a').attr('href');
@@ -141,9 +140,9 @@
     // any of the overview pages
     $('.not-front .views-slideshow-cycle-main-frame-row').each(function() {
         
-            var img = $(this).find('img').attr('src');
-            $(this).find('.fancybox').attr('href', img.replace(/tab_slideshow/gi, 'coffee_region_large'));
-            $(this).find('.fancybox').fancybox({
+        var img = $(this).find('img').attr('src');
+        $(this).find('.fancybox').attr('href', img.replace(/tab_slideshow/gi, 'coffee_region_large'));
+        $(this).find('.fancybox').fancybox({
             transitionIn: 'fade',
             transitionOut: 'fade',
             easeIn: 'easeInOutQuint',
@@ -170,9 +169,45 @@
                 //$('.logo').remove();
                 //$('body').css('overflow-y', 'scroll');
             }
+        });
+
+    });
+
+
+    // Load fancy box when a slide is clicked on 
+    // any of the overview pages
+    $('.page-wholesale-featured-partner .view-featured-partner.view-display-id-block_2 .views-row').each(function() {
+            var imgEl = $(this).find('img').attr('src');
+            console.log(imgEl);
+            $(this).find('.fancybox').attr('href', imgEl.replace(/featured_partner_images_336x200/gi, 'coffee_region_large'));
+            $(this).find('.fancybox').fancybox({
+                transitionIn: 'fade',
+                transitionOut: 'fade',
+                easeIn: 'easeInOutQuint',
+                easeOut: 'easeInOutQuint',
+                speedIn: 250,
+                speedOut: 400,
+                overlayOpacity: 1,
+                overlayColor: '#473000',
+                scrolling: 'no',
+                padding: 3,
+                autoScale: true,
+                cyclic: true,
+            
+                titlePosition: 'outside',
+                onStart: function() {
+                    //$('#fancybox-overlay').append('<div class="logo" />');
+                    //$('.logo').css(logoCSS);
+                    //$('.logo').css('left', $(window).width()/2 - 71);
+                },
+                onComplete: function() {
+                    //$('body').css('overflow-y', 'hidden');
+                },
+                onClosed: function() {
+                    //$('.logo').remove();
+                    //$('body').css('overflow-y', 'scroll');
+                }
             });
-        
-        
 
     });
 
