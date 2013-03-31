@@ -10,11 +10,14 @@
     if ( $('.page-brewing-tools-and-goods').length || $('.page-blog').length || $('.page-blog-categories').length || $('.page-blog-archive').length || $('.node-type-article').length ) {
         $('.quicktabs-tabpage').addClass('quicktabs-hide');
         $('.quicktabs-tabs li').removeClass('active');
+        if ( $('.page-blog-archive-all').length ) {
+
+        }
     }
 
     // Add extra open/close functionality to quicktabs tabs
     // This code allows user to close tab on a second click if
-    // that tab is currently open
+    // that tab is currently open    
     if ( $('.page-brewing-tools-and-goods').length || $('.page-blog').length || $('.page-blog-categories').length || $('.page-blog-archive').length || $('.node-type-article').length ) {
         $('.quicktabs-tabs li a').click(function() {
 
@@ -33,7 +36,7 @@
     // Add subscriptions button to only non-subscription 
     // catalog pages 
     if ( $('.page-coffees-subscriptions').length == 0 ) {
-        $('.product-catalog .quicktabs-wrapper .item-list').append('<a href="/subscriptions" class="button-subscriptions">Subscriptions</a>');
+        $('.product-catalog .quicktabs-wrapper .quicktabs-tabs').append('<a href="/subscriptions" class="button-subscriptions">Subscriptions</a>');
     }
     
     

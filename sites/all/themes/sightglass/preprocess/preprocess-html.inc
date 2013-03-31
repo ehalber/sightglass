@@ -23,10 +23,15 @@ function sightglass_alpha_preprocess_html(&$vars) {
 	// If the user is logged in, replace the contents of 
 	// the menu item with the logout action
 	
-	global $user;
-	if ($user->uid) {
-		// update the menu
-		
-	}
+	//dsm($vars);
+
+	//dpm($vars['page']['header']['menu']['menu_second']['menu_menu-top-right'][1044]);
+
+
+
+	//unset($vars['page']['header']['menu']['menu_second']['menu_menu-top-right']['1044']);
+	//
+	//dpm($vars);
+	//dsm($vars);
 
 }

@@ -53,14 +53,21 @@
 		left: 0;
 		//width: 1024px !important;
 		margin: 0 !important;
+		.qtip-content {
+			height: 220px;
+		}
 	}
 	.region-menu-second {
 		margin: 0 !important;
 		float: right;
-		width: 360px !important;
+		width: 375px !important;
 		// Move the qtip container into the correct location
 		.qtip-wrapper {
-			width: 330px;
+			width: 355px;
+			right: 15px;
+		}
+		.qtip-content {
+			height: 150px;
 		}
 	}
 	.arrow {
@@ -148,14 +155,9 @@
 			color: @brown;
 			padding: 4px;
 			display: inline-block;
-			padding: 9px 28px 10px 24px;
+			padding: 8px 25px 11px 18px;
 			display: inline-block;
 			font-size: 13px;
-			&:after {
-				content: url(../images/menu_arrow.png);
-				margin: -2px 0 0 7px;
-				position: absolute;
-			}
 		}
 		.menu li {
 			float: left;
@@ -171,21 +173,40 @@
 				border-right: 0;
 			}
 		}
+		a.show-arrow {
+			&:after {
+				content: url(../images/menu_arrow.png);
+				margin: -2px 0 0 7px;
+				position: absolute;
+			}
+		}
 	}
 
 }
 
+// Add the bag icon to the bag button
+.menu-bag {
+	padding-left: 30px !important;
+	&:before {
+		content: url(../images/cart_icon.png);
+		margin: 0px 0 0 -14px;
+		position: absolute;
+	}
+}
+
+
 .qtip-content {
 	li {
 		list-style: none;
+		position: relative;
 		img {
 			display: inline-block;
 			background-image: url(../images/ui_elements.png);
 			background-repeat: no-repeat;
 			height: 21px;
 			width: 21px;
-			margin-right: 5px;
-			vertical-align: middle;
+			position: absolute;
+			top: 4px;
 		}
 		.facebook img {
 			background-position: 0 0;
@@ -208,8 +229,9 @@
 		}
 		a:link span, a:visited span {
 			display: inline-block;
-			padding: 2px 5px;
-			width: 220px;
+			padding: 1px 5px;
+			text-indent: 25px;
+			width: 180px;
 			&:hover {
 				background: @bgcolor;
 			}
@@ -260,17 +282,20 @@ canvas {
 	background: rgba(255,255,255,0.8) !important;
 	//.border-radius(4px, 4px, 4px, 4px);
 	//width: 600px !important;
-	padding: 15px !important;
-	height: 200px !important;
+	//padding: 15px !important;
 	border: 0 !important;
+	.menu-minipanels {
+		padding: 10px;
+	}
 	.menu-minipanel-952,
 	.menu-minipanel-613,
 	.menu-minipanel-614,
 	.menu-minipanel-579,
 	.menu-minipanel-644,
 	.menu-minipanel-1044,
-	.menu-minipanel-1006 {
-
+	.menu-minipanel-1006,
+	.menu-minipanel-1384 {
+		//width:200px;
 		a:link, a:visited {
 			text-decoration: none;
 			.tondo-reg;
@@ -512,13 +537,14 @@ canvas {
 // Sign in dropdown
 .pane-user-login {
 	width: 300px;
-	padding: 20px;
+	padding: 5px;
 	input[type=text], input[type=password] {
 		border: 0 !important;
-		width: 150px;
-		padding: 3px;
+		width: 290px;
+		padding: 15px 10px;
 		.typewriter;
 		background: @bgcolor;
+		font-size: 14px;
 	}
 	input[type=submit], input[type=submit]:hover {
 		border-radius: 0;
@@ -536,24 +562,33 @@ canvas {
 	}
 	.form-item {
 		position: relative;
+		margin-top: 0;
 	}
 	label {
 		position: absolute;
-		margin: 1px 0 0 3px;
+		margin: 6px 0 0 13px;
 		.typewriter;
+		color: @brown;
 	}
 	.form-required {
 		display: none;
 	}
 	a:link, a:visited {
-		font-size: 11px;
-		float: right;
+		font-size: 11px !important;
+		float: right !important;
 		.tondo-reg;
+		position: relative;
+		top: 15px;
+		right: 10px;
 	}
 }
 
-.view-commerce-cart-block {
-	display: none;
+.has-contents {
+	background: #fff;
+}
+
+.dropdown-cart {
+	//display: none;
 	.views-row {
 		padding-top: 15px;
 		clear: both;
@@ -607,4 +642,19 @@ canvas {
 .fix-menu-height {
 	overflow: visible !importantt;
 	height: auto !important;
+}
+
+
+.sign-out {
+	margin-top: 20px;
+	a {
+		padding: 0 !important;
+		display: block;
+		width: 119px !important;
+		height: 42px;
+		background: url(../images/buttons_other.png) no-repeat 0 -84px;
+		&:hover {
+			background: transparent url(../images/buttons_other.png) no-repeat -119px -84px !important;
+		}
+	}
 }

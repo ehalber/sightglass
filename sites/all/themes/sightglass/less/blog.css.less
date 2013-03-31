@@ -59,20 +59,71 @@
 	}
 }
 
+.pane-blog-references-panel-pane-1 {
+	.pane-title {
+		.tondo-bold;
+		.center;
+		font-size: 19px;
+		.uppercase;
+		margin-bottom: 10px;
+		padding-bottom: 15px;
+		background: url(../images/dots_horz_1.png) repeat-x 0 100%;
+	}
+}
+
 // Related Content
 .view-blog-references {
 	.center;
-
-	.field-name-title a {
-		font-size: 18px;
+	height: 360px;
+	background: url(../images/dots_horz_1.png) repeat-x 0 100%;
+	.field-name-title {
+		h2 {
+			margin-bottom: 5px;
+		}
+		a {
+			font-size: 18px;
+			text-decoration: none;
+			.tondo-bold;
+			color: @brown;
+		}
 	}
-	.field-name-body {
-		.typewriter
+	.field-name-body p {
+		.typewriter;
+		font-size: 13px;
+		line-height: 17px;
+		padding: 0 15px;
 	}
 	.field-name-field-image {
 		border: 2px solid #fff;
 	}
 	.node-article {
 		float: left;
+	}
+	.divider {
+		width: 2px;
+		height: 360px;
+		background: url(../images/dots_vert.png) 0 0 repeat-y;
+		position: absolute;
+		left: 5px;
+		z-index: 200;
+		top: 0;
+		left: 229px;
+	}
+	.field-name-node-link {
+		a {
+			.tondo-bold;
+			font-size: 12px;
+			color: @brown;
+			text-decoration: none;
+			.uppercase;
+			padding: 2px 12px;
+			border: 1px solid @brown;
+			-webkit-transition: .2s all;
+			border-radius: 4px;
+			&:hover {
+				background: @brown;
+				color: @bgcolor;
+			}
+		}
 	}
 }
