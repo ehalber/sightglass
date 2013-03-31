@@ -260,7 +260,7 @@ function the_subscription_form($form, &$form_state) {
     //'#type' => 'textfield',
     '#type' => 'select',
     '#options' => list_countries(),
-    '#default_value' => 'USD',
+    '#default_value' => 'US',
     '#title' => t('Country Code'),
     '#required' => TRUE,
   );
@@ -278,25 +278,8 @@ function the_subscription_form($form, &$form_state) {
  */
 function the_subscription_form_validate($form, &$form_state) {
 
-  /*echo '<pre>form_state:';
-  print_r($form_state);
-  exit;*/
-
   $the_subscription = $form_state['values']['the_subscription'];
   $subscription_type = $form_state['values']['subscription_type'];
-
-  /*include ("includes/recurly/lib/recurly.php");
-
-  Recurly_Client::$apiKey = '31c39c61f3a843949e79e5b237446ea6';
-
-  $plans = Recurly_PlanList::get();
-  echo '<pre>plans';echo '<br/>';
-
-  foreach ($plans as $plan) {
-    print "Plan Code: {$plan->plan_code}\n";
-  }
-
-  print_r($plans);exit;*/
 
   if(!empty($the_subscription) && !empty($subscription_type)) {
 
@@ -359,8 +342,10 @@ function the_subscription_form_validate($form, &$form_state) {
           break;
       }
 
+      $default_subscription_currency = 'USD';
+
       $subscription->plan_code = $plan_code;
-      $subscription->currency = $form_state['values']['billing_country_code'];
+      $subscription->currency = $default_subscription_currency;
 
       $account = new Recurly_Account();
       $account->account_code = $form_state['values']['e_mail'];;
@@ -386,10 +371,12 @@ function the_subscription_form_validate($form, &$form_state) {
 
       $subscription->create();
 
+      drupal_set_message('Your subscription was created successfully.');
+
     } catch (Exception $e) {
+      
       switch(get_class($e)){
         case 'Recurly_NotFoundError':
-          //print 'Record could not be found';
           drupal_set_message('Record could not be found', 'error');
         case 'Recurly_ValidationError':
           //if there are multiple errors, they are comma delimited
@@ -400,18 +387,21 @@ function the_subscription_form_validate($form, &$form_state) {
           drupal_set_message($e->getMessage(), 'error');
           break;
         case 'Recurly_ServerError':
-          //print 'Problem communicating with Recurly';
           drupal_set_message('Problem communicating with Recurly', 'error');
         default:
-          //print get_class($e) . ': ' . $e->getMessage();
           drupal_set_message(get_class($e) . ': ' . $e->getMessage(), 'error');
       }
       $form_state['redirect'] = FALSE;
     }
-  }
+
+  } // if(!empty($the_subscription) && !empty($subscription_type))
+
 }
 
-function the_subscription_form_alter(&$form, &$form_state, $form_id) {
+/**
+ * Implements  hook_form_alter
+ */
+function the_subscription_form_alterx(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'the_subscription_form':
           $form['#submit'][] = 'the_subscription_submit';
@@ -419,223 +409,288 @@ function the_subscription_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-function the_subscription_form_submit($form, &$form_state) {
+/**
+  * redirect page after successful submission
+  */
+function the_subscription_form_submitx($form, &$form_state) {
   $form_state['redirect'] = 'node/subscription-thank-you';
 }
 
-
+/**
+ * Lists of available countries
+ */
 function list_countries() {
 
   $array = array(
-    'AUD' => "Australian Dollar",
-    'CAD' => "Canadian Dollar",
-    'CZK' => "Czech Koruna",
-    'DKK' => "Danish Krone",
-    'EUR' => "Euro",
-    'HKD' => "Hong Kong Dollar",
-    'HUF' => "Hungarian Forint",
-    'ILS' => "Israeli New Sheqel",
-    'JPY' => "Japanese Yen",
-    'MXN' => "Mexican Peso",
-    'NOK' => "Norwegian Krone",
-    'NZD' => "New Zealand Dollar",
-    'PHP' => "Philippine Peso",
-    'PLN' => "Polish Zloty",
-    'GBP' => "Pound Sterling",
-    'SGD' => "Singapore Dollar",
-    'SEK' => "Swedish Krona",
-    'CHF' => "Swiss Franc",
-    'TWD' => "Taiwan New Dollar",
-    'THB' => "Thai Baht",
-    'USD' => "U.S. Dollar",
-);
-
-  /*$array['Africa']['Algeria'] = "Algeria (People's Democratic Republic of Algeria)";
-  $array['Africa']['Angola'] = "Angola (Republic of Angola)";
-  $array['Africa']['Benin'] = "Benin (Republic of Benin)";
-  $array['Africa']['Botswana'] = "Botswana (Republic of Botswana)";
-  $array['Africa']['BurkinaFaso'] = "Burkina Faso";
-  $array['Africa']['Burundi'] = "Burundi (Republic of Burundi)";
-  $array['Africa']['Cameroon'] = "Cameroon (Republic of Cameroon)";
-  $array['Africa']['CapeVerde'] = "Cape Verde (Republic of Cape Verde)";
-  $array['Africa']['CentralAfricanRepublic'] = "Central African Republic (Central African Republic)";
-  $array['Africa']['Chad'] = "Chad (Republic of Chad)";
-  $array['Africa']['Comoros'] = "Comoros (Union of the Comoros)";
-  $array['Africa']['CotedIvoire'] = "Côte d'Ivoire (Republic of Côte d'Ivoire)";
-  $array['Africa']['Djibouti'] = "Djibouti (Republic of Djibouti)";
-  $array['Africa']['Egypt'] = "Egypt (Arab Republic of Egypt)";
-  $array['Africa']['EquatorialGuinea'] = "Equatorial Guinea (Republic of Equatorial Guinea)";
-  $array['Africa']['Eritrea'] = "Eritrea (State of Eritrea)";
-  $array['Africa']['Ethiopia'] = "Ethiopia (Federal Democratic Republic of Ethiopia)";
-  $array['Africa']['Gabon'] = "Gabon (Gabonese Republic)";
-  $array['Africa']['Gambia'] = "Gambia (Republic of The Gambia)";
-  $array['Africa']['Ghana'] = "Ghana (Republic of Ghana)";
-  $array['Africa']['Guinea'] = "Guinea (Republic of Guinea)";
-  $array['Africa']['GuineaBissau'] = "Guinea-Bissau (Republic of Guinea-Bissau)";
-  $array['Africa']['Kenya'] = "Kenya (Republic of Kenya)";
-  $array['Africa']['Lesotho'] = "Lesotho (Kingdom of Lesotho)";
-  $array['Africa']['Liberia'] = "Liberia (Republic of Liberia)";
-  $array['Africa']['Libya'] = "Libya (Great Socialist People's Libyan Arab Jamahiriya)";
-  $array['Africa']['Madagascar'] = "Madagascar (Republic of Madagascar)";
-  $array['Africa']['Malawi'] = "Malawi (Republic of Malawi)";
-  $array['Africa']['Mali'] = "Mali (Republic of Mali)";
-  $array['Africa']['Mauritania'] = "Mauritania (Islamic Republic of Mauritania)";
-  $array['Africa']['Mauritius'] = "Mauritius (Republic of Mauritius)";
-  $array['Africa']['Morocco'] = "Morocco (Kingdom of Morocco)";
-  $array['Africa']['Mozambique'] = "Mozambique (Republic of Mozambique)";
-  $array['Africa']['Namibia'] = "Namibia (Republic of Namibia)";
-  $array['Africa']['Niger'] = "Niger (Republic of Niger)";
-  $array['Africa']['Nigeria'] = "Nigeria (Federal Republic of Nigeria)";
-  $array['Africa']['Congo'] = "Republic of the Congo (Republic of the Congo)";
-  $array['Africa']['Rwanda'] = "Rwanda (Republic of Rwanda)";
-  $array['Africa']['SaoTomeAndPrincipe'] = "Sao Tome and Principe";
-  $array['Africa']['Senegal'] = "Senegal (Republic of Senegal)";
-  $array['Africa']['Seychelles'] = "Seychelles (Republic of Seychelles)";
-  $array['Africa']['SierraLeone'] = "Sierra Leone (Republic of Sierra Leone)";
-  $array['Africa']['Somalia'] = "Somalia (Somali Republic)";
-  $array['Africa']['SouthAfrica'] = "South Africa (Republic of South Africa)";
-  $array['Africa']['Sudan'] = "Sudan (Republic of Sudan)";
-  $array['Africa']['Swaziland'] = "Swaziland (Kingdom of Swaziland)";
-  $array['Africa']['Tanzania'] = "Tanzania (United Republic of Tanzania)";
-  $array['Africa']['Togo'] = "Togo (Togolese Republic)";
-  $array['Africa']['Tunisia'] = "Tunisia (Tunisian Republic)";
-  $array['Africa']['Uganda'] = "Uganda (Republic of Uganda)";
-  $array['Africa']['WesternSahara'] = "Western Sahara (Sahrawi Arab Democratic Republic)";
-  $array['Africa']['Zambia'] = "Zambia (Republic of Zambia)";
-  $array['Africa']['Zimbabwe'] = "Zimbabwe (Republic of Zimbabwe)";
-
-  $array['Asia']['Afghanistan'] = "Afghanistan";
-  $array['Asia']['Armenia'] = "Armenia";
-  $array['Asia']['Azerbaijan'] = "Azerbaijan";
-  $array['Asia']['Bahrain'] = "Bahrain";
-  $array['Asia']['Bangladesh'] = "Bangladesh";
-  $array['Asia']['Bhutan'] = "Bhutan";
-  $array['Asia']['Brunei'] = "Brunei";
-  $array['Asia']['Burma'] = "Burma (Myanmar)";
-  $array['Asia']['Cambodia'] = "Cambodia";
-  $array['Asia']['China'] = "China";
-  $array['Asia']['Georgia'] = "Georgia";
-  $array['Asia']['HongKong'] = "Hong Kong";
-  $array['Asia']['India'] = "India";
-  $array['Asia']['Indonesia'] = "Indonesia";
-  $array['Asia']['Iran'] = "Iran";
-  $array['Asia']['Iraq'] = "Iraq";
-  $array['Asia']['Israel'] = "Israel";
-  $array['Asia']['Japan'] = "Japan";
-  $array['Asia']['Jordan'] = "Jordan";
-  $array['Asia']['Kazakhstan'] = "Kazakhstan";
-  $array['Asia']['KoreaNorth'] = "Korea - North";
-  $array['Asia']['KoreaSouth'] = "Korea - South";
-  $array['Asia']['Kuwait'] = "Kuwait";
-  $array['Asia']['Kyrgyzstan'] = "Kyrgyzstan";
-  $array['Asia']['Laos'] = "Laos";
-  $array['Asia']['Lebanon'] = "Lebanon";
-  $array['Asia']['Malaysia'] = "Malaysia";
-  $array['Asia']['Maldives'] = "Maldives";
-  $array['Asia']['Mongolia'] = "Mongolia";
-  $array['Asia']['Nepal'] = "Nepal";
-  $array['Asia']['Oman'] = "Oman";
-  $array['Asia']['Pakistan'] = "Pakistan";
-  $array['Asia']['Philippines'] = "Philippines";
-  $array['Asia']['Qatar'] = "Qatar";
-  $array['Asia']['Russia'] = "Russia";
-  $array['Asia']['SaudiArabia'] = "Saudi Arabia";
-  $array['Asia']['Singapore'] = "Singapore";
-  $array['Asia']['SriLanka'] = "Sri Lanka";
-  $array['Asia']['Syria'] = "Syria";
-  $array['Asia']['Taiwan'] = "Taiwan";
-  $array['Asia']['Tajikistan'] = "Tajikistan";
-  $array['Asia']['Thailand'] = "Thailand";
-  $array['Asia']['Turkmenistan'] = "Turkmenistan";
-  $array['Asia']['UnitedArabEmirates'] = "United Arab Emirates";
-  $array['Asia']['Uzbekistan'] = "Uzbekistan";
-  $array['Asia']['Vietnam'] = "Vietnam";
-  $array['Asia']['Yemen'] = "Yemen";
-
-  $array['Europe']['Albania'] = "Albania";
-  $array['Europe']['Andorra'] = "Andorra";
-  $array['Europe']['Austria'] = "Austria";
-  $array['Europe']['Belgium'] = "Belgium";
-  $array['Europe']['Bulgaria'] = "Bulgaria";
-  $array['Europe']['Belarus'] = "Belarus";
-  $array['Europe']['BosniaAndHerzegovina'] = "Bosnia and Herzegovina";
-  $array['Europe']['Cyprus'] = "Cyprus";
-  $array['Europe']['Croatia'] = "Croatia";
-  $array['Europe']['CzechRepublic'] = "Czech Republic";
-  $array['Europe']['Denmark'] = "Denmark";
-  $array['Europe']['Estonia'] = "Estonia";
-  $array['Europe']['Finland'] = "Finland";
-  $array['Europe']['France'] = "France";
-  $array['Europe']['Germany'] = "Germany";
-  $array['Europe']['Greece'] = "Greece";
-  $array['Europe']['Hungary'] = "Hungary";
-  $array['Europe']['Iceland'] = "Iceland";
-  $array['Europe']['Ireland'] = "Ireland";
-  $array['Europe']['Italy'] = "Italy";
-  $array['Europe']['Latvia'] = "Latvia";
-  $array['Europe']['Lithuania'] = "Lithuania";
-  $array['Europe']['Luxembourg'] = "Luxembourg";
-  $array['Europe']['Liechtenstein'] = "Liechtenstein";
-  $array['Europe']['Malta'] = "Malta";
-  $array['Europe']['Moldova'] = "Moldova";
-  $array['Europe']['Monaco'] = "Monaco";
-  $array['Europe']['Montenegro'] = "Montenegro";
-  $array['Europe']['TheNetherlands'] = "The Netherlands";
-  $array['Europe']['Norway'] = "Norway";
-  $array['Europe']['Poland'] = "Poland";
-  $array['Europe']['Portugal'] = "Portugal";
-  $array['Europe']['Romania'] = "Romania";
-  $array['Europe']['SanMarino'] = "San Marino";
-  $array['Europe']['Serbia'] = "Serbia";
-  $array['Europe']['Slovakia'] = "Slovakia";
-  $array['Europe']['Slovenia'] = "Slovenia";
-  $array['Europe']['Spain'] = "Spain";
-  $array['Europe']['Sweden'] = "Sweden";
-  $array['Europe']['Switzerland'] = "Switzerland";
-  $array['Europe']['Turkey'] = "Turkey";
-  $array['Europe']['Ukraine'] = "Ukraine";
-  $array['Europe']['UnitedKingdom'] = "United Kingdom";
-  $array['Europe']['Vatican'] = "Vatican City State";
-  $array['Europe']['Macedonia'] = "Former Yugoslav Republic of Macedonia";
-
-  $array['North-America']['AntiguaAndBarbuda'] = "Antigua and Barbuda";
-  $array['North-America']['TheBahamas'] = "The Bahamas";
-  $array['North-America']['Barbados'] = "Barbados";
-  $array['North-America']['Belize'] = "Belize";
-  $array['North-America']['Canada'] = "Canada";
-  $array['North-America']['CostaRica'] = "Costa Rica";
-  $array['North-America']['Cuba'] = "Cuba";
-  $array['North-America']['Dominica'] = "Dominica";
-  $array['North-America']['DominicanRepublic'] = "Dominican Republic";
-  $array['North-America']['ElSalvador'] = "El Salvador";
-  $array['North-America']['Greenland'] = "Greenland (Kalaallit Nunaat)";
-  $array['North-America']['Grenada'] = "Grenada";
-  $array['North-America']['Guatemala'] = "Guatemala";
-  $array['North-America']['Haiti'] = "Haiti";
-  $array['North-America']['Honduras'] = "Honduras";
-  $array['North-America']['Jamaica'] = "Jamaica";
-  $array['North-America']['Mexico'] = "Mexico";
-  $array['North-America']['Nicaragua'] = "Nicaragua";
-  $array['North-America']['Panama'] = "Panama";
-  $array['North-America']['SaintKittsAndNevis'] = "Saint Kitts and Nevis";
-  $array['North-America']['SaintLucia'] = "Saint Lucia";
-  $array['North-America']['SaintVincentAndTheGrenadines'] = "Saint Vincent and the Grenadines";
-  $array['North-America']['TrinidadAndTobago'] = "Trinidad and Tobago";
-  $array['North-America']['USA'] = "United States of America";
-
-  $array['South-America']['Argentina'] = "Argentina";
-  $array['South-America']['Bolivia'] = "Bolivia";
-  $array['South-America']['Brazil'] = "Brazil";
-  $array['South-America']['Chile'] = "Chile";
-  $array['South-America']['Colombia'] = "Colombia";
-  $array['South-America']['Ecuador'] = "Ecuador";
-  $array['South-America']['FrenchGuiana'] = "French Guiana";
-  $array['South-America']['Guyana'] = "Guyana";
-  $array['South-America']['Paraguay'] = "Paraguay";
-  $array['South-America']['Peru'] = "Peru";
-  $array['South-America']['Suriname'] = "Suriname";
-  $array['South-America']['Uruguay'] = "Uruguay";
-  $array['South-America']['Venezuela'] = "Venezuela";*/
+    "AF" => "Afghanistan",
+    "AL" => "Albania",
+    "DZ" => "Algeria",
+    "AS" => "American Samoa",
+    "AD" => "Andorra",
+    "AO" => "Angola",
+    "AI" => "Anguilla",
+    "AQ" => "Antarctica",
+    "AG" => "Antigua and Barbuda",
+    "AR" => "Argentina",
+    "AM" => "Armenia",
+    "AW" => "Aruba",
+    "AC" => "Ascension Island",
+    "AU" => "Australia",
+    "AT" => "Austria",
+    "AZ" => "Azerbaijan",
+    "BS" => "Bahamas",
+    "BH" => "Bahrain",
+    "BD" => "Bangladesh",
+    "BB" => "Barbados",
+    "BY" => "Belarus",
+    "BE" => "Belgium",
+    "BZ" => "Belize",
+    "BJ" => "Benin",
+    "BM" => "Bermuda",
+    "BT" => "Bhutan",
+    "BO" => "Bolivia",
+    "BA" => "Bosnia and Herzegovina",
+    "BW" => "Botswana",
+    "BV" => "Bouvet Island",
+    "BR" => "Brazil",
+    "BQ" => "British Antarctic Territory",
+    "IO" => "British Indian Ocean Territory",
+    "VG" => "British Virgin Islands",
+    "BN" => "Brunei",
+    "BG" => "Bulgaria",
+    "BF" => "Burkina Faso",
+    "BI" => "Burundi",
+    "KH" => "Cambodia",
+    "CM" => "Cameroon",
+    "CA" => "Canada",
+    "IC" => "Canary Islands",
+    "CT" => "Canton and Enderbury Islands",
+    "CV" => "Cape Verde",
+    "KY" => "Cayman Islands",
+    "CF" => "Central African Republic",
+    "EA" => "Ceuta and Melilla",
+    "TD" => "Chad",
+    "CL" => "Chile",
+    "CN" => "China",
+    "CX" => "Christmas Island",
+    "CP" => "Clipperton Island",
+    "CC" => "Cocos [Keeling] Islands",
+    "CO" => "Colombia",
+    "KM" => "Comoros",
+    "CD" => "Congo [DRC]",
+    "CG" => "Congo [Republic]",
+    "CK" => "Cook Islands",
+    "CR" => "Costa Rica",
+    "HR" => "Croatia",
+    "CU" => "Cuba",
+    "CY" => "Cyprus",
+    "CZ" => "Czech Republic",
+    "DK" => "Denmark",
+    "DG" => "Diego Garcia",
+    "DJ" => "Djibouti",
+    "DM" => "Dominica",
+    "DO" => "Dominican Republic",
+    "NQ" => "Dronning Maud Land",
+    "TL" => "East Timor",
+    "EC" => "Ecuador",
+    "EG" => "Egypt",
+    "SV" => "El Salvador",
+    "GQ" => "Equatorial Guinea",
+    "ER" => "Eritrea",
+    "EE" => "Estonia",
+    "ET" => "Ethiopia",
+    "FK" => "Falkland Islands [Islas Malvinas]",
+    "FO" => "Faroe Islands",
+    "FJ" => "Fiji",
+    "FI" => "Finland",
+    "FR" => "France",
+    "GF" => "French Guiana",
+    "PF" => "French Polynesia",
+    "TF" => "French Southern Territories",
+    "FQ" => "French Southern and Antarctic Territories",
+    "GA" => "Gabon",
+    "GM" => "Gambia",
+    "GE" => "Georgia",
+    "DE" => "Germany",
+    "GH" => "Ghana",
+    "GI" => "Gibraltar",
+    "GR" => "Greece",
+    "GL" => "Greenland",
+    "GD" => "Grenada",
+    "GP" => "Guadeloupe",
+    "GU" => "Guam",
+    "GT" => "Guatemala",
+    "GG" => "Guernsey",
+    "GN" => "Guinea",
+    "GW" => "Guinea-Bissau",
+    "GY" => "Guyana",
+    "HT" => "Haiti",
+    "HM" => "Heard Island and McDonald Islands",
+    "HN" => "Honduras",
+    "HK" => "Hong Kong",
+    "HU" => "Hungary",
+    "IS" => "Iceland",
+    "IN" => "India",
+    "ID" => "Indonesia",
+    "IR" => "Iran",
+    "IQ" => "Iraq",
+    "IE" => "Ireland",
+    "IM" => "Isle of Man",
+    "IL" => "Israel",
+    "IT" => "Italy",
+    "CI" => "Ivory Coast",
+    "JM" => "Jamaica",
+    "JP" => "Japan",
+    "JE" => "Jersey",
+    "JT" => "Johnston Island",
+    "JO" => "Jordan",
+    "KZ" => "Kazakhstan",
+    "KE" => "Kenya",
+    "KI" => "Kiribati",
+    "KW" => "Kuwait",
+    "KG" => "Kyrgyzstan",
+    "LA" => "Laos",
+    "LV" => "Latvia",
+    "LB" => "Lebanon",
+    "LS" => "Lesotho",
+    "LR" => "Liberia",
+    "LY" => "Libya",
+    "LI" => "Liechtenstein",
+    "LT" => "Lithuania",
+    "LU" => "Luxembourg",
+    "MO" => "Macau",
+    "MK" => "Macedonia [FYROM]",
+    "MG" => "Madagascar",
+    "MW" => "Malawi",
+    "MY" => "Malaysia",
+    "MV" => "Maldives",
+    "ML" => "Mali",
+    "MT" => "Malta",
+    "MH" => "Marshall Islands",
+    "MQ" => "Martinique",
+    "MR" => "Mauritania",
+    "MU" => "Mauritius",
+    "YT" => "Mayotte",
+    "FX" => "Metropolitan France",
+    "MX" => "Mexico",
+    "FM" => "Micronesia",
+    "MI" => "Midway Islands",
+    "MD" => "Moldova",
+    "MC" => "Monaco",
+    "MN" => "Mongolia",
+    "ME" => "Montenegro",
+    "MS" => "Montserrat",
+    "MA" => "Morocco",
+    "MZ" => "Mozambique",
+    "MM" => "Myanmar [Burma]",
+    "NA" => "Namibia",
+    "NR" => "Nauru",
+    "NP" => "Nepal",
+    "NL" => "Netherlands",
+    "AN" => "Netherlands Antilles",
+    "NT" => "Neutral Zone",
+    "NC" => "New Caledonia",
+    "NZ" => "New Zealand",
+    "NI" => "Nicaragua",
+    "NE" => "Niger",
+    "NG" => "Nigeria",
+    "NU" => "Niue",
+    "NF" => "Norfolk Island",
+    "KP" => "North Korea",
+    "VD" => "North Vietnam",
+    "MP" => "Northern Mariana Islands",
+    "NO" => "Norway",
+    "OM" => "Oman",
+    "QO" => "Outlying Oceania",
+    "PC" => "Pacific Islands Trust Territory",
+    "PK" => "Pakistan",
+    "PW" => "Palau",
+    "PS" => "Palestinian Territories",
+    "PA" => "Panama",
+    "PZ" => "Panama Canal Zone",
+    "PG" => "Papua New Guinea",
+    "PY" => "Paraguay",
+    "YD" => "People&#x27;s Democratic Republic of Yemen",
+    "PE" => "Peru",
+    "PH" => "Philippines",
+    "PN" => "Pitcairn Islands",
+    "PL" => "Poland",
+    "PT" => "Portugal",
+    "PR" => "Puerto Rico",
+    "QA" => "Qatar",
+    "RO" => "Romania",
+    "RU" => "Russia",
+    "RW" => "Rwanda",
+    "RE" => "Réunion",
+    "BL" => "Saint Barthélemy",
+    "SH" => "Saint Helena",
+    "KN" => "Saint Kitts and Nevis",
+    "LC" => "Saint Lucia",
+    "MF" => "Saint Martin",
+    "PM" => "Saint Pierre and Miquelon",
+    "VC" => "Saint Vincent and the Grenadines",
+    "WS" => "Samoa",
+    "SM" => "San Marino",
+    "SA" => "Saudi Arabia",
+    "SN" => "Senegal",
+    "RS" => "Serbia",
+    "CS" => "Serbia and Montenegro",
+    "SC" => "Seychelles",
+    "SL" => "Sierra Leone",
+    "SG" => "Singapore",
+    "SK" => "Slovakia",
+    "SI" => "Slovenia",
+    "SB" => "Solomon Islands",
+    "SO" => "Somalia",
+    "ZA" => "South Africa",
+    "GS" => "South Georgia and the South Sandwich Islands",
+    "KR" => "South Korea",
+    "ES" => "Spain",
+    "LK" => "Sri Lanka",
+    "SD" => "Sudan",
+    "SR" => "Suriname",
+    "SJ" => "Svalbard and Jan Mayen",
+    "SZ" => "Swaziland",
+    "SE" => "Sweden",
+    "CH" => "Switzerland",
+    "SY" => "Syria",
+    "ST" => "São Tomé and Príncipe",
+    "TW" => "Taiwan",
+    "TJ" => "Tajikistan",
+    "TZ" => "Tanzania",
+    "TH" => "Thailand",
+    "TG" => "Togo",
+    "TK" => "Tokelau",
+    "TO" => "Tonga",
+    "TT" => "Trinidad and Tobago",
+    "TA" => "Tristan da Cunha",
+    "TN" => "Tunisia",
+    "TR" => "Turkey",
+    "TM" => "Turkmenistan",
+    "TC" => "Turks and Caicos Islands",
+    "TV" => "Tuvalu",
+    "UM" => "U.S. Minor Outlying Islands",
+    "PU" => "U.S. Miscellaneous Pacific Islands",
+    "VI" => "U.S. Virgin Islands",
+    "UG" => "Uganda",
+    "UA" => "Ukraine",
+    "AE" => "United Arab Emirates",
+    "GB" => "United Kingdom",
+    "US" => "United States",
+    "UY" => "Uruguay",
+    "UZ" => "Uzbekistan",
+    "VU" => "Vanuatu",
+    "VA" => "Vatican City",
+    "VE" => "Venezuela",
+    "VN" => "Vietnam",
+    "WK" => "Wake Island",
+    "WF" => "Wallis and Futuna",
+    "EH" => "Western Sahara",
+    "YE" => "Yemen",
+    "ZM" => "Zambia",
+    "ZW" => "Zimbabwe",
+    "AX" => "Åland Islands",
+  );
 
   return $array;
 }
