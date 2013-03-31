@@ -452,8 +452,37 @@
 	}
 }
 
-// Interaction colors for blog elements in tabs 
+// Coffee region selector - This is a small widget
+// that allows the user to refine the view based
+// on intraregional area
+.coffee-region-selector {
+	.pane-title {
+		font-size: 16px !important;
+		margin-bottom: 0 !important;
+	}
+	.view-coffee-regions {
+		position: relative;
+		left: -4px;
+		.views-summary li {
+			 a:link, a:visited {
+				color: @bgcolor;
+				width: 300px;
+				text-decoration: none;
+				display: block;
+				padding: 3px 4px;
+				.tondo-reg;
+				&:hover, &.active {
+					background: @lightbrown;
+					color: @brown;
+				}
+			}
+		}
+	}
+}
 
+
+
+// Interaction colors for blog elements in tabs 
 .page-coffees-latin-america {
 	.view-blog-for-coffee {
 		.views-field-created {
@@ -480,6 +509,14 @@
 					background: @lightgreen;
 					border-color: @lightgreen;
 				}
+			}
+		}
+	}
+	.view-coffee-regions {
+		a:link, a:visited { 
+			&:hover, &.active {
+				background: @lightgreen !important;
+				color: @green !important;
 			}
 		}
 	}
@@ -511,6 +548,14 @@
 					background: @lightred;
 					border-color: @lightred;
 				}
+			}
+		}
+	}
+	.view-coffee-regions {
+		a:link, a:visited { 
+			&:hover, &.active {
+				background: @lightred !important;
+				color: @red !important;
 			}
 		}
 	}
@@ -546,6 +591,14 @@
 			}
 		}
 	}
+	.view-coffee-regions {
+		a:link, a:visited { 
+			&:hover, &.active {
+				background: @lightblue !important;
+				color: @blue !important;
+			}
+		}
+	}
 }
 
 // Espresso
@@ -575,6 +628,14 @@
 					background: @lightblack;
 					border-color: @lightblack;
 				}
+			}
+		}
+	}
+	.view-coffee-regions {
+		a:link, a:visited { 
+			&:hover, &.active {
+				background: @lightblack !important;
+				color: @black !important;
 			}
 		}
 	}
@@ -647,3 +708,6 @@
 		}
 	}
 }
+
+
+

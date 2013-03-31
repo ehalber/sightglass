@@ -648,7 +648,13 @@ canvas {
 .sign-out {
 	margin-top: 20px;
 	a {
+		padding: 0 !important;
 		display: block;
-		background: url(../images/buttons_big.png) no-repeat;
+		width: 119px !important;
+		height: 42px;
+		background: url(../images/buttons_other.png) no-repeat 0 -84px;
+		&:hover {
+			background: transparent url(../images/buttons_other.png) no-repeat -119px -84px !important;
+		}
 	}
 }

@@ -232,7 +232,8 @@
       $('.brewing-guides').css('background-position', '0 0');
     });
 
-    
+    // Force the user to select from the dropdown when
+    // they want to go to their account
 	
 
   });
