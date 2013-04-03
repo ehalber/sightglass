@@ -115,7 +115,7 @@
             overlayOpacity: 1,
             overlayColor: '#473000',
             scrolling: 'no',
-            padding: 3,
+            padding: 0,
             autoScale: true,
             cyclic: true,
         

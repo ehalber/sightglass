@@ -11,8 +11,9 @@
     	$('body').addClass('subscription');
     }
     
+    // If there is an out of stock item, hide
+    // the quantity field
     
-
 
   });
   
