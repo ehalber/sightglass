@@ -384,12 +384,14 @@ function the_subscription_form($form, &$form_state) {
  */
 function the_subscription_form_validate($form, &$form_state) {
 
+  global $user;
+
   /*echo '<pre>$form_state: ';
   print_r($form_state);
   exit;*/
   
-  try {
-    global $user;
+  //try {
+    /*global $user;
     $account = $user->uid;
     echo '<pre>account: ';
     print_r($account);
@@ -432,7 +434,7 @@ function the_subscription_form_validate($form, &$form_state) {
     
     //$wrapper->field_bcg_customer_phone = $phone;
 
-    commerce_customer_profile_save($new_profile);
+    commerce_customer_profile_save($new_profile);*/
 
 
     // Save Billing Profile
@@ -445,12 +447,12 @@ function the_subscription_form_validate($form, &$form_state) {
     commerce_customer_profile_save($profile);*/
 
     // Save Shipping Profile
-  } catch (Exception $e) {
+  /*} catch (Exception $e) {
     echo '<pre>$e:';
     print_r($e);
   }
 
-  die('exit');
+  die('exit');*/
 
   $the_subscription = $form_state['values']['the_subscription'];
   $subscription_type = $form_state['values']['subscription_type'];
@@ -547,6 +549,97 @@ function the_subscription_form_validate($form, &$form_state) {
       $subscription->account = $account;
 
       $subscription->create();
+
+      /////////////////////////////////////////////////////////////////
+      // COMMERCE TABLES
+      /////////////////////////////////////////////////////////////////
+      
+      $account = $user->uid;
+
+      /////////////////////////////////////////////////////////////////
+      // BILLING INFORMATION
+      /////////////////////////////////////////////////////////////////
+      //$type = $profile['type'];
+      $type = 'billing';
+      $country = $form_state['values']['billing_country_code'];
+      $administrative_area = $form_state['values']['billing_state'];
+      $sub_administrative_area = NULL;
+      $locality = $form_state['values']['billing_city'];
+      $dependent_locality = NULL;
+      $postal_code = $form_state['values']['billing_zipcode'];
+      $thoroughfare = $form_state['values']['billing_address1'];
+      $premise = (!empty($form_state['values']['billing_address2']) ? 
+        $form_state['values']['billing_address2'] : NULL);
+      //$sub_premise = NULL;
+      $organisation = NULL;
+      $first_name = $form_state['values']['first'];
+      $last_name = $form_state['values']['last'];
+      $name_line = $first_name . ' ' . $last_name;
+      //$phone = $profile['phone'];
+
+      $new_profile = commerce_customer_profile_new($type);
+
+      $wrapper = entity_metadata_wrapper('commerce_customer_profile', $new_profile);
+
+      $wrapper->uid = $account;
+      $wrapper->commerce_customer_address->country = $country;
+      $wrapper->commerce_customer_address->administrative_area = $administrative_area;
+      $wrapper->commerce_customer_address->sub_administrative_area = $sub_administrative_area;
+      $wrapper->commerce_customer_address->locality = $locality;
+      $wrapper->commerce_customer_address->dependent_locality = $dependent_locality;
+      $wrapper->commerce_customer_address->postal_code = $postal_code;
+      $wrapper->commerce_customer_address->thoroughfare = $thoroughfare;
+      $wrapper->commerce_customer_address->premise = $premise;
+      //$wrapper->commerce_customer_address->sub_premise = $sub_premise;
+      $wrapper->commerce_customer_address->organisation_name = $organisation;
+      $wrapper->commerce_customer_address->name_line = $name_line;
+      $wrapper->commerce_customer_address->first_name = $first_name;
+      $wrapper->commerce_customer_address->last_name = $last_name;
+      //$wrapper->field_bcg_customer_phone = $phone;
+
+      commerce_customer_profile_save($new_profile);
+
+      /////////////////////////////////////////////////////////////////
+      // SHIPPING INFORMATION
+      /////////////////////////////////////////////////////////////////
+      $type = 'shipping';
+      $country = $form_state['values']['shipping_country_code'];
+      $administrative_area = $form_state['values']['shipping_state'];
+      $sub_administrative_area = NULL;
+      $locality = $form_state['values']['shipping_city'];
+      $dependent_locality = NULL;
+      $postal_code = $form_state['values']['shipping_zipcode'];
+      $thoroughfare = $form_state['values']['shipping_address1'];
+      $premise = (!empty($form_state['values']['shipping_address2']) ? 
+        $form_state['values']['shipping_address2'] : NULL);
+      //$sub_premise = NULL;
+      $organisation = NULL;
+      $first_name = $form_state['values']['first'];
+      $last_name = $form_state['values']['last'];
+      $name_line = $first_name . ' ' . $last_name;
+      //$phone = $profile['phone'];
+
+      $new_profile = commerce_customer_profile_new($type);
+
+      $wrapper = entity_metadata_wrapper('commerce_customer_profile', $new_profile);
+
+      $wrapper->uid = $account;
+      $wrapper->commerce_customer_address->country = $country;
+      $wrapper->commerce_customer_address->administrative_area = $administrative_area;
+      $wrapper->commerce_customer_address->sub_administrative_area = $sub_administrative_area;
+      $wrapper->commerce_customer_address->locality = $locality;
+      $wrapper->commerce_customer_address->dependent_locality = $dependent_locality;
+      $wrapper->commerce_customer_address->postal_code = $postal_code;
+      $wrapper->commerce_customer_address->thoroughfare = $thoroughfare;
+      $wrapper->commerce_customer_address->premise = $premise;
+      //$wrapper->commerce_customer_address->sub_premise = $sub_premise;
+      $wrapper->commerce_customer_address->organisation_name = $organisation;
+      $wrapper->commerce_customer_address->name_line = $name_line;
+      $wrapper->commerce_customer_address->first_name = $first_name;
+      $wrapper->commerce_customer_address->last_name = $last_name;
+      //$wrapper->field_bcg_customer_phone = $phone;
+
+      commerce_customer_profile_save($new_profile);
 
       drupal_set_message('Your subscription was created successfully.');
 
