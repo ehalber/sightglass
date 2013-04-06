@@ -3,6 +3,9 @@
  * @file
  * A block module that displays recent blog and forum posts.
  */
+
+//global $user;
+
 /**
  * Implements hook_help.
  *
@@ -34,6 +37,17 @@ function the_subscription_block_info() {
   return $blocks;
 }
 
+function the_subscription_commerce_checkout_pane_info() {
+  $checkout_panes = array();
+
+  $checkout_panes['the_subscription_message_pane'] = array(
+    'title' => t('Message Example'),
+    'base' => 'commerce_message_pane', // <== That's all that is needed
+  );
+
+  return $checkout_panes;
+}
+
 /**
  * Implements hook_block_view()
  */
@@ -44,12 +58,21 @@ function the_subscription_block_view($delta = '') {
     dpm($account_code);
   }
   */
+  //dpm($wrapper->commerce_customer_billing->commerce_customer_address->getPropertyInfo());
+
+  /*global $user;
+  $account = $user->uid;
+  dpm('account: ' . $account);
+  echo '<pre>user: ';print_r($user);*/
+
 	$block = array();
 
 	switch($delta){
     	case 'the_subscription':
     		$block['subject'] = t('The Subscription');
-    		$block['content'] = '';
+        /*$wrapper = entity_metadata_wrapper('commerce_order', $order);
+        $address = $wrapper->commerce_customer_billing->commerce_customer_address->value();*/
+    		$block['content'] = ''; //$address; //'';
    			break;
    	}
 
@@ -67,7 +90,8 @@ function the_subscription_menu() {
     'description' => 'Configuration for The Subscription module',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('the_subscription_form'),
-    'access arguments' => array('access administration pages'),
+    //'access arguments' => array('access administration pages'),
+    'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
   );
 
@@ -154,6 +178,8 @@ function the_subscription_form($form, &$form_state) {
     '#required' => TRUE,
   );
 
+  /////////////////////////////////////////////////////////////////////
+  // BILLING INFORMATION
   $form['billing_information'] = array(
     '#type' => 'item',
     '#title' => t('Billing Information'),
@@ -265,6 +291,86 @@ function the_subscription_form($form, &$form_state) {
     '#required' => TRUE,
   );
 
+  /////////////////////////////////////////////////////////////////////
+  // SHIPPING INFORMATION
+  $form['shipping_information'] = array(
+    '#type' => 'item',
+    '#title' => t('Shipping Information'),
+    '#prefix' => '<div style="font-size:20px;">',
+    '#suffix' => '</div>',
+  );
+
+  $form['shipping'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Shipping'),
+    // Make the fieldset collapsible.
+    '#collapsible' => TRUE, // Added
+    '#collapsed' => FALSE,  // Added
+  );
+
+  $form['shipping'] = array(
+    '#prefix' => '<div class="two-col">',
+    '#suffix' => '</div>'
+  );
+
+  $form['shipping_address1'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Address 1'),
+    '#required' => TRUE,
+  );
+
+  $form['shipping_address2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Address 2'),
+    '#required' => FALSE,
+  );
+
+  $form['shipping_city'] = array(
+    '#type' => 'textfield',
+    '#title' => t('City'),
+    '#required' => TRUE,
+  );
+
+  $form['ship_state_zip'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Shipping'),
+    // Make the fieldset collapsible.
+    '#collapsible' => TRUE, // Added
+    '#collapsed' => FALSE,  // Added
+  );
+
+  $form['ship_state_zip'] = array(
+    '#prefix' => '<div class="two-col">',
+    '#suffix' => '</div>'
+  );
+
+  $form['ship_state_zip']['shipping_state'] = array(
+    '#type' => 'textfield',
+    '#title' => t('State'),
+    '#size' => 40,
+    '#prefix' => '<div class="col1">',
+    '#suffix' => '</div>',
+    '#required' => TRUE,
+  );
+
+  $form['ship_state_zip']['shipping_zipcode'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Zip Code'),
+    '#size' => 12,
+    '#prefix' => '<div class="col1">',
+    '#suffix' => '</div>',
+    '#required' => TRUE,
+  );
+  
+  $form['shipping_country_code'] = array(
+    //'#type' => 'textfield',
+    '#type' => 'select',
+    '#options' => list_countries(),
+    '#default_value' => 'US',
+    '#title' => t('Country Code'),
+    '#required' => TRUE,
+  );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Submit',
@@ -277,6 +383,74 @@ function the_subscription_form($form, &$form_state) {
  * validation
  */
 function the_subscription_form_validate($form, &$form_state) {
+
+  /*echo '<pre>$form_state: ';
+  print_r($form_state);
+  exit;*/
+  
+  try {
+    global $user;
+    $account = $user->uid;
+    echo '<pre>account: ';
+    print_r($account);
+    exit;
+
+    //$type = $profile['type'];
+    $type = 'billing';
+    $country = $form_state['values']['billing_country_code'];
+    $first_name = $form_state['values']['first'];
+    $last_name = $form_state['values']['last'];
+    $name_line = $first_name . ' ' . $last_name;
+    //$organisation = $profile['organisation'];
+    $administrative_area = $form_state['values']['billing_state'];
+    //$sub_administrative_area = $profile['sub_administrative_area'];
+    $locality = $form_state['values']['billing_city'];
+    //$dependent_locality = $profile['dependent_locality'];
+    $billing_zipcode = $form_state['values']['billing_zipcode'];
+    $thoroughfare = $form_state['values']['billing_address1'];
+    $premise = $form_state['values']['billing_address2'];
+    $phone = $profile['phone'];
+
+    $new_profile = commerce_customer_profile_new($type);
+
+    $wrapper = entity_metadata_wrapper('commerce_customer_profile', $new_profile);
+
+    $wrapper->uid = $account;
+    $wrapper->commerce_customer_address->country = $country;
+    $wrapper->commerce_customer_address->administrative_area = $administrative_area;
+    //$wrapper->commerce_customer_address->sub_administrative_area = $sub_administrative_area;
+    $wrapper->commerce_customer_address->locality = $locality;
+    $wrapper->commerce_customer_address->dependent_locality = $dependent_locality;
+    $wrapper->commerce_customer_address->postal_code = $postal_code;
+    $wrapper->commerce_customer_address->thoroughfare = $thoroughfare;
+    $wrapper->commerce_customer_address->premise = $premise;
+    //$wrapper->commerce_customer_address->sub_premise = $sub_premise;
+    //$wrapper->commerce_customer_address->organisation_name = $organisation;
+    $wrapper->commerce_customer_address->name_line = $name_line;
+    $wrapper->commerce_customer_address->first_name = $first_name;
+    $wrapper->commerce_customer_address->last_name = $last_name;
+    
+    //$wrapper->field_bcg_customer_phone = $phone;
+
+    commerce_customer_profile_save($new_profile);
+
+
+    // Save Billing Profile
+    /*$form_state = array();
+    $fields = array();
+    $profile = commerce_customer_profile_new('billing');
+    field_attach_form('commerce_customer_profile', $profile, $fields, $form_state);
+    echo 'profile->id: ' . $profile->id . '<br />';
+    echo '<Pre>profile: ';print_r($profile);
+    commerce_customer_profile_save($profile);*/
+
+    // Save Shipping Profile
+  } catch (Exception $e) {
+    echo '<pre>$e:';
+    print_r($e);
+  }
+
+  die('exit');
 
   $the_subscription = $form_state['values']['the_subscription'];
   $subscription_type = $form_state['values']['subscription_type'];
@@ -341,6 +515,9 @@ function the_subscription_form_validate($form, &$form_state) {
           # code...
           break;
       }
+
+      // Save to database
+      $new_profile = commerce_customer_profile_new($type);
 
       $default_subscription_currency = 'USD';
 
