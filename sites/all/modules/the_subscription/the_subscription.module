@@ -519,7 +519,7 @@ function the_subscription_form_validate($form, &$form_state) {
       }
 
       // Save to database
-      $new_profile = commerce_customer_profile_new($type);
+      //$new_profile = commerce_customer_profile_new($type);
 
       $default_subscription_currency = 'USD';
 
