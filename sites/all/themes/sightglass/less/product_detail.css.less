@@ -494,3 +494,48 @@
 		display: none;
 	}
 }
+
+/*
+  These styles are for the add to cart pop up display
+  that is shown to the user when they add an item
+  to their cart, it makes it easy for them to 
+  understand what to do next.
+
+ */
+.added-product-title {
+	color: @brown !important;
+	.tondo-bold;
+}
+.commerce-add-to-cart-confirmation {
+	padding-bottom: 15px !important;
+}
+.view-confirm-message-product-display {
+	color: @brown !important;
+	.views-field-field-commerce-product {
+		color: @brown !important;
+		font-size: 15px;
+	}
+	.views-field-field-image {
+		float: left;
+		margin-right: 10px;
+	}
+	.views-field-quantity {
+		clear: none !important;
+	}
+	.views-field-commerce-total {
+		clear: none !important;	
+		font-size: 20px;	
+		.field-content {
+			color: @brown !important;
+		}
+	}
+}
+
+/*
+  If there is an attached view on the page, make sure
+  we hide it. The contents of this view, if they exist,
+  will be used my fancybox.
+ */
+.attachment {
+	display: none;
+}

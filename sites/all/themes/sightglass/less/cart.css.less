@@ -137,8 +137,8 @@ ol.inline.commerce-checkout-progress li {
 }
 
 .component-type-commerce-price-formatted-amount {
-	font-size: 30px;
-	color: @brown;
+	font-size: 30px !important;
+	color: @brown !important;
 	border-bottom: none !important;
 }
 
@@ -285,14 +285,36 @@ ol.inline.commerce-checkout-progress li {
 	margin-top: -12px;
 }
 
-#edit-checkout-review tr:first-child {
-	border-top: 0;
-	td {
-		height: 30px;
-		color: @brown;
-		font-size: 16px;
+#edit-checkout-review {
+	tr:first-child {
+		border-top: 0;
+		td {
+			height: 30px;
+			color: @brown;
+			font-size: 16px;
+		}
 	}
 }
+
+.view-commerce-cart-summary {
+	tr {
+		border-top: 0;
+		td {
+			height: 30px;
+			color: @brown;
+			font-size: 16px;
+		}
+	}
+	.component-type-commerce-price-formatted-amount {
+		.component-title, .component-total {
+			font-size: 30px !important;
+			color: @brown !important;
+			border-bottom: none !important;
+		}
+	}
+}
+
+
 
 .page-checkout-review {
 	.checkout-help {
