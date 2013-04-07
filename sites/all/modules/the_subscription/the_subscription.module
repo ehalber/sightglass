@@ -58,21 +58,13 @@ function the_subscription_block_view($delta = '') {
     dpm($account_code);
   }
   */
-  //dpm($wrapper->commerce_customer_billing->commerce_customer_address->getPropertyInfo());
-
-  /*global $user;
-  $account = $user->uid;
-  dpm('account: ' . $account);
-  echo '<pre>user: ';print_r($user);*/
 
 	$block = array();
 
 	switch($delta){
     	case 'the_subscription':
     		$block['subject'] = t('The Subscription');
-        /*$wrapper = entity_metadata_wrapper('commerce_order', $order);
-        $address = $wrapper->commerce_customer_billing->commerce_customer_address->value();*/
-    		$block['content'] = ''; //$address; //'';
+    		$block['content'] = '';
    			break;
    	}
 
@@ -204,6 +196,7 @@ function the_subscription_form($form, &$form_state) {
       '#type' => 'textfield',
       '#title' => t('Credit Card Number'),
       '#size' => 40,
+      '#attributes' => array('autocomplete' =>'off'),
       '#prefix' => '<div class="col1">',
       '#suffix' => '</div>',
       '#required' => TRUE,
@@ -213,6 +206,7 @@ function the_subscription_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('CVV'),
     '#size' => 4,
+    '#attributes' => array('autocomplete' =>'off'),
     '#prefix' => '<div class="col1">',
     '#suffix' => '</div>',
     '#required' => TRUE, // Added
@@ -289,6 +283,23 @@ function the_subscription_form($form, &$form_state) {
     '#default_value' => 'US',
     '#title' => t('Country Code'),
     '#required' => TRUE,
+  );
+
+  //$path = drupal_get_path('theme', 'the_subscription');
+  $path = drupal_get_path('module', 'the_subscription');
+  $form['billing_shipping'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Billing address the same as shipping address'),
+    '#id' => 'use-billing',
+    //'#weight' => -100,
+    '#attached' => array(
+      'library' => array(array('system', 'ui.accordion')),
+      'js' => array("$path/js/toggle.js"),
+      'css' => array(
+        "$path/css/jquery.ui.accordion.css",
+        "$path/css/commerce_checkout.css",
+      ),
+    )
   );
 
   /////////////////////////////////////////////////////////////////////
@@ -386,74 +397,6 @@ function the_subscription_form_validate($form, &$form_state) {
 
   global $user;
 
-  /*echo '<pre>$form_state: ';
-  print_r($form_state);
-  exit;*/
-  
-  //try {
-    /*global $user;
-    $account = $user->uid;
-    echo '<pre>account: ';
-    print_r($account);
-    exit;
-
-    //$type = $profile['type'];
-    $type = 'billing';
-    $country = $form_state['values']['billing_country_code'];
-    $first_name = $form_state['values']['first'];
-    $last_name = $form_state['values']['last'];
-    $name_line = $first_name . ' ' . $last_name;
-    //$organisation = $profile['organisation'];
-    $administrative_area = $form_state['values']['billing_state'];
-    //$sub_administrative_area = $profile['sub_administrative_area'];
-    $locality = $form_state['values']['billing_city'];
-    //$dependent_locality = $profile['dependent_locality'];
-    $billing_zipcode = $form_state['values']['billing_zipcode'];
-    $thoroughfare = $form_state['values']['billing_address1'];
-    $premise = $form_state['values']['billing_address2'];
-    $phone = $profile['phone'];
-
-    $new_profile = commerce_customer_profile_new($type);
-
-    $wrapper = entity_metadata_wrapper('commerce_customer_profile', $new_profile);
-
-    $wrapper->uid = $account;
-    $wrapper->commerce_customer_address->country = $country;
-    $wrapper->commerce_customer_address->administrative_area = $administrative_area;
-    //$wrapper->commerce_customer_address->sub_administrative_area = $sub_administrative_area;
-    $wrapper->commerce_customer_address->locality = $locality;
-    $wrapper->commerce_customer_address->dependent_locality = $dependent_locality;
-    $wrapper->commerce_customer_address->postal_code = $postal_code;
-    $wrapper->commerce_customer_address->thoroughfare = $thoroughfare;
-    $wrapper->commerce_customer_address->premise = $premise;
-    //$wrapper->commerce_customer_address->sub_premise = $sub_premise;
-    //$wrapper->commerce_customer_address->organisation_name = $organisation;
-    $wrapper->commerce_customer_address->name_line = $name_line;
-    $wrapper->commerce_customer_address->first_name = $first_name;
-    $wrapper->commerce_customer_address->last_name = $last_name;
-    
-    //$wrapper->field_bcg_customer_phone = $phone;
-
-    commerce_customer_profile_save($new_profile);*/
-
-
-    // Save Billing Profile
-    /*$form_state = array();
-    $fields = array();
-    $profile = commerce_customer_profile_new('billing');
-    field_attach_form('commerce_customer_profile', $profile, $fields, $form_state);
-    echo 'profile->id: ' . $profile->id . '<br />';
-    echo '<Pre>profile: ';print_r($profile);
-    commerce_customer_profile_save($profile);*/
-
-    // Save Shipping Profile
-  /*} catch (Exception $e) {
-    echo '<pre>$e:';
-    print_r($e);
-  }
-
-  die('exit');*/
-
   $the_subscription = $form_state['values']['the_subscription'];
   $subscription_type = $form_state['values']['subscription_type'];
 
@@ -472,21 +415,21 @@ function the_subscription_form_validate($form, &$form_state) {
           switch ($subscription_type) {
             case 'once_a_week':
               $plan_code = 'owls-howl-7';
-              /*drupal_goto('https://etc.recurly.com/subscribe/owls-howl-7', 
-                array('external' => TRUE));*/
+              // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-7', 
+              //   array('external' => TRUE));
               break;
             case 'twice_a_week':
               $plan_code = 'owls-howl-14';
-              /*drupal_goto('https://etc.recurly.com/subscribe/owls-howl-14', 
-                array('external' => TRUE));*/
+              // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-14', 
+              //   array('external' => TRUE));
               break;
             case 'once_a_month':
               $plan_code = 'owls-howl-30';
-              /*drupal_goto('https://etc.recurly.com/subscribe/owls-howl-30', 
-                array('external' => TRUE));*/
+              // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-30', 
+              //   array('external' => TRUE));
               break;
             default:
-              # code...
+              throw new Exception("Error Processing Request", 1);
               break;
           }
           break;
@@ -495,21 +438,21 @@ function the_subscription_form_validate($form, &$form_state) {
           switch ($subscription_type) {
             case 'once_a_week':
               $plan_code = 'seasonal-variety-7';
-              /*drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-7', 
-                array('external' => TRUE));*/
+              // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-7', 
+              //   array('external' => TRUE));
               break;
             case 'twice_a_week':
               $plan_code = 'seasonal-variety-14';
-              /*drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-14', 
-                array('external' => TRUE));*/
+              // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-14', 
+              //   array('external' => TRUE));
               break;
             case 'once_a_month':
               $plan_code = 'seasonal-variety-30';
-              /*drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-30', 
-                array('external' => TRUE));*/
+              // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-30', 
+              //   array('external' => TRUE));
               break;
             default:
-              # code...
+              throw new Exception("Error Processing Request", 1);
               break;
           }
         
@@ -517,9 +460,6 @@ function the_subscription_form_validate($form, &$form_state) {
           # code...
           break;
       }
-
-      // Save to database
-      //$new_profile = commerce_customer_profile_new($type);
 
       $default_subscription_currency = 'USD';
 
