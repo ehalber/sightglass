@@ -37,7 +37,7 @@
             padding: 3,
             cyclic: true,
             titleFormat: function() {
-                return '<div class="image-title">' + $(this).attr('title') + '</div><div class="author">Photo by Jerad Jerad</div>';
+                return '<div class="image-title">' + $(this).attr('title') + '</div><div class="author"></div>';
             },
             titlePosition: 'outside',
             onStart: function() {
@@ -78,7 +78,7 @@
             padding: 3,
             cyclic: true,
             titleFormat: function() {
-                return '<div class="image-title">' + $(this).attr('title') + '</div><div class="author">Photo by Jerad Jerad</div>';
+                return '<div class="image-title">' + $(this).attr('title') + '</div><div class="author"></div>';
             },
             titlePosition: 'outside',
             onStart: function() {
@@ -100,10 +100,26 @@
     // click on the map on the coffee pages
     
     $('.product-detail.node-type-latin-coffee .view-product-center .image a').each(function() {
-        $(this).attr('href', $(this).find('img').attr('src'));
-        var string = $(this).attr('href');
-        $(this).attr('href', string.replace(/220x220_square/gi, 'coffee_region_large'));  
-        $(this).attr('title', $(this).find('img').attr('title')); 
+        
+        /*
+          If this coffee has two images, then load the second
+          image which will be white over brown. Otherwise just 
+          load the regional map image. This only occurs with 
+          coffees that have more than one image which seems
+          kind of rare up to this point.
+         */
+        if ($(this).parents('.view-product-center').find('.attachment img').length ) {
+            $(this).attr('href', $(this).parents('.view-product-center').find('.attachment img').attr('src'));
+             var string = $(this).attr('href');
+            $(this).attr('href', string.replace(/220x220_square/gi, 'coffee_region_large'));  
+            $(this).attr('title', $(this).find('img').attr('title'));
+        } else {
+            $(this).attr('href', $(this).find('img').attr('src'));
+            var string = $(this).attr('href');
+            $(this).attr('href', string.replace(/220x220_square/gi, 'coffee_region_large'));  
+            $(this).attr('title', $(this).find('img').attr('title')); 
+        }
+
 
         $('.fancybox').fancybox({
             transitionIn: 'fade',

@@ -80,6 +80,14 @@
         });
     }
 
+    // -- On brewing guides taxonomy page
+    if ( $('.context-brewing-tools-goods').length ) {
+        $('.filtered-tools .views-row:nth-child(3n-2)').append('<div class="divider" />');
+        $('.filtered-tools .views-row:nth-child(3n-1)').append('<div class="divider" />');
+        $('.filtered-tools .views-row:nth-child(1n)').append('<div class="horz-divider" />');
+    }
+
+
     // -- On blog page
     if ( $('.node-type-article').length ) {
 

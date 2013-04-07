@@ -385,6 +385,8 @@ stylesheets[all][] = less/cart.css.less
 
 stylesheets[all][] = less/add_to_cart_overlay.css.less
 
+stylesheets[all][] = less/basic_page.css.less
+
 scripts[] = js/eh.utils.js
 scripts[] = js/fixed_footer.js
 scripts[] = js/menus.js

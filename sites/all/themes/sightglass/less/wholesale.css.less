@@ -40,6 +40,7 @@
 		#webform-component-first-name,
 		#webform-component-last-name,
 		#webform-component-city,
+		#webform-component-state,
 		#webform-component-postal-zip-code,
 		#webform-component-country,
 		#webform-component-type-of-business,
@@ -52,11 +53,13 @@
 		}
 		#webform-component-last-name,
 		#webform-component-postal-zip-code,
+		#webform-component-state,
 		#webform-component-is-this-a-new-business {
 			margin-left: 20px;
 		}
 		#webform-component-email,
 		#webform-component-country,
+		#webform-component-city,
 		#webform-component-type-of-business,
 		#webform-component-existing-coffee-program {
 			clear: both;
@@ -94,6 +97,70 @@
 				background-position: -160px -150px
 			}
 		}
+		#webform-component-currently-owned-equipment label {
+			display: block;
+			width: 440px;
+		}
 
 	}
+}
+
+.page-our-company-contact-us {
+
+	.top-tabs {
+		.tondo-reg;
+		h2.pane-title {
+			.tondo-reg;
+			letter-spacing: 1px;
+			font-size: 24px;
+			font-weight: normal;
+		}
+	}
+	
+	
+
+	#webform-component-first-name,
+	#webform-component-last-name {
+		width: 220px;
+		float: left;
+		input[type=text], select {
+			width: 220px;
+		}
+	}
+	label {
+		.tondo-reg;
+	}
+	.form-required {
+		color: @bgcolor;
+	}
+	#webform-component-last-name {
+		margin-left: 20px;
+	}
+	#webform-component-your-email,
+	#webform-component-phone {
+		clear: both;
+		input {
+			width: 460px !important;
+		}
+	}
+	#webform-component-message {
+		input {
+			width: 460px !important;
+		}
+	}
+	textarea {
+		width: 460px;
+	}
+	#edit-submit {
+			text-indent: -5000em;
+			height: 45px;
+			width: 160px;
+			background: url(../images/buttons_big.png) no-repeat 0 -100px;
+			border: 0;
+			border-radius: 0;
+			&:hover {
+				background-position: -160px -100px
+			}
+		}
+
 }

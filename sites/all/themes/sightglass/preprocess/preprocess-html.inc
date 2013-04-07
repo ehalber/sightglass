@@ -16,7 +16,15 @@ function sightglass_alpha_preprocess_html(&$vars) {
 	drupal_add_library('system', 'effects');
 	drupal_add_js('sites/all/libraries/jquery.fancybox/fancybox/jquery.fancybox-1.3.4.pack.js', 'file');
 
-	
+	$settings = array(
+		'site_info' => array(
+			'order_id' => arg(1),
+		),
+	);
+
+	drupal_add_js($settings, 'setting');
+
+
 
 	//drupal_add_js('http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-511d3a0e269f77f9', 'external');
 	//

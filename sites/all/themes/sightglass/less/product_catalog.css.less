@@ -163,9 +163,28 @@
 	}
 }
 
+.context-brewing-tools-goods {
+	.view-list-brewing-tools {
+		a.active {
+			background: #DFDFD9;
+			color: #4D3608 !important;
+		}
+	}
+	.brewing-row .pane-title {
+		clear: both;
+		text-transform: uppercase;
+		text-align: center;
+		padding-top: 25px;
+		margin-bottom: 10px;
+		font-size: 19px;
+		font-family: Tondo-Bold !important;
+	}
+}
+
 .product-catalog,
 .product-detail,
-.node-type-brewing-guide {
+.node-type-brewing-guide,
+.context-brewing-tools-goods {
 	.view-product-catalog,
 	.view-related-coffees,
 	.view-brewing-tools {
@@ -246,7 +265,8 @@
 
 	// Brewing tool overrides
 		.brewing-row .view-related-coffees,
-		.brewing-row .view-brewing-tools {
+		.brewing-row .view-brewing-tools,
+		.filtered-tools {
 			position: relative;
 			clear: both;
 			//clear: both;
@@ -473,7 +493,7 @@
 				.tondo-reg;
 				&:hover, &.active {
 					background: @lightbrown;
-					color: @brown;
+					color: @brownd;
 				}
 			}
 		}

@@ -84,6 +84,9 @@
     });
 
     $('.block-menu-top-right .menu .menu-bag').mouseenter(function() {
+        if ($(this).text() === 'Bag') {
+          $('.menu-minipanel-1382').parent().parent().parent().addClass('bye').prev().addClass('bye');
+        }
         $('.qtip').find('.menu-minipanel-1382').parent().addClass('fix-menu-height');
         $('.view-commerce-cart-block').show();
     });
@@ -131,6 +134,9 @@
           case 'Locations':
             loc = 'locations';
             break;
+          case 'Contact Us':
+            loc = 'contact-us';
+            break;
         }
 
         location.href = '/our-company/' + loc;
@@ -144,12 +150,14 @@
     $('.page-our-company-sourcing').find('#quicktabs-tab-our_company-1').parent().addClass('active');
     $('.page-our-company-roasting').find('#quicktabs-tab-our_company-2').parent().addClass('active');
     $('.page-our-company-locations').find('#quicktabs-tab-our_company-3').parent().addClass('active');
+    $('.page-our-company-contact-us').find('#quicktabs-tab-our_company-4').parent().addClass('active');
     
     $('.page-our-company').find('.quicktabs-tabpage').addClass('quicktabs-hide');
     $('.page-our-company-about-sightglass').find('#quicktabs-tabpage-our_company-0').removeClass('quicktabs-hide');
     $('.page-our-company-sourcing').find('#quicktabs-tabpage-our_company-1').removeClass('quicktabs-hide'); 
     $('.page-our-company-roasting').find('#quicktabs-tabpage-our_company-2').removeClass('quicktabs-hide'); 
-    $('.page-our-company-locations').find('#quicktabs-tabpage-our_company-3').removeClass('quicktabs-hide');     
+    $('.page-our-company-locations').find('#quicktabs-tabpage-our_company-3').removeClass('quicktabs-hide');   
+    $('.page-our-company-contact-us').find('#quicktabs-tabpage-our_company-4').removeClass('quicktabs-hide');    
 
 
     // Repeat the above logic for partner featured pages

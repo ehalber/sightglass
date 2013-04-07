@@ -12,7 +12,7 @@
     } 
 
     var normalOptions = {
-        position: 'static',
+        position: 'relative',
         bottom:   'auto'
     }
     
@@ -25,8 +25,6 @@
 	      $('.section-footer').css(normalOptions);
 	    }
     });
-
-
     
   });
   

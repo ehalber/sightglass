@@ -24,13 +24,7 @@
     // cart based on quantity
     $('.menu-bag').append($('.menu-cart .line-item-quantity-raw'));
 
-    console.log($('.menu-bag .line-item-quantity-raw').text());
-
-    console.log($('.menu-bag').text());
-
     var menuText = $('.menu-bag').text();
-
-    console.log(menuText.length);
 
     if ( $('.menu-bag').text() == 'Bag: ' ) {
         $('.menu-bag').removeClass('has-contents').text('Bag');
