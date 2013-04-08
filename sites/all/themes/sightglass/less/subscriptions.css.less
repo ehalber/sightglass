@@ -109,3 +109,46 @@ body.subscription {
 .subscribe-button {
 	display: none;
 }
+
+/*
+  These styles are for the Recurly subscription form that
+  is used to process all subscriptions. This form was 
+  setup by Laurent and is a little different than typical
+  Drupal forms
+ */
+.page-the-subscription {
+	.block-system-main {
+		margin: 0 auto;
+		width: 700px;
+	}
+	form {
+		width: 460px;
+	}
+	.form-item {
+		margin-bottom: 10px;
+	}
+	.date-padding {
+		padding: 0 !important;
+	}
+
+	.name {
+		width: 187px !important;
+		overflow: hidden;
+		margin: 0 !important;
+		input {
+			width: 220px
+		}
+	}
+	.first {
+		margin-right: 20px !important;
+	}
+	#edit-submit {
+		display: block;
+		width: 160px;
+		height: 42px;
+		background: url(../images/buttons_big.png) no-repeat;
+		&:hover {
+			background-position: ;
+		}
+	}
+}

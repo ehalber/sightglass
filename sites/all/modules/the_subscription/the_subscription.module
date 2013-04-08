@@ -149,8 +149,7 @@ function the_subscription_form($form, &$form_state) {
   $form['name']['first'] = array(
     '#type' => 'textfield',
     '#title' => t('First name'),
-    '#size' => 40,
-    '#prefix' => '<div class="col1">',
+    '#prefix' => '<div class="col1 name first">',
     '#suffix' => '</div>',
     '#required' => TRUE, // Added
   );
@@ -158,8 +157,7 @@ function the_subscription_form($form, &$form_state) {
   $form['name']['last'] = array(
     '#type' => 'textfield',
     '#title' => t('Last name'),
-    '#size' => 40,
-    '#prefix' => '<div class="col1">',
+    '#prefix' => '<div class="col1 name">',
     '#suffix' => '</div>',
     '#required' => TRUE, // Added
   );
