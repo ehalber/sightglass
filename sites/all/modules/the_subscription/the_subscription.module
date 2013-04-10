@@ -404,7 +404,7 @@ function the_subscription_form_validate($form, &$form_state) {
   
       include ("includes/recurly/lib/recurly.php");
 
-      Recurly_Client::$apiKey = '31c39c61f3a843949e79e5b237446ea6';
+      Recurly_Client::$apiKey = 'f16643f607e34cbebbf589f7e3b532fd';
 
       $subscription = new Recurly_Subscription();
 
