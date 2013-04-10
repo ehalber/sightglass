@@ -1,0 +1,57 @@
+/*
+  Order History styles
+ */
+
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+.view-commerce-backoffice-user-orders {
+	.view-header {
+		width: 700px;
+		margin: 0 auto;
+		p {
+			.tondo-bold;
+			color: @brown;
+			font-size: 15px;
+			margin-bottom: 5px;
+		}
+	}
+	.views-table {
+		width: 700px;
+		margin: 0 auto;
+		border-bottom: 1px solid #000;
+		tbody {
+			tr {
+				background: transparent url(../images/dots_horz_1.png) repeat-x 0 100%;
+				border-bottom: 0;
+				&:last-child {
+					background: none;
+				}
+			}
+		}
+		th, td {
+			width: 20%;
+		}
+		th {
+			border-bottom: 1px solid #000;
+			.tondo-bold;
+			a {
+				.tondo-bold;
+				color: #000;
+				text-decoration: none;
+			}
+		}
+		td {
+			padding: 20px 10px 20px 0;
+			text-align: left;
+			&.active {
+				background: transparent;
+			}
+		}
+		img {
+			margin-left: 4px;
+			vertical-align: top;
+		}
+
+	}
+}
