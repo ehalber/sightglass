@@ -78,7 +78,7 @@ function the_subscription_menu() {
   $items = array();
 
   $items['the_subscription'] = array(
-    'title' => 'The Subscription',
+    'title' => 'Subscribe',
     'description' => 'Configuration for The Subscription module',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('the_subscription_form'),
