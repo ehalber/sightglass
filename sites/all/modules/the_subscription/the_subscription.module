@@ -29,7 +29,7 @@ function the_subscription_help($path, $arg) {
  */
 function the_subscription_block_info() {
   $blocks['the_subscription'] = array(
-    'info' => t('The Subscription'), //The name that will appear in the block list.
+    'info' => t('Subscribe'), //The name that will appear in the block list.
     //'cache' => DRUPAL_CACHE_PER_ROLE, //Default
       'cache' => DRUPAL_NO_CACHE,
 
@@ -63,7 +63,7 @@ function the_subscription_block_view($delta = '') {
 
 	switch($delta){
     	case 'the_subscription':
-    		$block['subject'] = t('The Subscription');
+    		$block['subject'] = t('Subscribe');
     		$block['content'] = '';
    			break;
    	}
@@ -116,7 +116,7 @@ function the_subscription_form($form, &$form_state) {
   
   $form['subscription_type'] = array(
     '#type' => 'radios',
-    '#title' => t('Subscription Type'),
+    '#title' => t('I\'d like to receive coffee'),
     '#options' => array(
       'once_a_week' => t('Once a Week'),
       'twice_a_week' => t('Every other Week'),

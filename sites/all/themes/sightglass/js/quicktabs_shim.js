@@ -39,6 +39,15 @@
         $('.product-catalog .quicktabs-wrapper .quicktabs-tabs').append('<a href="/subscriptions" class="button-subscriptions">Subscriptions</a>');
     }
     
+
+    /*
+      Prevent the default behavior from occuring when the 
+      user clicks on the store button in the main navigation
+     */
+    $('.menu a.menu-minipanel-952').click(function(e) {
+        return false;
+        e.preventDefault();
+    });
     
     
   });
