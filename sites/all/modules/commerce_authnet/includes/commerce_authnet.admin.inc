@@ -27,7 +27,7 @@ function commerce_authnet_aim_capture_form($form, &$form_state, $order, $transac
   }
 
   // Convert the price amount to a user friendly decimal value.
-  $default_amount = commerce_currency_amount_to_decimal($default_amount, $transaction->currency_code);
+  $default_amount = number_format(commerce_currency_amount_to_decimal($default_amount, $transaction->currency_code), 2, '.', '');
 
   $description = implode('<br />', array(
     t('Authorization: @amount', array('@amount' => commerce_currency_format($transaction->amount, $transaction->currency_code))),
@@ -84,7 +84,7 @@ function commerce_authnet_aim_capture_form_validate($form, &$form_state) {
  */
 function commerce_authnet_aim_capture_form_submit($form, &$form_state) {
   $transaction = $form_state['transaction'];
-  $amount = $form_state['values']['amount'];
+  $amount = number_format($form_state['values']['amount'], 2, '.', '');
 
   // Build a name-value pair array for this transaction.
   $nvp = array(
@@ -176,7 +176,6 @@ function commerce_authnet_aim_void_form_submit($form, &$form_state) {
     // Set the remote and local status accordingly.
     $transaction->status = COMMERCE_PAYMENT_STATUS_FAILURE;
     $transaction->remote_status = $response[11];
-    $transaction->payload[REQUEST_TIME] = $response;
 
     // Update the transaction message to show that it has been voided.
     $transaction->message .= '<br />' . t('Voided: @date', array('@date' => format_date(REQUEST_TIME, 'short')));
@@ -201,7 +200,7 @@ function commerce_authnet_aim_credit_form($form, &$form_state, $order, $transact
   $payment_method = commerce_payment_method_instance_load($transaction->instance_id);
   $form_state['payment_method'] = $payment_method;
 
-  $default_amount = commerce_currency_amount_to_decimal($transaction->amount, $transaction->currency_code);
+  $default_amount = number_format(commerce_currency_amount_to_decimal($transaction->amount, $transaction->currency_code), 2, '.', '');
 
   $form['amount'] = array(
     '#type' => 'textfield',
@@ -253,7 +252,7 @@ function commerce_authnet_aim_credit_form_validate($form, &$form_state) {
  */
 function commerce_authnet_aim_credit_form_submit($form, &$form_state) {
   $transaction = $form_state['transaction'];
-  $amount = $form_state['values']['amount'];
+  $amount = number_format($form_state['values']['amount'], 2, '.', '');
   $order = $form_state['order'];
   $payment_method = $form_state['payment_method'];
 
@@ -306,7 +305,7 @@ function commerce_authnet_aim_credit_form_submit($form, &$form_state) {
       $transaction->payload[REQUEST_TIME] = $response;
 
       // Display a failure message and response reason from Authorize.net.
-      drupal_set_message(t('Credit failed: @reason', array('@reason' => check_plain($response[3]))), 'error');
+      drupal_set_message(t('Credit failed: @reason', array('@reason' => $response[3])), 'error');
 
       // Add an additional helper message if the transaction hadn't settled yet.
       if ($response[2] == 54) {

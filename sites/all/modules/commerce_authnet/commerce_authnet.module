@@ -366,7 +366,8 @@ function commerce_authnet_aim_submit_form_submit($payment_method, $pane_form, $p
   $nvp = array(
     'x_type' => commerce_authnet_txn_type($txn_type),
     'x_method' => 'CC',
-    'x_amount' => commerce_currency_amount_to_decimal($charge['amount'], $charge['currency_code']),
+    'x_amount' => number_format(commerce_currency_amount_to_decimal($charge['amount'], $charge['currency_code']), 2, '.', ''),
+    'x_currency_code' => $charge['currency_code'],
     'x_card_num' => $pane_values['credit_card']['number'],
     'x_exp_date' => $pane_values['credit_card']['exp_month'] . $pane_values['credit_card']['exp_year'],
   );
@@ -377,10 +378,12 @@ function commerce_authnet_aim_submit_form_submit($payment_method, $pane_form, $p
 
   // Build a description for the order.
   $description = array();
-
-  foreach ($order_wrapper->commerce_line_items as $delta => $line_item_wrapper) {
-    if (in_array($line_item_wrapper->type->value(), commerce_product_line_item_types())) {
-      $description[] = round($line_item_wrapper->quantity->value(), 2) . 'x ' . $line_item_wrapper->line_item_label->value();
+  // Descriptions come from products, though not all environments have them. So check first.
+  if (function_exists('commerce_product_line_item_types')) {
+    foreach ($order_wrapper->commerce_line_items as $delta => $line_item_wrapper) {
+      if (in_array($line_item_wrapper->type->value(), commerce_product_line_item_types())) {
+        $description[] = round($line_item_wrapper->quantity->value(), 2) . 'x ' . $line_item_wrapper->line_item_label->value();
+      }
     }
   }
 
@@ -477,7 +480,7 @@ function commerce_authnet_aim_submit_form_submit($payment_method, $pane_form, $p
 
   // If the payment failed, display an error and rebuild the form.
   if ($response[0] != '1') {
-    drupal_set_message(t('We received the following error processing your card. Please enter you information again or try a different card.'), 'error');
+    drupal_set_message(t('We received the following error processing your card. Please enter your information again or try a different card.'), 'error');
     drupal_set_message(check_plain($response[3]), 'error');
     return FALSE;
   }
@@ -654,7 +657,7 @@ function commerce_authnet_cim_submit_form_submit($payment_method, $pane_form, $p
   $api_request_data = array(
     'transaction' => array(
       $element_name => array(
-        'amount' => commerce_currency_amount_to_decimal($charge['amount'], $charge['currency_code']),
+        'amount' => number_format(commerce_currency_amount_to_decimal($charge['amount'], $charge['currency_code']), 2, '.', ''),
         'customerProfileId' => $cim_customer_profile_id,
         'customerPaymentProfileId' => $cim_payment_profile_id,
         'order' => array(
@@ -662,7 +665,7 @@ function commerce_authnet_cim_submit_form_submit($payment_method, $pane_form, $p
         ),
       ),
     ),
-    'extraOptions' => '<![CDATA[x_delim_data=TRUE&amp;x_delim_char=|&amp;x_encap_char="&amp;x_customer_ip=' . substr(ip_address(), 0, 15) . ']]>',
+    'extraOptions' => '<![CDATA[x_delim_data=TRUE&amp;x_delim_char=|&amp;x_encap_char="&amp;x_solution_id=A1000009&amp;x_currency_code=' . $charge['currency_code'] . '&amp;x_customer_ip=' . substr(ip_address(), 0, 15) . ']]>',
   );
 
   // If we get a response from the API server...
@@ -719,7 +722,7 @@ function commerce_authnet_cim_submit_form_submit($payment_method, $pane_form, $p
 
     // If the payment failed, display an error and rebuild the form.
     if ($response[0] != '1') {
-      drupal_set_message(t('We received the following error processing your card. Please enter you information again or try a different card.'), 'error');
+      drupal_set_message(t('We received the following error processing your card. Please enter your information again or try a different card.'), 'error');
       drupal_set_message(check_plain($response[3]), 'error');
       return FALSE;
     }
@@ -1070,6 +1073,9 @@ function commerce_authnet_aim_request($payment_method, $nvp = array()) {
     'x_encap_char' => '"',
     'x_relay_response' => 'FALSE',
     'x_email_customer' => $payment_method['settings']['email_customer'],
+
+    // Drupal Commerce Solution ID
+    'x_solution_id' => 'A1000009',
   );
 
   // Allow modules to alter parameters of the API request.
