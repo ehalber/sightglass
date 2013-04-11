@@ -120,6 +120,7 @@ function the_subscription_form($form, &$form_state) {
     '#options' => array(
       'once_a_week' => t('Once a Week'),
       'twice_a_week' => t('Every other Week'),
+      'thrice_a_week' => t('Every 3 Weeks'),
       'once_a_month' => t('Once a Month')
     ),
     '#required' => TRUE,
@@ -392,6 +393,246 @@ function the_subscription_form($form, &$form_state) {
  * validation
  */
 function the_subscription_form_validate($form, &$form_state) {
+  if ($form_state['values']['billing_shipping']) {
+    if (strcasecmp($form_state['values']['billing_address1'], $form_state['values']['shipping_address1']) != 0) {
+      form_set_error('error1', 'Billing address1 is different with Shipping address1.');
+    }
+    if (strcasecmp($form_state['values']['billing_address2'], $form_state['values']['shipping_address2']) != 0) {
+      form_set_error('error2', 'Billing address2 is different with Shipping address2.');
+    }
+    if (strcasecmp($form_state['values']['billing_city'], $form_state['values']['shipping_city']) != 0) {
+      form_set_error('error2', 'Billing city is different with Shipping city.');
+    }
+    if (strcasecmp($form_state['values']['billing_state'], $form_state['values']['shipping_state']) != 0) {
+      form_set_error('error2', 'Billing stage is different with Shipping state.');
+    }
+    if (strcasecmp($form_state['values']['billing_zipcode'], $form_state['values']['shipping_zipcode']) != 0) {
+      form_set_error('error2', 'Billing zip code is different with Shipping zip code.');
+    }
+    if (strcasecmp($form_state['values']['billing_country_code'], $form_state['values']['shipping_country_code']) != 0) {
+      form_set_error('error2', 'Billing country code is different with Shipping country code.');
+    }
+  }
+}
+function the_subscription_form_submit($form, &$form_state) {
+
+  global $user;
+
+  $the_subscription = $form_state['values']['the_subscription'];
+  $subscription_type = $form_state['values']['subscription_type'];
+
+  try {
+
+    $recurly_path = libraries_get_path('recurly');
+    include ("{$recurly_path}/lib/recurly.php");
+
+    Recurly_Client::$apiKey = 'f16643f607e34cbebbf589f7e3b532fd';
+
+    $subscription = new Recurly_Subscription();
+
+    switch ($the_subscription) {
+      case 'owls_howl_espresso':
+        switch ($subscription_type) {
+          case 'once_a_week':
+            $plan_code = 'owls-howl-7';
+            // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-7', 
+            //   array('external' => TRUE));
+            break;
+          case 'twice_a_week':
+            $plan_code = 'owls-howl-14';
+            // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-14', 
+            //   array('external' => TRUE));
+            break;
+          case 'thrice_a_week':
+            $plan_code = 'owls-howl-21';
+            break;
+          case 'once_a_month':
+            $plan_code = 'owls-howl-30';
+            // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-30', 
+            //   array('external' => TRUE));
+            break;
+          default:
+            throw new Exception("Error Processing Request", 1);
+            break;
+        }
+        break;
+
+      case 'seasonal_variety':
+        switch ($subscription_type) {
+          case 'once_a_week':
+            $plan_code = 'seasonal-variety-7';
+            // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-7', 
+            //   array('external' => TRUE));
+            break;
+          case 'twice_a_week':
+            $plan_code = 'seasonal-variety-14';
+            // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-14', 
+            //   array('external' => TRUE));
+            break;
+          case 'thrice_a_week':
+            $plan_code = 'seasonal-variety-21';
+            break;
+          case 'once_a_month':
+            $plan_code = 'seasonal-variety-30';
+            // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-30', 
+            //   array('external' => TRUE));
+            break;
+          default:
+            throw new Exception("Error Processing Request", 1);
+            break;
+        }
+      
+      default:
+        # code...
+        break;
+    }
+
+    $default_subscription_currency = 'USD';
+
+    $subscription->plan_code = $plan_code;
+    $subscription->currency = $default_subscription_currency;
+
+    $account = new Recurly_Account();
+    $account->account_code = $form_state['values']['e_mail'];;
+    $account->email = $form_state['values']['e_mail'];
+    $account->first_name = $form_state['values']['first'];
+    $account->last_name = $form_state['values']['last'];
+
+    $billing_info = new Recurly_BillingInfo();
+    $billing_info->first_name = $form_state['values']['first'];
+    $billing_info->last_name = $form_state['values']['last'];
+    $billing_info->address1 = $form_state['values']['billing_address1'];
+    $billing_info->address2 = $form_state['values']['billing_address2'];
+    $billing_info->city = $form_state['values']['billing_city'];
+    $billing_info->state = $form_state['values']['billing_state'];
+    $billing_info->zip = $form_state['values']['billing_zipcode'];
+    $billing_info->country = $form_state['values']['billing_country_code'];
+    $billing_info->number = $form_state['values']['cc_number'];
+    $billing_info->month = $form_state['input']['cc_exp']['month'];
+    $billing_info->year = $form_state['input']['cc_exp']['year'];
+
+    $account->billing_info = $billing_info;
+    $subscription->account = $account;
+
+    $subscription->create();
+
+    /////////////////////////////////////////////////////////////////
+    // COMMERCE TABLES
+    /////////////////////////////////////////////////////////////////
+    
+    $account = $user->uid;
+
+    /////////////////////////////////////////////////////////////////
+    // BILLING INFORMATION
+    /////////////////////////////////////////////////////////////////
+    //$type = $profile['type'];
+    $type = 'billing';
+    $country = $form_state['values']['billing_country_code'];
+    $administrative_area = $form_state['values']['billing_state'];
+    $sub_administrative_area = NULL;
+    $locality = $form_state['values']['billing_city'];
+    $dependent_locality = NULL;
+    $postal_code = $form_state['values']['billing_zipcode'];
+    $thoroughfare = $form_state['values']['billing_address1'];
+    $premise = (!empty($form_state['values']['billing_address2']) ? 
+      $form_state['values']['billing_address2'] : NULL);
+    //$sub_premise = NULL;
+    $organisation = NULL;
+    $first_name = $form_state['values']['first'];
+    $last_name = $form_state['values']['last'];
+    $name_line = $first_name . ' ' . $last_name;
+    //$phone = $profile['phone'];
+
+    $new_profile = commerce_customer_profile_new($type);
+
+    $wrapper = entity_metadata_wrapper('commerce_customer_profile', $new_profile);
+
+    $wrapper->uid = $account;
+    $wrapper->commerce_customer_address->country = $country;
+    $wrapper->commerce_customer_address->administrative_area = $administrative_area;
+    $wrapper->commerce_customer_address->sub_administrative_area = $sub_administrative_area;
+    $wrapper->commerce_customer_address->locality = $locality;
+    $wrapper->commerce_customer_address->dependent_locality = $dependent_locality;
+    $wrapper->commerce_customer_address->postal_code = $postal_code;
+    $wrapper->commerce_customer_address->thoroughfare = $thoroughfare;
+    $wrapper->commerce_customer_address->premise = $premise;
+    //$wrapper->commerce_customer_address->sub_premise = $sub_premise;
+    $wrapper->commerce_customer_address->organisation_name = $organisation;
+    $wrapper->commerce_customer_address->name_line = $name_line;
+    $wrapper->commerce_customer_address->first_name = $first_name;
+    $wrapper->commerce_customer_address->last_name = $last_name;
+    //$wrapper->field_bcg_customer_phone = $phone;
+
+    commerce_customer_profile_save($new_profile);
+
+    /////////////////////////////////////////////////////////////////
+    // SHIPPING INFORMATION
+    /////////////////////////////////////////////////////////////////
+    $type = 'shipping';
+    $country = $form_state['values']['shipping_country_code'];
+    $administrative_area = $form_state['values']['shipping_state'];
+    $sub_administrative_area = NULL;
+    $locality = $form_state['values']['shipping_city'];
+    $dependent_locality = NULL;
+    $postal_code = $form_state['values']['shipping_zipcode'];
+    $thoroughfare = $form_state['values']['shipping_address1'];
+    $premise = (!empty($form_state['values']['shipping_address2']) ? 
+      $form_state['values']['shipping_address2'] : NULL);
+    //$sub_premise = NULL;
+    $organisation = NULL;
+    $first_name = $form_state['values']['first'];
+    $last_name = $form_state['values']['last'];
+    $name_line = $first_name . ' ' . $last_name;
+    //$phone = $profile['phone'];
+
+    $new_profile = commerce_customer_profile_new($type);
+
+    $wrapper = entity_metadata_wrapper('commerce_customer_profile', $new_profile);
+
+    $wrapper->uid = $account;
+    $wrapper->commerce_customer_address->country = $country;
+    $wrapper->commerce_customer_address->administrative_area = $administrative_area;
+    $wrapper->commerce_customer_address->sub_administrative_area = $sub_administrative_area;
+    $wrapper->commerce_customer_address->locality = $locality;
+    $wrapper->commerce_customer_address->dependent_locality = $dependent_locality;
+    $wrapper->commerce_customer_address->postal_code = $postal_code;
+    $wrapper->commerce_customer_address->thoroughfare = $thoroughfare;
+    $wrapper->commerce_customer_address->premise = $premise;
+    //$wrapper->commerce_customer_address->sub_premise = $sub_premise;
+    $wrapper->commerce_customer_address->organisation_name = $organisation;
+    $wrapper->commerce_customer_address->name_line = $name_line;
+    $wrapper->commerce_customer_address->first_name = $first_name;
+    $wrapper->commerce_customer_address->last_name = $last_name;
+    //$wrapper->field_bcg_customer_phone = $phone;
+
+    commerce_customer_profile_save($new_profile);
+
+    drupal_set_message('Your subscription was created successfully.');
+
+  } catch (Exception $e) {
+    
+    switch(get_class($e)){
+      case 'Recurly_NotFoundError':
+        drupal_set_message('Record could not be found', 'error');
+      case 'Recurly_ValidationError':
+        //if there are multiple errors, they are comma delimited
+        /*$messages = explode(',',$e->getMessage()); 
+        foreach($messages as $message){
+          print $message . "\n";
+        }*/
+        drupal_set_message($e->getMessage(), 'error');
+        break;
+      case 'Recurly_ServerError':
+        drupal_set_message('Problem communicating with Recurly', 'error');
+      default:
+        drupal_set_message(get_class($e) . ': ' . $e->getMessage(), 'error');
+    }
+    $form_state['redirect'] = FALSE;
+  }
+
+  //drupal_set_message(t('The form has been submitted.'));
+}
+function the_subscription_form_validatexxx($form, &$form_state) {
 
   global $user;
 
@@ -422,6 +663,9 @@ function the_subscription_form_validate($form, &$form_state) {
               // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-14', 
               //   array('external' => TRUE));
               break;
+            case 'thrice_a_week':
+              $plan_code = 'owls-howl-21';
+              break;
             case 'once_a_month':
               $plan_code = 'owls-howl-30';
               // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-30', 
@@ -444,6 +688,230 @@ function the_subscription_form_validate($form, &$form_state) {
               $plan_code = 'seasonal-variety-14';
               // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-14', 
               //   array('external' => TRUE));
+              break;
+            case 'thrice_a_week':
+              $plan_code = 'seasonal-variety-21';
+              break;
+            case 'once_a_month':
+              $plan_code = 'seasonal-variety-30';
+              // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-30', 
+              //   array('external' => TRUE));
+              break;
+            default:
+              throw new Exception("Error Processing Request", 1);
+              break;
+          }
+        
+        default:
+          # code...
+          break;
+      }
+
+      $default_subscription_currency = 'USD';
+
+      $subscription->plan_code = $plan_code;
+      $subscription->currency = $default_subscription_currency;
+
+      $account = new Recurly_Account();
+      $account->account_code = $form_state['values']['e_mail'];;
+      $account->email = $form_state['values']['e_mail'];
+      $account->first_name = $form_state['values']['first'];
+      $account->last_name = $form_state['values']['last'];
+
+      $billing_info = new Recurly_BillingInfo();
+      $billing_info->first_name = $form_state['values']['first'];
+      $billing_info->last_name = $form_state['values']['last'];
+      $billing_info->address1 = $form_state['values']['billing_address1'];
+      $billing_info->address2 = $form_state['values']['billing_address2'];
+      $billing_info->city = $form_state['values']['billing_city'];
+      $billing_info->state = $form_state['values']['billing_state'];
+      $billing_info->zip = $form_state['values']['billing_zipcode'];
+      $billing_info->country = $form_state['values']['billing_country_code'];
+      $billing_info->number = $form_state['values']['cc_number'];
+      $billing_info->month = $form_state['input']['cc_exp']['month'];
+      $billing_info->year = $form_state['input']['cc_exp']['year'];
+
+      $account->billing_info = $billing_info;
+      $subscription->account = $account;
+
+      $subscription->create();
+
+      /////////////////////////////////////////////////////////////////
+      // COMMERCE TABLES
+      /////////////////////////////////////////////////////////////////
+      
+      $account = $user->uid;
+
+      /////////////////////////////////////////////////////////////////
+      // BILLING INFORMATION
+      /////////////////////////////////////////////////////////////////
+      //$type = $profile['type'];
+      $type = 'billing';
+      $country = $form_state['values']['billing_country_code'];
+      $administrative_area = $form_state['values']['billing_state'];
+      $sub_administrative_area = NULL;
+      $locality = $form_state['values']['billing_city'];
+      $dependent_locality = NULL;
+      $postal_code = $form_state['values']['billing_zipcode'];
+      $thoroughfare = $form_state['values']['billing_address1'];
+      $premise = (!empty($form_state['values']['billing_address2']) ? 
+        $form_state['values']['billing_address2'] : NULL);
+      //$sub_premise = NULL;
+      $organisation = NULL;
+      $first_name = $form_state['values']['first'];
+      $last_name = $form_state['values']['last'];
+      $name_line = $first_name . ' ' . $last_name;
+      //$phone = $profile['phone'];
+
+      $new_profile = commerce_customer_profile_new($type);
+
+      $wrapper = entity_metadata_wrapper('commerce_customer_profile', $new_profile);
+
+      $wrapper->uid = $account;
+      $wrapper->commerce_customer_address->country = $country;
+      $wrapper->commerce_customer_address->administrative_area = $administrative_area;
+      $wrapper->commerce_customer_address->sub_administrative_area = $sub_administrative_area;
+      $wrapper->commerce_customer_address->locality = $locality;
+      $wrapper->commerce_customer_address->dependent_locality = $dependent_locality;
+      $wrapper->commerce_customer_address->postal_code = $postal_code;
+      $wrapper->commerce_customer_address->thoroughfare = $thoroughfare;
+      $wrapper->commerce_customer_address->premise = $premise;
+      //$wrapper->commerce_customer_address->sub_premise = $sub_premise;
+      $wrapper->commerce_customer_address->organisation_name = $organisation;
+      $wrapper->commerce_customer_address->name_line = $name_line;
+      $wrapper->commerce_customer_address->first_name = $first_name;
+      $wrapper->commerce_customer_address->last_name = $last_name;
+      //$wrapper->field_bcg_customer_phone = $phone;
+
+      commerce_customer_profile_save($new_profile);
+
+      /////////////////////////////////////////////////////////////////
+      // SHIPPING INFORMATION
+      /////////////////////////////////////////////////////////////////
+      $type = 'shipping';
+      $country = $form_state['values']['shipping_country_code'];
+      $administrative_area = $form_state['values']['shipping_state'];
+      $sub_administrative_area = NULL;
+      $locality = $form_state['values']['shipping_city'];
+      $dependent_locality = NULL;
+      $postal_code = $form_state['values']['shipping_zipcode'];
+      $thoroughfare = $form_state['values']['shipping_address1'];
+      $premise = (!empty($form_state['values']['shipping_address2']) ? 
+        $form_state['values']['shipping_address2'] : NULL);
+      //$sub_premise = NULL;
+      $organisation = NULL;
+      $first_name = $form_state['values']['first'];
+      $last_name = $form_state['values']['last'];
+      $name_line = $first_name . ' ' . $last_name;
+      //$phone = $profile['phone'];
+
+      $new_profile = commerce_customer_profile_new($type);
+
+      $wrapper = entity_metadata_wrapper('commerce_customer_profile', $new_profile);
+
+      $wrapper->uid = $account;
+      $wrapper->commerce_customer_address->country = $country;
+      $wrapper->commerce_customer_address->administrative_area = $administrative_area;
+      $wrapper->commerce_customer_address->sub_administrative_area = $sub_administrative_area;
+      $wrapper->commerce_customer_address->locality = $locality;
+      $wrapper->commerce_customer_address->dependent_locality = $dependent_locality;
+      $wrapper->commerce_customer_address->postal_code = $postal_code;
+      $wrapper->commerce_customer_address->thoroughfare = $thoroughfare;
+      $wrapper->commerce_customer_address->premise = $premise;
+      //$wrapper->commerce_customer_address->sub_premise = $sub_premise;
+      $wrapper->commerce_customer_address->organisation_name = $organisation;
+      $wrapper->commerce_customer_address->name_line = $name_line;
+      $wrapper->commerce_customer_address->first_name = $first_name;
+      $wrapper->commerce_customer_address->last_name = $last_name;
+      //$wrapper->field_bcg_customer_phone = $phone;
+
+      commerce_customer_profile_save($new_profile);
+
+      drupal_set_message('Your subscription was created successfully.');
+
+    } catch (Exception $e) {
+      
+      switch(get_class($e)){
+        case 'Recurly_NotFoundError':
+          drupal_set_message('Record could not be found', 'error');
+        case 'Recurly_ValidationError':
+          //if there are multiple errors, they are comma delimited
+          /*$messages = explode(',',$e->getMessage()); 
+          foreach($messages as $message){
+            print $message . "\n";
+          }*/
+          drupal_set_message($e->getMessage(), 'error');
+          break;
+        case 'Recurly_ServerError':
+          drupal_set_message('Problem communicating with Recurly', 'error');
+        default:
+          drupal_set_message(get_class($e) . ': ' . $e->getMessage(), 'error');
+      }
+      $form_state['redirect'] = FALSE;
+    }
+
+  } // if(!empty($the_subscription) && !empty($subscription_type))
+
+}
+function the_subscription_form_validate_WORKS($form, &$form_state) {
+
+  global $user;
+
+  $the_subscription = $form_state['values']['the_subscription'];
+  $subscription_type = $form_state['values']['subscription_type'];
+
+  if(!empty($the_subscription) && !empty($subscription_type)) {
+
+    try {
+
+      $recurly_path = libraries_get_path('recurly');
+      include ("{$recurly_path}/lib/recurly.php");
+
+      Recurly_Client::$apiKey = 'f16643f607e34cbebbf589f7e3b532fd';
+
+      $subscription = new Recurly_Subscription();
+
+      switch ($the_subscription) {
+        case 'owls_howl_espresso':
+          switch ($subscription_type) {
+            case 'once_a_week':
+              $plan_code = 'owls-howl-7';
+              // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-7', 
+              //   array('external' => TRUE));
+              break;
+            case 'twice_a_week':
+              $plan_code = 'owls-howl-14';
+              // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-14', 
+              //   array('external' => TRUE));
+              break;
+            case 'thrice_a_week':
+              $plan_code = 'owls-howl-21';
+              break;
+            case 'once_a_month':
+              $plan_code = 'owls-howl-30';
+              // drupal_goto('https://etc.recurly.com/subscribe/owls-howl-30', 
+              //   array('external' => TRUE));
+              break;
+            default:
+              throw new Exception("Error Processing Request", 1);
+              break;
+          }
+          break;
+
+        case 'seasonal_variety':
+          switch ($subscription_type) {
+            case 'once_a_week':
+              $plan_code = 'seasonal-variety-7';
+              // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-7', 
+              //   array('external' => TRUE));
+              break;
+            case 'twice_a_week':
+              $plan_code = 'seasonal-variety-14';
+              // drupal_goto('https://etc.recurly.com/subscribe/seasonal-variety-14', 
+              //   array('external' => TRUE));
+              break;
+            case 'thrice_a_week':
+              $plan_code = 'seasonal-variety-21';
               break;
             case 'once_a_month':
               $plan_code = 'seasonal-variety-30';
