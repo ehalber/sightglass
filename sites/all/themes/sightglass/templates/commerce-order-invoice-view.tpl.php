@@ -12,7 +12,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-family: verdana, arial, helvetica; font-size: 11px;">
                   <tr>
                     <td nowrap="nowrap" style="line-height: 1.6em;" valign="middle">
-                      <a href=""><img src="https://sightglasscoffee.com/skin/frontend/sightglass/sightglass/images/logo_sightglass.png" height="111" width="111"/></a>
+                      TEST
                     </td>
                   </tr>
                 </table>
@@ -48,12 +48,6 @@
                             <?php print isset($info['customer_shipping']) ? $info['customer_shipping'] : ''; ?><br />
                           </td>
                         </tr>
-                        <tr>
-                          <td colspan="2">
-                            <?php print isset($info['gift_message']) ? '<b>Gift Message</b><br />' : ''; ?>
-                            <?php print  isset($info['gift_message']) ? $info['gift_message'] : ''; ?>
-                          </td>
-                        </tr>
                       </table>
 
                     </td>
@@ -80,7 +74,7 @@
                 <table>
                   <tr>
                     <td colspan="2" style="background: #EEE; color: #666; padding: 1em; font-size: 0.9em; line-height: 1.6em; border-top: #CCC 1px dotted; text-align: center;">
-                      
+                      [INSERT FOOTER]
                     </td>
                   </tr>
                 </table>

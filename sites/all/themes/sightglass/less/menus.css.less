@@ -508,9 +508,11 @@ canvas {
 }
 
 // Footer menu
-.pane-menu-menu-footer-about {
+.pane-menu-menu-footer-about,
+.section-footer .email {
 	li {
 		line-height: 20px;
+		list-style: none !important;
 		&:hover {
 			background: @bgcolor;
 		}
@@ -522,6 +524,17 @@ canvas {
 		padding: 2px 4px 0;
 	}
 }
+
+.section-footer {
+	/*
+	  Push over main address to align with email link
+	 */
+	.address {
+		margin-left: 4px;
+	}
+}
+
+
 
 // Blog dropdown menu
 .menu-minipanel-579 {

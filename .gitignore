@@ -11,4 +11,6 @@ sites/*/private
 
 
 # Exceptions
-!sites/*/files/mailsystem*
+
+#sites/*/files
+#sites/*/default

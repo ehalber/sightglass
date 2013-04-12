@@ -229,6 +229,10 @@ function _commerce_invoice_receipt_get_invoice_info($order, $build) {
   if (isset($build['commerce_order'][$order->order_id]['commerce_order_total'])) {
     $info['order_total'] = $build['commerce_order'][$order->order_id]['commerce_order_total'][0]['#markup'];
   }
+
+  if (isset($build['commerce_order'][$order->order_id]['field_gift_message'])) {
+    $info['gift_message'] = $build['commerce_order'][$order->order_id]['field_gift_message'][0]['#markup'];
+  }
   
   return $info;
 }
