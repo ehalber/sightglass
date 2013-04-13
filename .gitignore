@@ -6,6 +6,7 @@ sites/*/settings*.php
 sites/*/files
 sites/*/private
 
+cache/*
 
 .DS*
 
