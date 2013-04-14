@@ -1,0 +1,4 @@
+name = Sightglass Custom
+description = A custom module with some overrides
+core = 7.x
+package = Drupal 7 Development
