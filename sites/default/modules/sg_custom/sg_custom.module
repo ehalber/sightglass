@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * This custom module was started so I could adjust the 
+ * weight of the shipping services that are currently
+ * employeed by sightglass coffee.
+ */
+
+
+/**
+ * Implements hook_commerce_shipping_service_info_alter().
+ */
+function sg_custom_commerce_shipping_service_info_alter(&$shipping_services) {
+  if (isset($shipping_services['priority'])) {
+    $shipping_services['priority']['weight'] = -10;
+  }
+}
