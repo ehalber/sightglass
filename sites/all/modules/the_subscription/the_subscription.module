@@ -126,6 +126,13 @@ function the_subscription_form($form, &$form_state) {
     '#required' => TRUE,
   );
 
+  $form['quantity'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Quantity'),
+    '#size' => 2,
+    '#required' => TRUE,
+  );
+
   $form['contact_information'] = array(
     '#type' => 'item',
     '#title' => t('Contact Information'),
@@ -390,9 +397,10 @@ function the_subscription_form($form, &$form_state) {
 }
 
 /**
- * validation
+ * Implements hook_form_validate().
  */
 function the_subscription_form_validate($form, &$form_state) {
+
   if ($form_state['values']['billing_shipping']) {
     if (strcasecmp($form_state['values']['billing_address1'], $form_state['values']['shipping_address1']) != 0) {
       form_set_error('error1', 'Billing address1 is different with Shipping address1.');
@@ -401,19 +409,29 @@ function the_subscription_form_validate($form, &$form_state) {
       form_set_error('error2', 'Billing address2 is different with Shipping address2.');
     }
     if (strcasecmp($form_state['values']['billing_city'], $form_state['values']['shipping_city']) != 0) {
-      form_set_error('error2', 'Billing city is different with Shipping city.');
+      form_set_error('error3', 'Billing city is different with Shipping city.');
     }
     if (strcasecmp($form_state['values']['billing_state'], $form_state['values']['shipping_state']) != 0) {
-      form_set_error('error2', 'Billing stage is different with Shipping state.');
+      form_set_error('error4', 'Billing stage is different with Shipping state.');
     }
     if (strcasecmp($form_state['values']['billing_zipcode'], $form_state['values']['shipping_zipcode']) != 0) {
-      form_set_error('error2', 'Billing zip code is different with Shipping zip code.');
+      form_set_error('error5', 'Billing zip code is different with Shipping zip code.');
     }
     if (strcasecmp($form_state['values']['billing_country_code'], $form_state['values']['shipping_country_code']) != 0) {
-      form_set_error('error2', 'Billing country code is different with Shipping country code.');
+      form_set_error('error6', 'Billing country code is different with Shipping country code.');
     }
   }
+  if (!is_numeric($form_state['values']['quantity'])) {
+    form_set_error('error7', 'Quantity has to be a number.');
+  }
+  if ($form_state['values']['quantity'] <= 0) {
+    form_set_error('error8', 'Subscription quantity has to be greater than zero.');
+  }
 }
+
+/**
+ * Implements hook_form_submit().
+ */
 function the_subscription_form_submit($form, &$form_state) {
 
   global $user;
@@ -491,6 +509,7 @@ function the_subscription_form_submit($form, &$form_state) {
 
     $subscription->plan_code = $plan_code;
     $subscription->currency = $default_subscription_currency;
+    $subscription->quantity = $form_state['values']['quantity'];
 
     $account = new Recurly_Account();
     $account->account_code = $form_state['values']['e_mail'];;
