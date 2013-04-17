@@ -131,6 +131,7 @@ function the_subscription_form($form, &$form_state) {
     '#title' => t('Quantity'),
     '#size' => 2,
     '#required' => TRUE,
+    '#description' => 'We\'ll send this many 12oz bags, every time we ship.'
   );
 
   $form['contact_information'] = array(
@@ -634,7 +635,7 @@ function the_subscription_form_submit($form, &$form_state) {
 
     commerce_customer_profile_save($new_profile);
 
-    drupal_set_message(t('Your subscription was created successfully.'));
+    drupal_set_message(t('Thank you! Your subscription was created successfully. Please look for an email from Sightglass with information about your first coffee shipment.'));
 
   } catch (Exception $e) {
     
