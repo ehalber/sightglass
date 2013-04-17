@@ -510,6 +510,14 @@ function the_subscription_form_submit($form, &$form_state) {
     $subscription->plan_code = $plan_code;
     $subscription->currency = $default_subscription_currency;
     $subscription->quantity = $form_state['values']['quantity'];
+    // Make sure we bill them at fat tuesday
+    $isTuesday = date('l'); // Lower case 'L'
+    if ($isTuesday == 'Tuesday') {
+      $starts_at = date('Y-m-d');
+    } else {
+      $starts_at = date('Y-m-d', strtotime('next tuesday'));
+    }
+    $subscription->starts_at = $starts_at;
 
     $account = new Recurly_Account();
     $account->account_code = $form_state['values']['e_mail'];;
