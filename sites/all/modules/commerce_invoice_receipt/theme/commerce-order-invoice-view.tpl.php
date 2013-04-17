@@ -51,7 +51,7 @@
                         <tr>
                           <td colspan="2">
                             <?php print isset($info['gift_message']) ? '<b>Gift Message</b><br />' : ''; ?>
-                            <?php print  isset($info['gift_message']) ? $info['gift_message'] : ''; ?>
+                            <?php print isset($info['gift_message']) ? $info['gift_message'] : ''; ?>
                           </td>
                         </tr>
                       </table>

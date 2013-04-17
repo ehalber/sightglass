@@ -9,9 +9,14 @@
 
 /**
  * Implements hook_commerce_shipping_service_info_alter().
+ *
+ * In addition to moving priority mail to the top of the stack
+ * I have also altered the display title more clearly identify
+ * this method as as USPS option.
  */
 function sg_custom_commerce_shipping_service_info_alter(&$shipping_services) {
   if (isset($shipping_services['priority'])) {
     $shipping_services['priority']['weight'] = -10;
+    $shipping_services['priority']['display_title'] = 'USPS Priority';
   }
 }

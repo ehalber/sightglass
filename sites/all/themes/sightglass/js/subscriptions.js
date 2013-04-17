@@ -28,6 +28,22 @@
     
     // If there is an out of stock item, hide
     // the quantity field
+    // 
+    
+    /*
+      On the homepage we need to hack up one of the slides
+      to automatically anchor down and show the about us
+      video. In order to do this, we're going to do a bit of 
+      DOM work to add an anchor to the hyperlink. This is assuming
+      the video we want to link to is the first slide in the
+      sequence. Both the image and inline text are updated with
+      this manipulation.
+     */
+    if ($('.front').length) {
+      var videoURL = $('.view-front-slideshow .views-row-1').find('a').attr('href');
+      $('.view-front-slideshow .views-row-1').find('a').attr('href', videoURL + '#intromovie');
+    }
+    
     
 
   });
