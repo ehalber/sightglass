@@ -292,6 +292,14 @@ function the_subscription_form($form, &$form_state) {
     '#required' => TRUE,
   );
 
+  $form['billing_phone_number'] = array(
+    //'#type' => 'textfield',
+    '#type' => 'textfield',
+    '#title' => t('Phone Number'),
+    '#size' => 20,
+    '#required' => FALSE,
+  );
+
   //$path = drupal_get_path('theme', 'the_subscription');
   $path = drupal_get_path('module', 'the_subscription');
   $form['billing_shipping'] = array(
@@ -538,6 +546,8 @@ function the_subscription_form_submit($form, &$form_state) {
     $billing_info->number = $form_state['values']['cc_number'];
     $billing_info->month = $form_state['input']['cc_exp']['month'];
     $billing_info->year = $form_state['input']['cc_exp']['year'];
+    $billing_info->phone = $form_state['values']['billing_phone_number'];
+    $billing_info->ip_address = $_SERVER['REMOTE_ADDR'];
 
     $account->billing_info = $billing_info;
     $subscription->account = $account;
