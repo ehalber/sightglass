@@ -24,22 +24,4 @@ function sightglass_alpha_preprocess_html(&$vars) {
 
 	drupal_add_js($settings, 'setting');
 
-
-
-	//drupal_add_js('http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-511d3a0e269f77f9', 'external');
-	//
-	// If the user is logged in, replace the contents of 
-	// the menu item with the logout action
-	
-	//dsm($vars);
-
-	//dpm($vars['page']['header']['menu']['menu_second']['menu_menu-top-right'][1044]);
-
-
-
-	//unset($vars['page']['header']['menu']['menu_second']['menu_menu-top-right']['1044']);
-	//
-	//dpm($vars);
-	//dsm($vars);
-
 }

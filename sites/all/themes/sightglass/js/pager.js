@@ -1,6 +1,8 @@
-// This code helps make the default pager a little
-// more usable by cloning it and moving it into 
-// different positions around the view
+/*
+  This code helps make the default pager a little
+  more usable by cloning it and moving it into 
+  different positions around the view
+ */
 
 (function ($) {
   

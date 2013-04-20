@@ -33,7 +33,7 @@
 
     var isShareAppended = false;
 
-    $('.zone-footer .sharing-dropdown .pane-content').hide();
+    //$('.zone-footer .sharing-dropdown .pane-content').hide();
 
     // Replace share menu dropdown as it doesn't work out of the
     // the box. This solution basically appends the correct working
@@ -46,10 +46,10 @@
 
           // Save the code that's going to be inserted into the DOM 
           var menu = $('.zone-footer .sharing-dropdown .pane-content').contents();
-
           // Append the code to the correct element, and then remove
           // the element from the DOM
           $('.menu-minipanel-644 .pane-content').after(menu);
+
           $('.sharing-dropdown .pane-content').remove();
           
           $('.qtip-content .pane-content').show();
