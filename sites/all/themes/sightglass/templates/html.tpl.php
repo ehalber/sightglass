@@ -16,6 +16,6 @@
   <?php print $page; ?>
   <?php print $page_bottom; ?>
   <script type="text/javascript">//var addthis_config = {"data_track_addressbar":true};</script>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-511d3a0e269f77f9"></script>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-511d3a0e269f77f9"></script>
 </body>
 </html>

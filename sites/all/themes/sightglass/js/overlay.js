@@ -111,12 +111,12 @@
         if ($(this).parents('.view-product-center').find('.attachment img').length ) {
             $(this).attr('href', $(this).parents('.view-product-center').find('.attachment img').attr('src'));
              var string = $(this).attr('href');
-            $(this).attr('href', string.replace(/220x220_square/gi, 'new_lightbox'));  
+            $(this).attr('href', string.replace(/220x220_square/gi, 'coffee_region_large'));  
             $(this).attr('title', $(this).find('img').attr('title'));
         } else {
             $(this).attr('href', $(this).find('img').attr('src'));
             var string = $(this).attr('href');
-            $(this).attr('href', string.replace(/220x220_square/gi, 'new_lightbox'));  
+            $(this).attr('href', string.replace(/220x220_square/gi, 'coffee_region_large'));  
             $(this).attr('title', $(this).find('img').attr('title')); 
         }
 

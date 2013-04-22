@@ -20,3 +20,44 @@ function sg_custom_commerce_shipping_service_info_alter(&$shipping_services) {
     $shipping_services['priority']['display_title'] = 'USPS Priority';
   }
 }
+
+
+/**
+ * This function alters the normal user account form
+ * by removing a bunch of Drupal defaults and reorganizing
+ * the fields to more closely match the final design
+ * 
+ * @param  array $form       [description]
+ * @param  array $form_state [description]
+ * @param  string $form_id    [description]
+ * 
+ */
+function sg_custom_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+    
+  // Move current password down below email
+  $form['account']['current_pass']['#weight'] = 1;
+  $form['account']['current_pass']['#description'] = '';
+
+
+  // Remove default Drupal field description
+  $form['account']['mail']['#description'] = '';
+  
+  // Move password field and disable its description
+  $form['account']['pass']['#weight'] = 2;
+  $form['account']['pass']['#description'] = '';
+
+  // Remove mimemail field from form
+  $form['mimemail']['#type'] = 'value';
+  $form['mimemail']['mimemail_textonly']['#type'] = 'value';
+
+}
+
+/**
+ * Implements hook_menu_alter()
+ * @param  [type] $items [description]
+ * @return [type]        [description]
+ */
+function sg_custom_menu_alter(&$items) {
+  $items['user/%user/view']['type'] = MENU_CALLBACK;
+  $items['user/%user/edit']['title'] = 'Account';
+}

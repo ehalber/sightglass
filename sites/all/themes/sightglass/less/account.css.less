@@ -1,0 +1,67 @@
+/*
+  This stylesheet contains all the styles for the 
+  account section including account, addressbook and 
+  order history
+ */
+
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+.page-user {
+	/*
+	  This is the main container for the page. All of these
+	  pages are rendered by drupal core and we're not doing
+	  and fancy overrides in the first phase
+	 */
+	.block-system-main, .tabs {
+		margin: 0 auto;
+		width: 700px;
+	}
+	/*
+	   The tabs are designed to look like the checkout
+	   tabs.
+	 */
+	.tabs {
+		border-bottom: 0;
+		li {
+			.border-radius(4px);
+			border: 1px solid #ccc;
+			display: inline-block;
+			padding: 4px 5px;
+			width: 110px;
+			font-size: 14px;
+			.center;
+			.typewriter;
+			width: 158px;
+			&.active {
+				
+				background: #000;
+				a {
+					background: none;
+					border: 0;
+					color: #fff;
+				}
+			}
+			&:hover {
+				background: #000;
+				a {
+					color: #fff;
+					background: none;
+				}
+			}
+			a {
+				.typewriter;
+				border: 0;
+				display: block;
+				color: #000;
+				padding: 0;
+				&:link, &:visited {
+					text-decoration: none;
+				}
+				&:hover {
+					background: none;
+				}
+			}
+		}
+	}
+}
