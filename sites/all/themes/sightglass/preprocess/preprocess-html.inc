@@ -7,6 +7,11 @@ function sightglass_alpha_preprocess_html(&$vars) {
 	// Add all css from http://www.webink.com/ online type foundry
 	drupal_add_css('http://fnt.webink.com/wfs/webink.css/?project=9CFCB3DE-7C0A-413C-AD1F-7638D7F9A803&fonts=D30601E7-1DA0-BAC0-54FE-8E8C7D662B18:f=Typewriter-Medium,D8F3B8D2-63C2-8F91-037A-55138D453343:f=Typewriter-Bold,E595B706-42D6-77FB-3BC7-A0E290BAE8DD:f=Tondo-Regular,D1675F23-7746-D5BB-8E42-E2EED0FD7F4D:f=Typewriter,63593AFE-8EF9-393F-E993-F3BE2C200FBB:f=Tondo-Bold,F868C399-D74A-EC3F-0F48-F27258782A32:f=Tondo-Light,203D55FB-19B6-82BB-0FDE-7A0597273B4A:f=Tondo-Signage', 'external');
 
+       /*
+	 Add fonts for ssl sites
+       */
+       drupal_add_css('https://fnt.webink.com/wfs/webink.css/?project=9CFCB3DE-7C0A-413C-AD1F-7638D7F9A803&fonts=E595B706-42D6-77FB-3BC7-A0E290BAE8DD:f=Tondo-Regular,63593AFE-8EF9-393F-E993-F3BE2C200FBB:f=Tondo-Bold,F868C399-D74A-EC3F-0F48-F27258782A32:f=Tondo-Light,203D55FB-19B6-82BB-0FDE-7A0597273B4A:f=Tondo-Signage', 'external');
+
 	//drupal_add_js('sites/all/libraries/colorbox', 'file');
 
 	//drupal_add_css('sites/all/libraries/shadowbox-3.0.3/shadowbox.css', 'file');
