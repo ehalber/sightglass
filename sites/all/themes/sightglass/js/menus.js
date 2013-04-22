@@ -33,7 +33,7 @@
 
     var isShareAppended = false;
 
-    //$('.zone-footer .sharing-dropdown .pane-content').hide();
+    $('.zone-footer .sharing-dropdown .pane-content').hide();
 
     // Replace share menu dropdown as it doesn't work out of the
     // the box. This solution basically appends the correct working
