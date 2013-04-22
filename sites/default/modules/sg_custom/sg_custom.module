@@ -51,3 +51,13 @@ function sg_custom_form_user_profile_form_alter(&$form, &$form_state, $form_id) 
   $form['mimemail']['mimemail_textonly']['#type'] = 'value';
 
 }
+
+/**
+ * Implements hook_menu_alter()
+ * @param  [type] $items [description]
+ * @return [type]        [description]
+ */
+function sg_custom_menu_alter(&$items) {
+  $items['user/%user/view']['type'] = MENU_CALLBACK;
+  $items['user/%user/edit']['title'] = 'Account';
+}
