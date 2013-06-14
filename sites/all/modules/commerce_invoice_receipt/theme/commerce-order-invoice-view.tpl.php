@@ -12,7 +12,7 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-family: verdana, arial, helvetica; font-size: 11px;">
                   <tr>
                     <td nowrap="nowrap" style="line-height: 1.6em;" valign="middle">
-                      <a href=""><img src="https://sightglasscoffee.com/skin/frontend/sightglass/sightglass/images/logo_sightglass.png" height="111" width="111"/></a>
+                      <a href=""><img src="https://sightglasscoffee.com/sites/all/themes/sightglass/images/email_logo.png" height="110" width="110"/></a>
                     </td>
                   </tr>
                 </table>

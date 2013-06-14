@@ -21,7 +21,7 @@
     $('.page-blog .views-field-field-image a, .node-type-article .views-field-field-image a').each(function() {
         $(this).attr('href', $(this).find('img').attr('src'));
         var string = $(this).attr('href');
-        $(this).attr('href', string.replace(/blog_hero/gi, 'lightbox_display'));  
+        $(this).attr('href', string.replace(/blog_hero/gi, 'new_lightbox'));  
         $(this).attr('title', $(this).find('img').attr('title')); 
         
         $('.fancybox').fancybox({
@@ -157,7 +157,7 @@
     $('.not-front .views-slideshow-cycle-main-frame-row').each(function() {
         
         var img = $(this).find('img').attr('src');
-        $(this).find('.fancybox').attr('href', img.replace(/tab_slideshow/gi, 'coffee_region_large'));
+        $(this).find('.fancybox').attr('href', img.replace(/tab_slideshow/gi, 'new_lightbox'));
         $(this).find('.fancybox').fancybox({
             transitionIn: 'fade',
             transitionOut: 'fade',
@@ -194,8 +194,7 @@
     // any of the overview pages
     $('.page-wholesale-featured-partner .view-featured-partner.view-display-id-block_2 .views-row').each(function() {
             var imgEl = $(this).find('img').attr('src');
-            console.log(imgEl);
-            $(this).find('.fancybox').attr('href', imgEl.replace(/featured_partner_images_336x200/gi, 'coffee_region_large'));
+            $(this).find('.fancybox').attr('href', imgEl.replace(/featured_partner_images_336x200/gi, 'new_lightbox'));
             $(this).find('.fancybox').fancybox({
                 transitionIn: 'fade',
                 transitionOut: 'fade',
@@ -207,7 +206,8 @@
                 overlayColor: '#473000',
                 scrolling: 'no',
                 padding: 3,
-                autoScale: true,
+                autoScale: false,
+                autoDimensions: true,
                 cyclic: true,
             
                 titlePosition: 'outside',
