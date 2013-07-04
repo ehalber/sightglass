@@ -238,7 +238,23 @@ function commerce_checkout_form_validate($form, &$form_state) {
   // Load a fresh copy of the order stored in the form.
   $order = commerce_order_load($form_state['order']->order_id);
 
-  // Catch and clear already pushed messages.
+  // TODO - recurly
+  $found_subscription = false;
+  if ($checkout_page['next_page'] == 'shipping') {
+    //$is_subscription_product = commerce_checkout_is_subscription_product($order, $form_state);
+    $is_subscription_product = my_recurly_is_subscription_product($order, $form_state);
+    //$found_subscription = commerce_checkout_subscription_product($order, $form_state);
+    $found_subscription = my_recurly_subscription_product($order, $form_state);
+  }
+  if ($checkout_page['next_page'] == 'payment') {
+    //$is_subscription_product = commerce_checkout_is_subscription_product($order, $form_state);
+    $is_subscription_product = my_recurly_is_subscription_product($order, $form_state);
+    if (!empty($is_subscription_product)) {
+      //$found_subscription = commerce_checkout_create_subscription($order, $form_state);
+      $found_subscription = my_recurly_create_subscription($order, $form_state);
+    }
+  }
+
   $previous_messages = drupal_get_messages();
 
   // Load any pre-existing validation errors for the elements.
@@ -302,7 +318,7 @@ function commerce_checkout_form_validate($form, &$form_state) {
 
   // If a pane failed validation or the form state has otherwise been altered to
   // initiate a rebuild, return without moving to the next checkout page.
-  if (!$form_validate || $form_state['rebuild']) {
+  if (!$form_validate || $form_state['rebuild'] || $found_subscription) {
     $form_state['rebuild'] = TRUE;
   }
 }
@@ -433,3 +449,4 @@ function theme_commerce_checkout_review($variables) {
 
   return theme('table', array('rows' => $rows, 'attributes' => array('class' => array('checkout-review'))));
 }
+
