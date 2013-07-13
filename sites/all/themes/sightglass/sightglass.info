@@ -403,3 +403,4 @@ scripts[] = js/pager.js
 scripts[] = js/header_scroll.js
 scripts[] = js/subscriptions.js
 scripts[] = js/sign_in.js
+scripts[] = js/detail_page_paging.js

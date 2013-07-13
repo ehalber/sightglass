@@ -547,3 +547,65 @@
 .attachment {
 	display: none;
 }
+
+
+/*
+  Paging controls
+ */
+.pager-controls {
+	top: 210px;
+	z-index: 100;
+	position: absolute;
+	width: 120px;
+	&:hover span {
+			text-indent: 0;
+		}
+	//outline: 1px solid red;
+	a {
+		height: 30px;
+		position: absolute;
+		width: 21px;
+		display: block;
+		text-indent: -300em;
+		background: url(/sites/all/themes/sightglass/images/ui_elements.png) no-repeat;
+	}
+	span {
+		//outline: 1px solid blue;
+		position: absolute;
+		top: 4px;
+		display: block;
+		color: @beige;
+		.tondo-bold;
+
+	}
+	
+}
+
+.pager-left {
+	left: 60px;
+	a {
+		background-position: -125px 0;
+	}
+	span {
+		left: -40px;
+		text-indent: -300em;
+	}
+}
+
+.pager-right {
+	right: -40px;
+	a {
+		background-position: -145px 0;
+	}
+	span {
+		right: 60px;
+		text-indent: -300em;
+	}
+}
+
+/*
+  Hide the nid lists that are used to control paging
+ */
+.nid-block {
+	display: none;
+}

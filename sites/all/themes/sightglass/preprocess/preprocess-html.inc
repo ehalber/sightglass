@@ -29,4 +29,16 @@ function sightglass_alpha_preprocess_html(&$vars) {
 
 	drupal_add_js($settings, 'setting');
 
+
+	/*
+	  Here we're grabbing the node id and making it 
+	  available to js for use with a custom built paging 
+	  mechanism
+	 */
+	if ($node_info = menu_get_object()) {
+		drupal_add_js(array('node_lookup' => array(
+			'nid' => $node_info->nid
+		)), 'setting');
+	}
+
 }
