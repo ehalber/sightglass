@@ -15,7 +15,7 @@
     }
     */
     var list = [];
-    $('.view-display-id-block_10 .views-row').each(function(i) {
+    $('.detail-page-pager .views-row').each(function(i) {
         list[i] = $(this).find('.views-field-nid span').text();
     });
 
