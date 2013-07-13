@@ -17,6 +17,7 @@
     }
     
     $(window).bind('resize, load', function() {
+        return;
     	docHeight = $(document).height();
     	winHeight = $(window).height();
     	if (winHeight >= docHeight) {
