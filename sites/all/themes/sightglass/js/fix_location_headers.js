@@ -139,11 +139,11 @@
 
         $('.pane-product-detail-description-panel-pane-1').before('<div class="above-description" />');
 
-        /*
-        $('.view-product-center .more-button').click(function() {
+        
+        $('.node-type-brewing-tools .view-product-center .more-button').click(function() {
             $('.views-field-body').slideToggle();
         });
-        */
+        
 
         // -- Replace file name with Download text
         $('.views-field-field-spec-sheet a, .views-field-field-spec-sheet-1 a').text('Download');
