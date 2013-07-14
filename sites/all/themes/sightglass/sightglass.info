@@ -391,6 +391,8 @@ stylesheets[all][] = less/order_history.css.less
 
 stylesheets[all][] = less/account.css.less
 
+stylesheets[all][] = less/landing_pages.css.less
+
 scripts[] = js/eh.utils.js
 scripts[] = js/fixed_footer.js
 scripts[] = js/menus.js

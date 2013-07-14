@@ -1,0 +1,86 @@
+/*
+  This display contains all of the styles for the overview 
+  and coffee landing pages. I'ved decided to do this this way
+  as I'm worried that tying into previously finished template
+  less will be a little tough to manage.
+ */
+
+@import 'mixins.css.less';
+@import 'variables.css.less';
+
+.page-coffees {
+	.view-coffee-types {
+		width: 720px;
+
+		margin: 40px auto;
+	}
+	.view-content {
+		background: url(/sites/all/themes/sightglass/images/dots_horz_1.png) repeat-x;
+		height: 4px;
+	}
+	.views-row {
+		float: left;
+		height: 400px;
+		position: relative;
+		//outline: 1px solid red;
+		width: 220px;
+		padding: 20px 10px;
+		transition: all .2s;
+		&:hover {
+			background: #D1CBC0;
+		}
+	}
+	.views-field-name {
+		margin-top: 15px;
+		text-align: center;
+		a {
+			.tondo-bold;
+			font-size: 18px;
+			color: @brown;
+			text-decoration: none;
+		}
+	}
+	.views-field-field-image img {
+		border: 3px solid #fff;
+	}
+	.divider {
+		height: 430px;
+		width: 2px;
+		position: absolute;
+		background: url(/sites/all/themes/sightglass/images/dots_vert_1.png) repeat-y;
+		left: 239px;
+		top: 10px;
+		z-index: 200;
+	}
+	.horz-divider {
+		height: 2px;
+		width: 220px;
+		position: absolute;
+		background: url(/sites/all/themes/sightglass/images/dots_horz_1.png) repeat-x;
+		bottom: -1px;
+		left: 10px;
+		z-index: 10;
+	}
+
+
+}
+
+/*
+  Coffee menu changes
+ */
+#zone-menu-wrapper .qtip-content .menu-minipanel-952 span {
+	a {
+		font-family: Typewriter !important;
+		color: #4D3608;
+		font-size: 13px;
+		text-transform: capitalize;
+		padding: 0;
+		display: inline;
+		border-bottom: 1px solid #4D3608;
+		&:hover {
+			background: none;
+		}
+	}
+
+}
+
