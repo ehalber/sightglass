@@ -8,10 +8,53 @@
 @import 'mixins.css.less';
 @import 'variables.css.less';
 
-.page-coffees {
-	.view-coffee-types {
-		width: 720px;
+.page-store {
+	.coffees {
+		clear: both;
+		.pane-title {
+			.tondo-bold;
+			font-size: 18px;
+			text-align: center;
+			margin-bottom: 0;
+		}
+		.view-coffee-types {
+			margin-top: 0;
+		}
+	}
+	.brewing-types {
+		clear: both;
+		padding-top: 40px;
+		.pane-title {
+			.tondo-bold;
+			font-size: 18px;
+			text-align: center;
+			margin-bottom: 0;
+		}
+		.view-brewing-types {
+			margin-top: 0;
+		}
+	}
+	.featured-stuff {
+		clear: both;
+		padding-top: 40px;
+		.pane-title {
+			.tondo-bold;
+			font-size: 18px;
+			text-align: center;
+			margin-bottom: 0;
+		}
+		.view-store-featured {
+			margin-top: 0;
+		}
+	}
+}
 
+.page-coffees,
+.page-store {
+	.view-store-featured,
+	.view-coffee-types,
+	.view-brewing-types {
+		width: 720px;
 		margin: 40px auto;
 	}
 	.view-content {
@@ -20,7 +63,7 @@
 	}
 	.views-row {
 		float: left;
-		height: 400px;
+		height: 300px;
 		position: relative;
 		//outline: 1px solid red;
 		width: 220px;
@@ -30,7 +73,8 @@
 			background: #D1CBC0;
 		}
 	}
-	.views-field-name {
+	.views-field-name,
+	.title {
 		margin-top: 15px;
 		text-align: center;
 		a {
@@ -40,11 +84,14 @@
 			text-decoration: none;
 		}
 	}
+	.title {
+		margin-top: 3px;
+	}
 	.views-field-field-image img {
 		border: 3px solid #fff;
 	}
 	.divider {
-		height: 430px;
+		height: 330px;
 		width: 2px;
 		position: absolute;
 		background: url(/sites/all/themes/sightglass/images/dots_vert_1.png) repeat-y;
@@ -60,6 +107,47 @@
 		bottom: -1px;
 		left: 10px;
 		z-index: 10;
+	}
+	.term {
+		margin-top: 10px;
+		text-align: center;
+		.uppercase;
+		font-size: 12px;
+		.tondo-bold;
+		span {
+			border-bottom-width: 1px;
+			border-bottom-style: solid;
+		}
+	}
+	.Africa {
+		color: @red;
+		border-bottom-color: @red;
+	}
+	.Latin-America {
+		color: @green;
+		border-bottom-color: @green;
+	}
+	.Pacific {
+		color: @blue;
+		border-bottom-color: @blue;
+	}
+	.Espresso {
+		color: @black;
+		border-bottom-color: @black;
+	}
+	.Blends,
+	.Decaf {
+		color: @brown;
+		border-bottom-color: @brown;
+	}
+	.Brewers,
+	.Filters,
+	.Accessories,
+	.Kettles,
+	.Grinders {
+		img {
+			border: 3px solid #fff;
+		}
 	}
 
 

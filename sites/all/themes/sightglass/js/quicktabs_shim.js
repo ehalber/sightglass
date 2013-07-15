@@ -45,8 +45,8 @@
       user clicks on the store button in the main navigation
      */
     $('.menu a.menu-minipanel-952').click(function(e) {
-        return false;
-        e.preventDefault();
+        //return false;
+        //e.preventDefault();
     });
     
     
