@@ -65,106 +65,107 @@
 	.view-brewing-types {
 		width: 720px;
 		margin: 40px auto;
-	}
-	.view-content {
-		background: url(/sites/all/themes/sightglass/images/dots_horz_1.png) repeat-x;
-		height: 4px;
-	}
-	.views-row {
-		float: left;
-		height: 300px;
-		position: relative;
-		//outline: 1px solid red;
-		width: 220px;
-		padding: 20px 10px;
-		transition: all .2s;
-		&:hover {
-			background: #D1CBC0;
+		.view-content {
+			background: url(/sites/all/themes/sightglass/images/dots_horz_1.png) repeat-x;
+			height: 4px;
 		}
-	}
-	.views-field-name,
-	.title {
-		margin-top: 15px;
-		text-align: center;
-		a {
+		.views-row {
+			float: left;
+			height: 300px;
+			position: relative;
+			//outline: 1px solid red;
+			width: 220px;
+			padding: 20px 10px;
+			transition: all .2s;
+			&:hover {
+				background: #D1CBC0;
+			}
+		}
+		.views-field-name,
+		.title {
+			margin-top: 15px;
+			text-align: center;
+			a {
+				.tondo-bold;
+				font-size: 18px;
+				line-height: 22px;
+				color: @brown;
+				text-decoration: none;
+			}
+		}
+		.title {
+			margin-top: 3px;
+		}
+		.views-field-field-image img {
+			border: 3px solid #fff;
+		}
+		.divider {
+			height: 330px;
+			width: 2px;
+			position: absolute;
+			background: url(/sites/all/themes/sightglass/images/dots_vert_1.png) repeat-y;
+			left: 239px;
+			top: 10px;
+			z-index: 200;
+		}
+		.horz-divider {
+			height: 2px;
+			width: 220px;
+			position: absolute;
+			background: url(/sites/all/themes/sightglass/images/dots_horz_1.png) repeat-x;
+			bottom: -1px;
+			left: 10px;
+			z-index: 10;
+		}
+		.term {
+			margin-top: 10px;
+			text-align: center;
+			.uppercase;
+			font-size: 12px;
 			.tondo-bold;
-			font-size: 18px;
-			line-height: 22px;
+			span {
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+		}
+		a[href*=brewing-tools-and-goods] {
+			img {
+				border: 3px solid #fff;
+			}
+		}
+		.Africa {
+			color: @red;
+			border-bottom-color: @red;
+		}
+		.Latin-America,
+		.Latin.America {
+			color: @green;
+			border-bottom-color: @green;
+		}
+		.Pacific {
+			color: @blue;
+			border-bottom-color: @blue;
+		}
+		.Espresso {
+			color: @black;
+			border-bottom-color: @black;
+		}
+		.Blends,
+		.Decaf {
 			color: @brown;
-			text-decoration: none;
+			border-bottom-color: @brown;
+		}
+		.Brewers,
+		.Filters,
+		.Accessories,
+		.Kettles,
+		.Grinders {
+			img {
+				border: 3px solid #fff;
+			}
 		}
 	}
-	.title {
-		margin-top: 3px;
-	}
-	.views-field-field-image img {
-		border: 3px solid #fff;
-	}
-	.divider {
-		height: 330px;
-		width: 2px;
-		position: absolute;
-		background: url(/sites/all/themes/sightglass/images/dots_vert_1.png) repeat-y;
-		left: 239px;
-		top: 10px;
-		z-index: 200;
-	}
-	.horz-divider {
-		height: 2px;
-		width: 220px;
-		position: absolute;
-		background: url(/sites/all/themes/sightglass/images/dots_horz_1.png) repeat-x;
-		bottom: -1px;
-		left: 10px;
-		z-index: 10;
-	}
-	.term {
-		margin-top: 10px;
-		text-align: center;
-		.uppercase;
-		font-size: 12px;
-		.tondo-bold;
-		span {
-			border-bottom-width: 1px;
-			border-bottom-style: solid;
-		}
-	}
-	a[href*=brewing-tools-and-goods] {
-		img {
-			border: 3px solid #fff;
-		}
-	}
-	.Africa {
-		color: @red;
-		border-bottom-color: @red;
-	}
-	.Latin-America,
-	.Latin.America {
-		color: @green;
-		border-bottom-color: @green;
-	}
-	.Pacific {
-		color: @blue;
-		border-bottom-color: @blue;
-	}
-	.Espresso {
-		color: @black;
-		border-bottom-color: @black;
-	}
-	.Blends,
-	.Decaf {
-		color: @brown;
-		border-bottom-color: @brown;
-	}
-	.Brewers,
-	.Filters,
-	.Accessories,
-	.Kettles,
-	.Grinders {
-		img {
-			border: 3px solid #fff;
-		}
-	}
+
 
 	.view-coffee-types {
 		a[href*=espresso] {
