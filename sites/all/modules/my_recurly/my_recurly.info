@@ -1,0 +1,3 @@
+name = My Recurly
+description = User defined recurly functionality
+core = 7.x

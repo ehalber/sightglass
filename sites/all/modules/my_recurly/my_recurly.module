@@ -1,0 +1,373 @@
+<?php
+/**
+ * @file
+ * A block module for user defined recurly
+ */
+
+/**
+ * Implements hook_help.
+ *
+ * Displays help and module information.
+ *
+ * @param path 
+ *   Which path of the site we're using to display help
+ * @param arg 
+ *   Array that holds the current path as returned from arg() function
+ */
+function my_recurly_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#my_recurly":
+      return '<p>' . t("Displays user defined functionaly related to recurly.") . '</p>';
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function my_recurly_block_info() {
+  $blocks['my_recurly'] = array(
+    'info' => t('My Recurly'), //The name that will appear in the block list.
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_menu
+ */
+function my_recurly_menu() {
+	$item = array();
+
+	$item['admin/config/content/my_recurly'] = array(
+		'title' => 'My Recurly',
+		'description' => 'Configuration for My Recurly',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('my_recurly_form'),
+		'access_arguments' => array('access administration pages'),
+		//'access arguments' => array('access content'),
+		'type' => MENU_NORMAL_ITEM,
+	);
+
+	return $item;
+}
+
+/**
+ * Page callback: My Recurly settings
+ *
+ * @see my_recurly_menu()
+ */
+function my_recurly_form($form, &$form_state) {
+	$form['my_recurly_api_key'] = array(
+	  '#type' => 'textfield',
+	  '#title' => t('Recurly API Key'),
+	  '#default_value' => variable_get('recurly_api_key', ''),
+	  '#size' => 50,
+	  '#maxlength' => 50,
+	  '#description' => t('The Recurly API Key'),
+	  '#required' => TRUE,
+	 );
+
+	return system_settings_form($form);
+}
+
+/**
+ * Implements hook_block_view
+ */
+function my_recurly_block_view($delta = '') {
+  // Gets all subscriptions
+  $recurly_path = libraries_get_path('recurly');
+  include ("{$recurly_path}/lib/recurly.php");
+
+  $recurly_api_key = variable_get('recurly_api_key', '');
+  Recurly_Client::$apiKey = $recurly_api_key;
+
+  switch ($delta) {
+  	case 'my_recurly':
+  	  $block['subject'] = t('Current active subscriptions');
+  	  
+  	  $subscriptions = Recurly_SubscriptionList::getActive();
+  	  
+	  $items = array();
+	  //echo '<pre>xxx';
+	  foreach ($subscriptions as $subscription) {
+	  	//foreach ($subscription as $key => $value) {
+	  		/*echo '$x: ' . $x . '<br />';
+	  		echo '<pre>$subscription: ';print_r($subscription); echo '<br />';
+	  		echo '<pre>$subscription->plan->plan_code: ';print_r($subscription->plan->plan_code); echo '<br />';*/
+	  	//}
+	    //print "Subscription: $subscription\n";
+	  	
+	  	// Gets subscription's activated_at date
+	  	foreach ($subscription->activated_at as $key => $activated_at) {
+	  	  if ($key == 'date') {
+	  	  	$date_activated = $activated_at;
+	  	  }
+	  	}
+
+	  	// Gets subscription's current_period_started_at date
+	  	foreach ($subscription->current_period_started_at as $key => $current_period_started_at) {
+	  	  if ($key == 'date') {
+	  	  	$current_date_started = $current_period_started_at;
+	  	  }
+	  	}
+
+	  	// Gets subscription's current_period_ends_at date
+	  	foreach ($subscription->current_period_ends_at as $key => $current_period_ends_at) {
+	  	  if ($key == 'date') {
+	  	  	$current_date_ends = $current_period_ends_at;
+	  	  }
+	  	}
+
+	  	// Gets subscription details
+	  	/*$xsubscription = Recurly_Subscription::get($subscription->uuid);
+	  	echo '<pre>xsubscription';
+		print "xSubscription: $xsubscription\n";*/
+		
+	    $items[] = array(
+	    	array('data' => $subscription->plan->plan_code, 'width' => '120'),
+	    	array('data' => $subscription->quantity, 'style' => 'width:100px;color:red;'),
+	    	array('data' => $subscription->currency . ' ' . ($subscription->unit_amount_in_cents/100.00)),
+	    	array('data' => $date_activated),
+	    	array('data' => $current_date_started),
+	    	array('data' => $current_date_ends),
+	    	array('data' => $subscription->uuid),
+	    );
+	  }
+
+	  /*echo '<pre>subscriptions';
+print_r($subscriptions);//exit;
+	  echo __FILE__ . ' ' . __LINE__ . '<br />';
+	  exit;*/
+
+	  if (empty($subscriptions)) {
+	  	$block['content'] = t('There is no active subscription available.');
+	  } else {
+	  	/*$block['content'] = theme('item_list', 
+	  		array('items' => $items)
+	  	);*/
+		$header = array(
+		  array('data' => t('Plan Code')), 
+		  array('data' => t('Quantity')),
+		  array('data' => t('Unit Price')),
+		  array('data' => t('Activated @')),
+		  array('data' => t('Current Period Started @')),
+		  array('data' => t('Current Period Ends @')),
+		  array('data' => t('Subscription ID')),
+		);
+
+  		// creating first row
+	    $rows[] = array(
+	      // output of first cell in 1 row
+	      array('data' => t('Row 1 – Cell 1')),
+	      // second cell
+	      array('data' => t('Row 1 – Cell 2')),
+	      // third cell
+	      array('data' => t('Row 1 – Cell 3')) 
+	    );
+		//second row output
+		$rows[] = array(
+		  array('data' => t('Row 2 – Cell 1')),
+		  array('data' => t('Row 2 – Cell 2')),
+		  array('data' => t('Row 2 – Cell 3'))
+		);
+
+		$attributes = array(
+		  'border'		=> 10,
+		  'cellspacing' => 0,
+		  'cellpadding' => 5,
+		  //'class'       => 'example'
+		);
+		/*echo '<pre>$rows: ';
+		print_r($items);exit;*/
+		$block['content'] = theme('table', array('header' => $header, 'rows' => $items, 'attributes' => $attributes));
+		//$block['content'] = theme('table', $header, $rows);
+
+	  }
+  	
+  	  break;
+  }
+
+  return $block;
+}
+
+/**
+ * checks is there subscription product for a give order
+ */
+//function commerce_checkout_is_subscription_product($order, &$form_state) {
+function my_recurly_is_subscription_product($order, &$form_state) {
+  // Get line items object
+  $commerce_line_items = $order->commerce_line_items;
+
+  $subscription_products = array();
+  foreach ($commerce_line_items['und'] as $key => $value) {
+    // Get each line item
+    $line_item = commerce_line_item_load($value['line_item_id']);
+
+    // Get product_ids
+    $product_ids_data = $line_item->data;
+    $product_ids = array();
+
+    if (isset($product_ids_data['context']['product_ids'])) {
+      $product_ids = $product_ids_data['context']['product_ids'];
+    //}
+    //$product_ids = $product_ids_data['context']['product_ids'];
+
+      $product = commerce_product_load($product_ids[0]);
+      // Checks if the product is a subscription product
+      if (isset($product->field_is_subscription)) {
+        if ($product->field_is_subscription['und'][0]) {
+          $subscribed_product = $product;
+          array_push($subscription_products, $subscribed_product);
+        } else {
+          $is_subscription = false;
+        }
+      }
+    }
+  }
+
+  return (!empty($subscription_products)) ? $subscription_products : false;
+
+}
+
+/**
+ * checks if a given product in cart and email is already 
+ * subscribed in recurly
+ */
+function my_recurly_subscription_product($order, &$form_state) {
+
+  $subscription_products = my_recurly_is_subscription_product($order, $form_state);
+
+  if (!$subscription_products) {
+    return;
+  }
+
+  $recurly_path = libraries_get_path('recurly');
+  include ("{$recurly_path}/lib/recurly.php");
+
+  $recurly_api_key = variable_get('recurly_api_key', '');
+  Recurly_Client::$apiKey = $recurly_api_key;
+
+  // Now we check, if $subscription_products and email combination is
+  // already stored in recurly
+  $found_subscription = false;
+  foreach ($subscription_products as $key => $prod) {
+    if (isset($form_state['values']['account'])) {
+      $email_address = $form_state['values']['account']['login']['mail'];
+    }
+    //$email_address = $form_state['values']['account']['login']['mail'];
+
+    if (!empty($email_address)) {
+      try {
+        $subscription_lists = Recurly_SubscriptionList::getForAccount($email_address);
+
+        foreach ($subscription_lists as $xkey => $recurly_subscription) {
+          $plan_code = $recurly_subscription->plan->plan_code;
+          $state = $recurly_subscription->state;
+          if ($plan_code ==  $subscription_products[0]->sku && $state == 'active') {
+            $found_subscription = true;
+          }
+        }
+      } catch (Exception $e) {
+        $found_subscription = false;
+      }
+    } 
+
+    // Show the error if any
+    if ($found_subscription) {
+      drupal_set_message('Our system found that you already have subscription with this product "' . 
+        $subscription_products[0]->title . '".', 'error');
+      drupal_set_message('Please update your Bag.', 'error');
+      break;
+    }
+  }
+
+  return ($found_subscription) ? true : false;
+
+}
+
+/**
+ * checks is there subscription product for a give order
+ */
+function my_recurly_create_subscription($order, &$form_state) {
+
+  $subscription_products = my_recurly_is_subscription_product($order, $form_state);
+
+  if (!$subscription_products) {
+    return;
+  }
+
+  $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
+  
+  $profile_id = $order_wrapper->commerce_customer_billing->profile_id->value();
+  $profile = commerce_customer_profile_load($profile_id);
+  $commerce_customer_address = $profile->commerce_customer_address;
+  $billing_full_name = $commerce_customer_address['und']['0']['name_line'];
+  list($billing_first_name, $billing_last_name) = explode(" ", $billing_full_name);
+  $billing_address1 = $commerce_customer_address['und']['0']['thoroughfare'];
+  $billing_address2 = $commerce_customer_address['und']['0']['premise'];
+  $billing_city = $commerce_customer_address['und']['0']['locality'];
+  $billing_state = $commerce_customer_address['und']['0']['administrative_area'];
+  $billing_zipcode = $commerce_customer_address['und']['0']['postal_code'];
+  $billing_country_code = 'US';
+
+  $recurly_path = libraries_get_path('recurly');
+  include ("{$recurly_path}/lib/recurly.php");
+
+  foreach ($subscription_products as $key => $subscribed_products) {
+    $ar_plan_code = $subscribed_products->field_plan_code;
+    $plan_code = $ar_plan_code['und'][0]['value'];
+  }
+
+  $recurly_api_key = variable_get('recurly_api_key', '');
+  Recurly_Client::$apiKey = $recurly_api_key;
+
+  $subscription = new Recurly_Subscription();
+
+  // Starts recurly variables initialization
+  $default_subscription_currency = 'USD';
+
+  $subscription->plan_code = $plan_code;
+  $subscription->currency = $default_subscription_currency;
+  $subscription->quantity = count($subscription_products);
+  //$subscription->quantity = $form_state['values']['quantity'];
+  // Make sure we bill them at fat tuesday
+  $isTuesday = date('l'); // Lower case 'L'
+  if ($isTuesday == 'Tuesday') {
+    $starts_at = date('Y-m-d');
+  } else {
+    $starts_at = date('Y-m-d', strtotime('next tuesday'));
+  }
+  $subscription->starts_at = date('c', strtotime($starts_at));
+
+  $account = new Recurly_Account();
+  $account->account_code = (string)$order->mail;
+  $account->email = (string)$order->mail;
+  $account->first_name = $billing_first_name;
+  $account->last_name = $billing_last_name;
+
+  $billing_info = new Recurly_BillingInfo();
+  $billing_info->first_name = $billing_first_name;
+  $billing_info->last_name = $billing_last_name;
+  $billing_info->address1 = $billing_address1;
+  $billing_info->address2 = $billing_address2;
+  $billing_info->city = $billing_city;
+  $billing_info->state = $billing_state;
+  $billing_info->zip = $billing_zipcode;
+  $billing_info->country = $billing_country_code;
+  $cc_number = $form_state['input']['commerce_payment']['payment_details']['credit_card']['number'];
+  $cc_exp_month = $form_state['input']['commerce_payment']['payment_details']['credit_card']['exp_month'];
+  $cc_exp_year = $form_state['input']['commerce_payment']['payment_details']['credit_card']['exp_year'];
+  $billing_info->number = $cc_number;
+  $billing_info->month = $cc_exp_month;
+  $billing_info->year = $cc_exp_year;
+  //$billing_info->phone = $form_state['values']['billing_phone_number'];
+  $billing_info->ip_address = $_SERVER['REMOTE_ADDR'];
+
+  $account->billing_info = $billing_info;
+  $subscription->account = $account;
+
+  $subscription->create();
+
+}
