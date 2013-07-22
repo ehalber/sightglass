@@ -1,0 +1,6 @@
+name = My Recurly
+description = User defined recurly functionality
+core = 7.x
+;dependencies[] = libraries
+
+;configure = admin/config/services/my_recurly

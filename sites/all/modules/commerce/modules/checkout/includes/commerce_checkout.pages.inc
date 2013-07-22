@@ -242,16 +242,16 @@ function commerce_checkout_form_validate($form, &$form_state) {
   $found_subscription = false;
   if ($checkout_page['next_page'] == 'shipping') {
     //$is_subscription_product = commerce_checkout_is_subscription_product($order, $form_state);
-    $is_subscription_product = my_recurly_is_subscription_product($order, $form_state);
+    $is_subscription_product = myrecurly_is_subscription_product($order, $form_state);
     //$found_subscription = commerce_checkout_subscription_product($order, $form_state);
-    $found_subscription = my_recurly_subscription_product($order, $form_state);
+    $found_subscription = myrecurly_subscription_product($order, $form_state);
   }
   if ($checkout_page['next_page'] == 'payment') {
     //$is_subscription_product = commerce_checkout_is_subscription_product($order, $form_state);
-    $is_subscription_product = my_recurly_is_subscription_product($order, $form_state);
+    $is_subscription_product = myrecurly_is_subscription_product($order, $form_state);
     if (!empty($is_subscription_product)) {
       //$found_subscription = commerce_checkout_create_subscription($order, $form_state);
-      $found_subscription = my_recurly_create_subscription($order, $form_state);
+      $found_subscription = myrecurly_create_subscription($order, $form_state);
     }
   }
 
