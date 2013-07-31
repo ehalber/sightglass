@@ -1,0 +1,416 @@
+<?php
+/**
+ * @file
+ * A block module for user defined recurly
+ */
+
+/**
+ * Implements hook_help.
+ *
+ * Displays help and module information.
+ *
+ * @param path 
+ *   Which path of the site we're using to display help
+ * @param arg 
+ *   Array that holds the current path as returned from arg() function
+ */
+function myrecurly_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#myrecurly":
+      return '<p>' . t("Displays user defined functionaly related to recurly.") . '</p>';
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function myrecurly_block_info() {
+  $blocks['myrecurly'] = array(
+    'info' => t('My Recurly'), //The name that will appear in the block list.
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ *
+ */
+function myrecurly_client_initialize($settings = null, $reset = false) {
+  static $initialized = false;
+  $client = null;
+
+  // Skip the process if we're not setting up a new connection and we're already
+  // set up with a configuration.
+  if ($initialized && !$reset) {
+    return true;
+  }
+
+  // If no settings array was given, use the default account settings.
+  if (empty($settings)) {
+    $settings = array(
+      'api_key' => variable_get('recurly_api_key', ''),
+      'subdomain' => variable_get('recurly_subdomain', ''),
+      'private_key' => variable_get('recurly_private_key', ''),
+    );
+  }
+
+  // If we can find a path in the libraries directory to the Recurly PHP client
+  // library...
+  $path = libraries_get_path('recurly');
+  if (($path = libraries_get_path('recurly')) && file_exists($path . '/lib/recurly.php')) {
+    // Include the library files and configure authentication.
+    require_once $path . '/lib/recurly.php';
+
+    // Required for the API
+    Recurly_Client::$apiKey = $settings['api_key'];
+    // Optional for Recurly.js:
+    Recurly_js::$privateKey = $settings['private_key'];
+  }
+  else {
+    watchdog('recurly', 'Could not find the Recurly PHP client library in sites/all/libraries/recurly.', array(), WATCHDOG_ERROR);
+    return false;
+  }
+
+  $initialized = true;
+
+  return true;
+}
+
+/**
+ * Implemenets hook_menu()
+ */
+function myrecurly_menu() {
+  $items = array();
+
+  $items['admin/config/services/myrecurly'] = array(
+    'title' => 'My Recurly',
+	'description' => 'Configuration for My Recurly',
+	'page callback' => 'drupal_get_form',
+	'page arguments' => array('myrecurly_form'),
+	//'type' => MENU_LOCAL_TASK,
+	'type' => MENU_NORMAL_ITEM,
+	'weight' => 20,
+	'access arguments' => array('administer my recurly'),
+	'file' => 'includes/myrecurly.pages.inc',
+  );
+
+  $items['admin/config/services/myrecurly/subscriptions'] = array(
+    'title' => 'List of Subscriptions',
+	'description' => 'Configuration for My Recurly',
+	'page callback' => 'myrecurly_list_subscriptions_page',
+	'type' => MENU_LOCAL_TASK,
+	//'type' => MENU_NORMAL_ITEM,
+	'weight' => -10,
+	'access arguments' => array('administer my recurly'),
+	'file' => 'includes/myrecurly.pages.inc',
+  );
+
+  // Account listing
+  $items['admin/config/services/myrecurly/accounts'] = array(
+    'title' => 'List of Accounts',
+	'description' => 'Configuration for My Recurly',
+	'page callback' => 'myrecurly_list_accounts_page',
+	'type' => MENU_LOCAL_TASK,
+	//'type' => MENU_NORMAL_ITEM,
+	'weight' => -20,
+	'access arguments' => array('administer my recurly'),
+	'file' => 'includes/myrecurly.pages.inc',
+  );
+
+  // Account listing
+  $items['admin/config/services/myrecurly/close_account'] = array(
+    'title' => 'Close Account',
+	'description' => 'Close Account Subscription',
+	'page callback' => 'myrecurly_close_account_page',
+	//'type' => MENU_LOCAL_TASK,
+	'type' => MENU_NORMAL_ITEM,
+	'weight' => -20,
+	'access arguments' => array('administer my recurly'),
+	'file' => 'includes/myrecurly.pages.inc',
+  );
+
+  // Edit Account
+  $items['admin/config/services/myrecurly/edit_account'] = array(
+    'title' => 'Edit Account',
+	'description' => 'Edit Account',
+	'page callback' => 'myrecurly_edit_account_page',
+	//'type' => MENU_LOCAL_TASK,
+	'type' => MENU_NORMAL_ITEM,
+	'weight' => -20,
+	'access arguments' => array('administer my recurly'),
+	'file' => 'includes/myrecurly.pages.inc',
+  );
+
+  // Cancel subscription
+  $items['admin/config/services/myrecurly/cancel_subscription'] = array(
+    'title' => 'Cancel Account',
+	'description' => 'Configuration for My Recurly',
+	'page callback' => 'myrecurly_cancel_subscription_page',
+	//'type' => MENU_LOCAL_TASK,
+	'type' => MENU_NORMAL_ITEM,
+	'weight' => -20,
+	'access arguments' => array('administer my recurly'),
+	'file' => 'includes/myrecurly.pages.inc',
+  );
+
+  // Re-Activate subscription
+  $items['admin/config/services/myrecurly/reactivate_subscription'] = array(
+    'title' => 'Reactivate Subscription',
+	'description' => 'Re-Activate Subscription',
+	'page callback' => 'myrecurly_reactivate_subscription_page',
+	//'type' => MENU_LOCAL_TASK,
+	'type' => MENU_NORMAL_ITEM,
+	'weight' => -20,
+	'access arguments' => array('administer my recurly'),
+	'file' => 'includes/myrecurly.pages.inc',
+  );
+
+  // Re-Activate subscription
+  $items['admin/config/services/myrecurly/terminate_subscription'] = array(
+    'title' => 'Termnate Subscription',
+	'description' => 'Terminate Subscription',
+	'page callback' => 'myrecurly_terminate_subscription_page',
+	//'type' => MENU_LOCAL_TASK,
+	'type' => MENU_NORMAL_ITEM,
+	'weight' => -20,
+	'access arguments' => array('administer my recurly'),
+	'file' => 'includes/myrecurly.pages.inc',
+  );
+
+  // Manage subscription
+  $items['admin/config/services/myrecurly/manage_subscription'] = array(
+    'title' => 'Manage Subscription',
+	'description' => 'Manage My Recurly Subscription',
+	'page callback' => 'myrecurly_manage_subscription_page',
+	//'type' => MENU_LOCAL_TASK,
+	'type' => MENU_NORMAL_ITEM,
+	'weight' => -20,
+	'access arguments' => array('administer my recurly'),
+	'file' => 'includes/myrecurly.pages.inc',
+  );
+
+  /*$items['admin/config/services/myrecurly'] = array(
+    'title' => 'My Recurly',
+	'description' => 'Configuration for My Recurly',
+	'page callback' => 'drupal_get_form',
+	'page arguments' => array('myrecurly_form'),
+	'access arguments' => array('administer my recurly'),
+	//'file' => 'includes/myrecurly.pages.inc',
+	'type' => MENU_NORMAL_ITEM,
+	//'type' => MENU_DEFAULT_LOCAL_TASK,
+	//'weight' => -10,
+  );*/
+
+  return $items;
+}
+
+/**
+ *
+ */
+function myrecurly_menu_alter(&$items) {
+  $items['admin/config/services/myrecurly/cancel_subscription']['type'] = MENU_SUGGESTED_ITEM; //MENU_CALLBACK;
+  $items['admin/config/services/myrecurly/close_account']['type'] = MENU_SUGGESTED_ITEM; //MENU_DEFAULT_LOCAL_TASK; //MENU_CALLBACK;
+  //$items['admin/config/services/myrecurly/manage_subscription'] = MENU_SUGGESTED_ITEM;
+  //$items['admin/config/services/myrecurly/terminate_subscription'] = MENU_SUGGESTED_ITEM;
+  //$items['admin/config/services/myrecurly/reactivate_subscription'] = MENU_SUGGESTED_ITEM;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function myrecurly_permission() {
+  $permissions = array(
+    'administer my recurly' => array(
+      'title' => t('Administer My Recurly'),
+      'description' => t('Allows users to configure site-wide Recurly account settings and grants access to all integration activities.'),
+      'restrict access' => TRUE,
+    ),
+    'manage recurly subscription' => array(
+      'title' => t('Access My Recurly subscription pages'),
+      'description' => t('Determines if users can see the "Subscription" tab on <em>any account on which they have also "edit" permission</em>. Should be applied to both both end-users managing their own subscriptions and administrators.'),
+    ),
+  );
+
+  return $permissions;
+}
+
+/**
+ * checks is there subscription product for a give order
+ */
+function myrecurly_is_subscription_product($order, &$form_state) {
+  // Get line items object
+  $commerce_line_items = $order->commerce_line_items;
+
+  $subscription_products = array();
+  foreach ($commerce_line_items['und'] as $key => $value) {
+    // Get each line item
+    $line_item = commerce_line_item_load($value['line_item_id']);
+
+    // Get product_ids
+    $product_ids_data = $line_item->data;
+    $product_ids = array();
+
+    if (isset($product_ids_data['context']['product_ids'])) {
+      $product_ids = $product_ids_data['context']['product_ids'];
+    //}
+    //$product_ids = $product_ids_data['context']['product_ids'];
+
+      $product = commerce_product_load($product_ids[0]);
+      // Checks if the product is a subscription product
+      if (isset($product->field_is_subscription)) {
+        if ($product->field_is_subscription['und'][0]) {
+          $subscribed_product = $product;
+          array_push($subscription_products, $subscribed_product);
+        } else {
+          $is_subscription = false;
+        }
+      }
+    }
+  }
+
+  return (!empty($subscription_products)) ? $subscription_products : false;
+
+}
+
+/**
+ * checks if a given product in cart and email is already 
+ * subscribed in recurly
+ */
+function myrecurly_subscription_product($order, &$form_state) {
+
+  $subscription_products = myrecurly_is_subscription_product($order, $form_state);
+
+  if (!$subscription_products) {
+    return;
+  }
+
+  $recurly_path = libraries_get_path('recurly');
+  include ("{$recurly_path}/lib/recurly.php");
+
+  $recurly_api_key = variable_get('recurly_api_key', '');
+  Recurly_Client::$apiKey = $recurly_api_key;
+
+  // Now we check, if $subscription_products and email combination is
+  // already stored in recurly
+  $found_subscription = false;
+  foreach ($subscription_products as $key => $prod) {
+    if (isset($form_state['values']['account'])) {
+      $email_address = $form_state['values']['account']['login']['mail'];
+    }
+    //$email_address = $form_state['values']['account']['login']['mail'];
+
+    if (!empty($email_address)) {
+      try {
+        $subscription_lists = Recurly_SubscriptionList::getForAccount($email_address);
+
+        foreach ($subscription_lists as $xkey => $recurly_subscription) {
+          $plan_code = $recurly_subscription->plan->plan_code;
+          $state = $recurly_subscription->state;
+          if ($plan_code ==  $subscription_products[0]->sku && $state == 'active') {
+            $found_subscription = true;
+          }
+        }
+      } catch (Exception $e) {
+        $found_subscription = false;
+      }
+    } 
+
+    // Show the error if any
+    if ($found_subscription) {
+      drupal_set_message('Our system found that you already have subscription with this product "' . 
+        $subscription_products[0]->title . '".', 'error');
+      drupal_set_message('Please update your Bag.', 'error');
+      break;
+    }
+  }
+
+  return ($found_subscription) ? true : false;
+
+}
+
+/**
+ * checks is there subscription product for a give order
+ */
+function myrecurly_create_subscription($order, &$form_state) {
+
+  $subscription_products = myrecurly_is_subscription_product($order, $form_state);
+
+  if (!$subscription_products) {
+    return;
+  }
+
+  $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
+  
+  $profile_id = $order_wrapper->commerce_customer_billing->profile_id->value();
+  $profile = commerce_customer_profile_load($profile_id);
+  $commerce_customer_address = $profile->commerce_customer_address;
+  $billing_full_name = $commerce_customer_address['und']['0']['name_line'];
+  list($billing_first_name, $billing_last_name) = explode(" ", $billing_full_name);
+  $billing_address1 = $commerce_customer_address['und']['0']['thoroughfare'];
+  $billing_address2 = $commerce_customer_address['und']['0']['premise'];
+  $billing_city = $commerce_customer_address['und']['0']['locality'];
+  $billing_state = $commerce_customer_address['und']['0']['administrative_area'];
+  $billing_zipcode = $commerce_customer_address['und']['0']['postal_code'];
+  $billing_country_code = 'US';
+
+  $recurly_path = libraries_get_path('recurly');
+  include ("{$recurly_path}/lib/recurly.php");
+
+  foreach ($subscription_products as $key => $subscribed_products) {
+    $ar_plan_code = $subscribed_products->field_plan_code;
+    $plan_code = $ar_plan_code['und'][0]['value'];
+  }
+
+  $recurly_api_key = variable_get('recurly_api_key', '');
+  Recurly_Client::$apiKey = $recurly_api_key;
+
+  $subscription = new Recurly_Subscription();
+
+  // Starts recurly variables initialization
+  $default_subscription_currency = 'USD';
+
+  $subscription->plan_code = $plan_code;
+  $subscription->currency = $default_subscription_currency;
+  $subscription->quantity = count($subscription_products);
+  //$subscription->quantity = $form_state['values']['quantity'];
+  // Make sure we bill them at fat tuesday
+  $isTuesday = date('l'); // Lower case 'L'
+  if ($isTuesday == 'Tuesday') {
+    $starts_at = date('Y-m-d');
+  } else {
+    $starts_at = date('Y-m-d', strtotime('next tuesday'));
+  }
+  $subscription->starts_at = date('c', strtotime($starts_at));
+
+  $account = new Recurly_Account();
+  $account->account_code = (string)$order->mail;
+  $account->email = (string)$order->mail;
+  $account->first_name = $billing_first_name;
+  $account->last_name = $billing_last_name;
+
+  $billing_info = new Recurly_BillingInfo();
+  $billing_info->first_name = $billing_first_name;
+  $billing_info->last_name = $billing_last_name;
+  $billing_info->address1 = $billing_address1;
+  $billing_info->address2 = $billing_address2;
+  $billing_info->city = $billing_city;
+  $billing_info->state = $billing_state;
+  $billing_info->zip = $billing_zipcode;
+  $billing_info->country = $billing_country_code;
+  $cc_number = $form_state['input']['commerce_payment']['payment_details']['credit_card']['number'];
+  $cc_exp_month = $form_state['input']['commerce_payment']['payment_details']['credit_card']['exp_month'];
+  $cc_exp_year = $form_state['input']['commerce_payment']['payment_details']['credit_card']['exp_year'];
+  $billing_info->number = $cc_number;
+  $billing_info->month = $cc_exp_month;
+  $billing_info->year = $cc_exp_year;
+  //$billing_info->phone = $form_state['values']['billing_phone_number'];
+  $billing_info->ip_address = $_SERVER['REMOTE_ADDR'];
+
+  $account->billing_info = $billing_info;
+  $subscription->account = $account;
+
+  $subscription->create();
+
+}
