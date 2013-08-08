@@ -160,7 +160,7 @@ function myrecurly_close_account_page() {
 }
 
 /**
- *
+ * Account information form
  */
 function myrecurly_acctinfo_form($form, &$form_state, $data) {
   /////////////////////////////////////////////////////////////////////////////////////////////
@@ -356,11 +356,15 @@ function myrecurly_acctinfo_form($form, &$form_state, $data) {
     '#required' => FALSE,
   );
   
+  $form['reopen_account'] = array(
+    '#type' => 'hidden',
+    '#value' => isset($data['reopen_account']) ? 'yes' : 'no',
+  );
 
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
-    //'#submit' => TRUE,
+    '#prefix' => '<input class="form-submit" type="button" value="Cancel" onClick="history.go(-1)"/>',
   );
 
   return $form;
@@ -383,7 +387,7 @@ function myrecurly_acctinfo_form_submit($form, &$form_state) {
       return t('Could not initialize the Recurly client.');
     }
     $account = new Recurly_Account();
-    $account->account_code = $form_state['input']['e_mail'];;
+    $account->account_code = $form_state['input']['e_mail'];
     $account->email = $form_state['input']['e_mail'];
     $account->first_name = $form_state['input']['first'];
     $account->last_name = $form_state['input']['last'];
@@ -407,6 +411,13 @@ function myrecurly_acctinfo_form_submit($form, &$form_state) {
 
     $account->update();
 
+    // If there is a flag reopen_account with value yes
+    if (isset($form_state['values']['reopen_account']) && $form_state['values']['reopen_account'] == 'yes') {
+      $subscription_account = Recurly_Account::get($form_state['input']['e_mail']);
+      $subscription_account->reopen();
+      drupal_set_message(t('Your account was reopened successfully.'));
+    }
+
   } catch (Exception $e) {
   	switch(get_class($e)){
       case 'Recurly_NotFoundError':
@@ -429,6 +440,8 @@ function myrecurly_acctinfo_form_submit($form, &$form_state) {
 
   $message = 'Account information was updated successfully.';
   drupal_set_message(t($message));
+
+  drupal_goto('admin/config/services/myrecurly/accounts/');
 }
 
 /**
@@ -484,10 +497,9 @@ function myrecurly_edit_account_page() {
 }
 
 /**
- *
+ * Reopen closed account
  */
 function myrecurly_reopen_account_page() {
-  // Gets get parameter
   $get_param = $_GET;
   $param = trim($_GET['q']);
 
@@ -497,10 +509,10 @@ function myrecurly_reopen_account_page() {
   $account_code = end($tmp);
 
   if ($account_code == 'reopen_account') {
-  	$url = substr($param, 0, strpos($param, $account_code));
-  	form_set_error('invalid_account_code', 'Invalid Account Code selected. Cannot Re-Open this Account.');
-  	drupal_goto($url . 'accounts');
-  	return;
+    $url = substr($param, 0, strpos($param, $account_code));
+    form_set_error('invalid_account_code', 'Invalid Account Code selected. Cannot Re-Open this Account.');
+    drupal_goto($url . 'accounts');
+    return;
   }
 
   if (!myrecurly_client_initialize()) {
@@ -508,11 +520,29 @@ function myrecurly_reopen_account_page() {
   }
 
   $account = Recurly_Account::get($account_code);
-  $account->reopen();
 
-  drupal_set_message(t('Your account was reopened successfully.'));
+  $account_info = array(
+    'first_name' => $account->first_name,
+    'last_name' => $account->last_name,
+    'email' => $account->email,
+    'billing_first_name' => '',
+    'billing_last_name' => '',
+    'billing_address1' => '',
+    'billing_city' => '',
+    'billing_state' => '',
+    'billing_zipcode' => '',
+    'billing_coutry' => '',
+    'billing_card_type' => '',
+    'billing_year' => '',
+    'billing_month' => '',
+    'cc_first_six' => '',
+    'cc_last_four' => '',
+    'billing_cc_number' => '',
+    'billing_phone_number' => '',
+    'reopen_account' => 'yes',
+  );
 
-  drupal_goto('admin/config/services/myrecurly/accounts/');
+  return drupal_get_form('myrecurly_acctinfo_form', $account_info);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -570,31 +600,6 @@ function myrecurly_subinfo_form($form, &$form_state, $data) {
     '#required' => TRUE, // Added
     '#attributes' => array('readonly' => 'readonly'),
   );
-  /* OLD STUFF
-  $form['name']['plan_name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Plan name'),
-    '#value' => $data['plan_name'],
-    '#size' => 30,
-    '#maxlength' => 30,
-    '#prefix' => '<div class="col1 name first">',
-    '#suffix' => '</div>',
-    '#required' => TRUE, // Added
-    '#attributes' => array('readonly' => 'readonly'),
-  );
-
-  $form['name']['plan_code'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Plan code'),
-    '#size' => 30,
-    '#maxlength' => 30,
-    '#value' => $data['plan_code'],
-    '#prefix' => '<div class="col1 name">',
-    '#suffix' => '</div>',
-    '#required' => TRUE, // Added
-    '#attributes' => array('readonly' => 'readonly'),
-  );
-  */
 
   $form['quantity'] = array(
     '#type' => 'textfield',
@@ -606,20 +611,10 @@ function myrecurly_subinfo_form($form, &$form_state, $data) {
     '#element_validate' => array('element_validate_integer_positive'),
   );
 
-  /*$form['subscriptions'] = array(
-    //'#type' => 'textfield',
-    '#type' => 'select',
-    '#options' => $data['subscriptions'],
-    //'#default_value' => $data['plan_code'],
-    '#value' => $data['plan_code'],
-    '#title' => t('Subscriptions xCode'),
-    '#required' => TRUE,
-  );*/
-
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
-    //'#submit' => TRUE,
+    '#prefix' => '<input class="form-submit" type="button" value="Cancel" onClick="history.go(-1)"/>',
   );
 
   return $form;
@@ -950,6 +945,213 @@ function myrecurly_terminate_subscription_page() {
 }
 
 /**
+ * Postpones subscription
+ */
+function myrecurly_postpone_subscription_page() {
+  // Gets get parameter
+  $get_param = $_GET;
+  $param = trim($_GET['q']);
+
+  // Gets account_code from $param
+  $tmp = explode('/', $param);
+  // Gets the last element of an array
+  $uuid = end($tmp);
+
+  if (!myrecurly_client_initialize()) {
+    return t('Could not initialize the Recurly client.');
+  }
+
+  $subscription = Recurly_Subscription::get($uuid);
+
+  $plan_list = Recurly_PlanList::get();
+
+  $plans = array();
+  foreach ($plan_list as $key => $value) {
+    $plans[$value->plan_code] = $value->name;
+  }
+
+  // current_period_ends_at
+  // Gets account subscription's current_period_ends_at date
+  foreach ($subscription->current_period_ends_at as $key => $current_period_ends_at) {
+    if ($key == 'date') {
+      $current_date_ends = $current_period_ends_at;
+    }
+  }
+
+  asort($plans);
+
+  $subscription_info = array(
+    'uuid' => $uuid,
+    'plan_name' => $subscription->plan->name,
+    'plan_code' => $subscription->plan->plan_code,
+    'quantity' => $subscription->quantity,
+    'plans' => $plans,
+    'current_date_ends' => $current_date_ends,
+  );
+
+  return drupal_get_form('myrecurly_postpone_form', $subscription_info);
+}
+
+/**
+ * Postpone's form
+ */
+function myrecurly_postpone_form($form, &$form_state, $data) {
+  $form['#attached']['css'][drupal_get_path('module', 'myrecurly') . '/sub_form.css'] = array();
+  // Account Info section
+  $form['subscription_information'] = array(
+    '#type' => 'item',
+    '#title' => t('Subscription Information'),
+    '#prefix' => '<div style="font-size:20px;">',
+    '#suffix' => '</div>',
+  );
+  $form['name'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Name'),
+    // Make the fieldset collapsible.
+    '#collapsible' => TRUE, // Added
+    '#collapsed' => FALSE,  // Added
+  );
+  $form['name'] = array(
+    '#prefix' => '<div class="two-col">',
+    '#suffix' => '</div>'
+  );
+    
+  // Make these fields required.
+  $form['name']['plan_code'] = array(
+    '#type' => 'select',
+    '#title' => t('Plan name'),
+    '#options' => $data['plans'],
+    '#value' => $data['plan_code'],
+    '#prefix' => '<div class="col1 name first">',
+    '#suffix' => '</div>',
+    '#required' => TRUE, // Added
+    '#attributes' => array('disabled' => 'disabled'),
+  );
+
+  $form['name']['uuid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subscription ID'),
+    '#size' => 35,
+    '#maxlength' => 35,
+    '#value' => $data['uuid'],
+    '#prefix' => '<div class="col1 name">',
+    '#suffix' => '</div>',
+    '#required' => TRUE, // Added
+    '#attributes' => array('readonly' => 'readonly'),
+  );
+
+  $form['quantity'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Quantity'),
+    '#size' => 3,
+    '#maxlength' => 3,
+    '#value' => $data['quantity'],
+    '#required' => TRUE,
+    '#element_validate' => array('element_validate_integer_positive'),
+    '#attributes' => array('readonly' => 'readonly'),
+  );
+
+  $form['current_date_ends'] = array(
+    '#type' => 'date_popup',
+    '#title' => t('Current Subscription Date Ends at'),
+    '#date_format' => 'd-m-y',
+    '#default_value' => $data['current_date_ends'], //date('Y-m-d'),
+    '#date_type' => DATE_DATETIME,
+    '#date_timezone' => date_default_timezone(),
+    '#date_format' => "F j, Y", // 'm/d/Y',
+    '#size'=>20,
+    '#attributes' => array('disabled' => 'disabled'),
+  );
+
+  $form['postpone_date'] = array(
+    //'#type' => 'date',
+    '#type' => 'date_popup',
+    '#title' => t('Postpone Date'),
+    '#date_format' => 'd-m-y',
+    '#default_value' => $data['current_date_ends'], //date('Y-m-d'),
+    '#date_type' => DATE_DATETIME,
+    '#date_timezone' => date_default_timezone(),
+    '#date_format' => "F j, Y", // 'm/d/Y',
+    '#size'=>20,
+    '#required' => true,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#prefix' => '<input class="form-submit" type="button" value="Cancel" onClick="history.go(-1)"/>',
+  );
+
+  return $form;
+
+}
+
+/**
+ * user defined hook_form_validate
+ */
+function myrecurly_postpone_form_validate($form, &$form_state) {
+  $postpone_date = $form_state['input']['postpone_date']['date'];
+  $current_date_ends = $form_state['values']['current_date_ends'];
+
+  /*$postpone_date = $form_state['input']['postpone_date'];
+  $postpone_month = $postpone_date['month'];
+  $postpone_day = $postpone_date['day'];
+  $postpone_year = $postpone_date['year'];*/
+
+  //if (time() > strtotime("{$postpone_month}/{$postpone_day}/{$postpone_year}")) {
+  if (time() > strtotime($postpone_date) && strtotime($current_date_ends) > strtotime($postpone_date)) {
+    form_error($form, t('%name has to be in the future.', array('%name' => $form['postpone_date']['#title'])));
+  }
+}
+
+/**
+ * user defined hook_form_submit
+ */
+function myrecurly_postpone_form_submit($form, &$form_state) {
+ 
+  //$subscription->postpone(date('c', strtotime('2012-12-31Z')));
+  /*$ar_postpone_date = $form_state['input']['postpone_date'];
+  $postpone_date = $ar_postpone_date['year'] . '-' .
+        $ar_postpone_date['month'] . '-' . $ar_postpone_date['day'] . 'Z';*/
+  $postpone_date = $form_state['input']['postpone_date']['date'];
+  
+  try {
+    if (!myrecurly_client_initialize()) {
+      return t('Could not initialize the Recurly client.');
+    }
+    
+    $uuid = $form_state['input']['uuid'];
+
+    $subscription = Recurly_Subscription::get($uuid);
+    $subscription->postpone(date('c', strtotime($postpone_date)));
+
+  } catch (Exception $e) {
+    switch(get_class($e)){
+      case 'Recurly_NotFoundError':
+        drupal_set_message('Record could not be found', 'error');
+      case 'Recurly_ValidationError':
+        //if there are multiple errors, they are comma delimited
+        /*$messages = explode(',',$e->getMessage()); 
+        foreach($messages as $message){
+          print $message . "\n";
+        }*/
+        drupal_set_message($e->getMessage(), 'error');
+        break;
+      case 'Recurly_ServerError':
+        drupal_set_message('Problem communicating with Recurly', 'error');
+      default:
+        drupal_set_message(get_class($e) . ': ' . $e->getMessage(), 'error');
+    }
+    $form_state['redirect'] = FALSE;
+  }
+
+  $message = 'Subscription information was updated successfully.';
+  drupal_set_message(t($message));
+
+  drupal_goto('admin/config/services/myrecurly/accounts/');
+}
+
+/**
  * Updates subscription information
  */
 function myrecurly_edit_subscription_page() {
@@ -1272,87 +1474,3 @@ function myrecurly_list_countries() {
   return $array;
 }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////// FROM RECURLY //////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * Menu callback; Show a list of available plans to which a user may subscribe.
- *
- * This menu callback is used both for new subscriptions and for updating
- * existing subscriptions.
- *
- * @param $entity_type
- *   The type of the entity whose subscription is being changed.
- * @param $entity
- *   The entity whose subscription is being changed.
- * @param $currency
- *   If this is a new subscription, the currency to be used.
- * @param $subscription_id
- *   The UUID of the current subscription if changing the plan on an existing
- *   subscription.
- */
-function myrecurly_subscription_plan_select($entity_type, $entity, $currency = NULL, $subscription_id = NULL) {
-  die('xxx');
-  // Initialize the Recurly client with the site-wide settings.
-  if (!myrecurly_client_initialize()) {
-    return t('Could not initialize the Recurly client.');
-  }
-
-  // If loading an existing subscription.
-  if ($subscription_id) {
-    if ($subscription_id === 'latest') {
-      list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
-      $local_account = recurly_account_load(array('entity_type' => $entity_type, 'entity_id' => $id), TRUE);
-      $subscriptions = recurly_account_get_subscriptions($local_account->account_code, 'active');
-      $subscription = reset($subscriptions);
-      $subscription_id = $subscription->uuid;
-      $currency = $subscription->plan->currency;
-      $mode = 'change';
-    }
-    else {
-      try {
-        $subscription = Recurly_Subscription::get($subscription_id);
-        $subscriptions[$subscription->uuid] = $subscription;
-        $currency = $subscription->plan->currency;
-        $mode = 'change';
-      }
-      catch (Recurly_NotFoundError $e) {
-        drupal_set_message(t('Subscription not found'));
-        return MENU_NOT_FOUND;
-      }
-    }
-  }
-  // If signing up to a new subscription, ensure the user doesn't have a plan.
-  else {
-    $subscriptions = array();
-    $currency = isset($currency) ? $currency : variable_get('recurly_default_currency', 'USD');
-    $mode = 'signup';
-    list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
-    $account = recurly_account_load(array('entity_type' => $entity_type, 'entity_id' => $id));
-    if ($account) {
-      $subscriptions = recurly_account_get_subscriptions($account->account_code, 'active');
-    }
-  }
-
-  // Make the list of subscriptions based on plan keys, rather than uuid.
-  $plan_subscriptions = array();
-  foreach ($subscriptions as $subscription) {
-    $plan_subscriptions[$subscription->plan->plan_code] = $subscription;
-  }
-
-  $all_plans = recurly_subscription_plans();
-  $enabled_plan_keys = variable_get('recurly_subscription_plans', array());
-  $enabled_plans = array();
-  foreach ($enabled_plan_keys as $plan_code => $enabled) {
-    foreach ($all_plans as $plan) {
-      if ($enabled && $plan_code == $plan->plan_code) {
-        $enabled_plans[$plan_code] = $plan;
-      }
-    }
-  }
-  return theme(array('recurly_subscription_plan_select__' . $mode, 'recurly_subscription_plan_select'), array('plans' => $enabled_plans, 'entity_type' => $entity_type, 'entity' => $entity, 'currency' => $currency, 'mode' => $mode, 'subscriptions' => $plan_subscriptions, 'subscription_id' => $subscription_id));
-}

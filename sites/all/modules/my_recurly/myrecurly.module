@@ -198,6 +198,19 @@ function myrecurly_menu() {
 	'hidden' => TRUE,
   );
 
+  // Postpones subscription
+  $items['admin/config/services/myrecurly/postpone_subscription'] = array(
+    'title' => 'Postpone Subscription',
+  'description' => 'Postpone Subscription',
+  'page callback' => 'myrecurly_postpone_subscription_page',
+  //'type' => MENU_LOCAL_TASK,
+  'type' => MENU_NORMAL_ITEM,
+  'weight' => -70,
+  'access arguments' => array('administer my recurly'),
+  'file' => 'includes/myrecurly.pages.inc',
+  'hidden' => TRUE,
+  );
+
   // Manage subscription
   $items['admin/config/services/myrecurly/manage_subscription'] = array(
     'title' => 'Manage Subscription',
@@ -224,159 +237,111 @@ function myrecurly_menu() {
 	'hidden' => TRUE,
   );
 
-  // Configure built-in pages if enabled.
-//  $entity_type = variable_get('myrecurly_entity_type', 'user');
-//  dsm('$entity_type : ' . $entity_type );
-//  if ($entity_type && variable_get('myrecurly_pages', '1')) {
-//    $entity_info = entity_get_info();
-//    $bundle = variable_get('myrecurly_bundle_' . $entity_type, NULL);
-//    $bundle = empty($bundle) ? $entity_type : $bundle;
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////// user section ////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
-//    $entity_path = $entity_type . '/%' . $entity_type;
-//    dsm('$entity_path : ' . $entity_path );
-    /*$items[$entity_path . '/subscription'] = array(
-      'title' => 'Subscription',
-      'page callback' => 'recurly_subscription_list_page',
-      'page arguments' => array($entity_type, 1),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'main'),
-      'type' => MENU_LOCAL_TASK,
-      'weight' => 10,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/list'] = array(
-      'title' => variable_get('recurly_subscription_max', '1') === '1' ? 'Summary' : 'List',
-      'page callback' => 'recurly_subscription_page',
-      'page arguments' => array($entity_type, 1),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'list'),
-      'type' => MENU_DEFAULT_LOCAL_TASK,
-      'weight' => 0,
-      'file' => 'includes/recurly.pages.inc',
-    );*/
+  $items['user/%/mysubscription'] = array(
+    'title' => 'My Subscriptions',
+    'description' => 'Send e-mail to a user about improper site behavior.',
+    //'page callback' => 'drupal_get_form',
+    'page callback' => 'myrecurly_user_subscription_page',
+    //'access callback' => 'user_access',
+    //'page arguments' => array('user_warn_confirm_form', 1),
+    //'access arguments' => array('administer users'),
+    //'access arguments' => array('user', 1, 'main'),
+    //'access arguments' => array('access user profiles'),
+    'access arguments' => array('access content'), // WORKS
+    //'type' => MENU_LOCAL_TASK,
+    'type' => MENU_NORMAL_ITEM,
+    //'file' => 'includes/myrecurly.pages.inc',
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
 
-// TEST CASE
-/*
-    $items[$entity_path . '/mysubscription/signup'] = array(
-      'title' => variable_get('myrecurly_subscription_max', '1') === '1' ? 'Signup' : 'Add plan',
-      'page callback' => 'myrecurly_subscription_plan_select',
-      'page arguments' => array($entity_type, 1),
-      'access callback' => 'myrecurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'select_plan'),
-      'type' => variable_get('myrecurly_subscription_max', '1') === '1' ? MENU_DEFAULT_LOCAL_TASK : MENU_LOCAL_TASK,
-      'weight' => 1,
-      'file' => 'includes/recurly.pages.inc',
-    );
-*/
+  $items['user/%/reactivate_mysubscription'] = array(
+    'title' => 'Reactivate My Subscription',
+    'description' => 'Reactives cancelled subscription in user section',
+    'page callback' => 'myrecurly_user_reactivate_subscription',
+    'access arguments' => array('access content'), // WORKS
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
 
+  $items['user/%/cancel_mysubscription'] = array(
+    'title' => 'Cancels My Subscription',
+    'description' => 'Cancels subscription in user section',
+    'page callback' => 'myrecurly_user_cancel_subscription',
+    'access arguments' => array('access content'), // WORKS
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
 
-    /*$items[$entity_path . '/subscription/change'] = array(
-      'title' => 'Change plan',
-      'page callback' => 'recurly_subscription_plan_select',
-      'page arguments' => array($entity_type, 1, NULL, 'latest'),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'change_plan_latest'),
-      'type' => MENU_LOCAL_TASK,
-      'weight' => 5,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/cancel'] = array(
-      'title' => 'Cancel',
-      'page callback' => 'recurly_subscription_cancel_page',
-      'page arguments' => array($entity_type, 1, 'latest'),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'cancel_latest'),
-      'type' => MENU_LOCAL_TASK,
-      'weight' => 10,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/reactivate'] = array(
-      'title' => 'Reactivate',
-      'page callback' => 'recurly_subscription_reactivate',
-      'page arguments' => array($entity_type, 1, 'latest'),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'reactivate_latest'),
-      'type' => MENU_LOCAL_TASK,
-      'weight' => 10,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/id/%'] = array(
-      'title' => 'Select a new plan',
-      'page callback' => 'recurly_subscription_plan_select',
-      'page arguments' => array($entity_type, 1, NULL, 4),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'change_plan'),
-      'type' => MENU_CALLBACK,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/id/%/change/%'] = array(
-      'title' => 'Change subscription',
-      'page callback' => 'recurly_subscription_plan_change_page',
-      'page arguments' => array($entity_type, 1, 4, 6),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'change_plan'),
-      'type' => MENU_CALLBACK,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/id/%/cancel'] = array(
-      'title' => 'Cancel subscription',
-      'page callback' => 'recurly_subscription_cancel_page',
-      'page arguments' => array($entity_type, 1, 4),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'cancel'),
-      'type' => MENU_CALLBACK,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/id/%/reactivate'] = array(
-      'title' => 'Reactivate subscription',
-      'page callback' => 'recurly_subscription_reactivate',
-      'page arguments' => array($entity_type, 1, 4),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'reactivate'),
-      'type' => MENU_CALLBACK,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/invoices'] = array(
-      'title' => 'Invoices',
-      'page callback' => 'recurly_invoices_page',
-      'page arguments' => array($entity_type, 1),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'invoices'),
-      'type' => MENU_LOCAL_TASK,
-      'weight' => 2,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/invoices/%'] = array(
-      'title' => 'Invoice',
-      'page callback' => 'recurly_invoice_page',
-      'page arguments' => array($entity_type, 1, 4),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'invoices'),
-      'type' => MENU_CALLBACK,
-      'file' => 'includes/recurly.pages.inc',
-    );
-    $items[$entity_path . '/subscription/invoices/%/pdf'] = array(
-      'title' => 'Invoice PDF',
-      'page callback' => 'recurly_invoice_pdf',
-      'page arguments' => array($entity_type, 1, 4),
-      'access callback' => 'recurly_subscription_page_access',
-      'access arguments' => array($entity_type, 1, 'invoices'),
-      'type' => MENU_CALLBACK,
-      'file' => 'includes/recurly.pages.inc',
-    );*/
-  //}
+  $items['user/%/terminate_mysubscription'] = array(
+    'title' => 'Terminates My Subscription',
+    'description' => 'Terminates subscription in user section',
+    'page callback' => 'myrecurly_user_terminate_subscription',
+    'access arguments' => array('access content'), // WORKS
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
 
-  /*$items['admin/config/services/myrecurly'] = array(
-    'title' => 'My Recurly',
-	'description' => 'Configuration for My Recurly',
-	'page callback' => 'drupal_get_form',
-	'page arguments' => array('myrecurly_form'),
-	'access arguments' => array('administer my recurly'),
-	//'file' => 'includes/myrecurly.pages.inc',
-	'type' => MENU_NORMAL_ITEM,
-	//'type' => MENU_DEFAULT_LOCAL_TASK,
-	//'weight' => -10,
-  );*/
+  $items['user/%/postpone_mysubscription'] = array(
+    'title' => 'Postpones My Subscription',
+    'description' => 'Postpones subscription in user section',
+    'page callback' => 'myrecurly_user_postpone_subscription',
+    'access arguments' => array('access content'), // WORKS
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
+
+  $items['user/%/edit_mysubscription'] = array(
+    'title' => 'Updates My Subscription',
+    'description' => 'Updates subscription in user section',
+    'page callback' => 'myrecurly_user_edit_subscription',
+    'access arguments' => array('access content'), // WORKS
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
+
+  // Account Information
+  $items['user/%/myaccount'] = array(
+    'title' => 'My Subscription\'s Account',
+    'description' => 'Subscription\'s account information',
+    'page callback' => 'myrecurly_user_account',
+    'access arguments' => array('access content'), // WORKS
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
+
+  // Edit Account
+  $items['user/%/edit_myaccount'] = array(
+    'title' => 'Edit Subscription\'s Account',
+    'description' => 'Edit Subscription\'s account information',
+    'page callback' => 'myrecurly_user_edit_account',
+    'access arguments' => array('access content'), // WORKS
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
+
+  // Close Account
+  $items['user/%/close_myaccount'] = array(
+    'title' => 'Close Subscription\'s Account',
+    'description' => 'Close Subscription\'s account',
+    'page callback' => 'myrecurly_user_close_account',
+    'access arguments' => array('access content'), // WORKS
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
+
+  // Reopen Account
+  $items['user/%/reopen_myaccount'] = array(
+    'title' => 'Reopen Subscription\'s Account',
+    'description' => 'Reopen Subscription\'s account',
+    'page callback' => 'myrecurly_user_reopen_account',
+    'access arguments' => array('access content'), // WORKS
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/myrecurly.user.pages.inc',
+  );
 
   // TODO
   // 'access callback' => 'user_is_logged_in', // to give access to registered user
@@ -615,4 +580,58 @@ function myrecurly_create_subscription($order, &$form_state) {
 
   $subscription->create();
 
+}
+
+/**
+ * Format a price for display.
+ */
+function myrecurly_format_currency($price_in_cents, $currency, $html = FALSE) {
+  $currencies = recurly_currency_list();
+  $currency_info = isset($currencies[$currency]) ? $currencies[$currency] : array('', ' ' . $currency);
+  $prefix = $currency_info[0] ? $currency_info[0] : '';
+  $suffix = $currency_info[1] ? $currency_info[1] : '';
+  $thousands_separator = isset($currency_info[2]) ? $currency_info[2] : ',';
+  $decimal_separator = isset($currency_info[3]) ? $currency_info[3] : '.';
+  $decimals = isset($currency_info[4]) ? $currency_info[4] : 2;
+  $rounding_step = isset($currency_info[5]) ? $currency_info[5] : NULL;
+
+  // Commerce module provides a more flexible and complete currency formatter.
+  if (module_exists('commerce')) {
+    $formatted = commerce_currency_format($price_in_cents, $currency, NULL, TRUE);
+  }
+  else {
+    // Convert to a decimal amount.
+    $float = $price_in_cents/100;
+
+    // Round the amount if necessary i.e. Francs round up to the nearest 0.05.
+    if ($rounding_step) {
+      $modifier = 1 / $rounding_step;
+      $float = round($float * $modifier) / $modifier;
+    }
+
+    // Format the number.
+    $formatted = $prefix . number_format($float, $decimals, $decimal_separator, $thousands_separator) . $suffix;
+  }
+
+  // Wrap each part in HTML if requested.
+  if ($html) {
+    $amount_string = '';
+    $amount_array = array();
+    preg_match('/([^0-9]*)?([0-9' . preg_quote($thousands_separator) . ']+)([0-9' . preg_quote($decimal_separator) . ']+)(.*)?/', $formatted, $amount_array);
+    if ($amount_array[1]) {
+      $amount_string .= '<span class="currency-prefix">' . $amount_array[1] . '</span>';
+    }
+    if ($amount_array[2]) {
+      $amount_string .= '<span class="currency-dollars">' . $amount_array[2] . '</span>';
+    }
+    if ($amount_array[3]) {
+      $amount_string .= '<span class="currency-cents">' . $amount_array[3] . '</span>';
+    }
+    if ($amount_array[4]) {
+      $amount_string .= '<span class="currency-suffix">' . $amount_array[4] . '</span>';
+    }
+    $formatted = $amount_string;
+  }
+
+  return $formatted;
 }
